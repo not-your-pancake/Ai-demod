@@ -1,0 +1,8 @@
+filename,board,modulation,pattern_id,attenuation_step,start_pressed,tp9_locked_by_eye,date,notes
+B1_BPSK_A0.CSV,B1,BPSK,PRBS63,A0,n/a,,,
+B1_BPSK_AMID.CSV,B1,BPSK,PRBS63,AMID,n/a,,,
+B1_BPSK_AMAX.CSV,B1,BPSK,PRBS63,AMAX,n/a,,,
+B1_QPSK_A0.CSV,B1,QPSK,Q1,A0,yes,,,
+B1_QPSK_AMAX.CSV,B1,QPSK,Q1,AMAX,yes,,,
+B1_8QAM_A0.CSV,B1,8QAM,T1,A0,yes,,,
+B1_8QAM_AMAX.CSV,B1,8QAM,T1,AMAX,yes,,,
