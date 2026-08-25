@@ -190,7 +190,13 @@ triggered from the board's symbol clock at TP-1.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{fig0_setup.png}
+% Printed at 0.80\textwidth rather than full width. The source photograph is
+% 1280 px across, which is 179 dpi at full text width -- below the 220 dpi IEEE
+% asks for on photographs -- and 223 dpi at this width. Scaling an image down
+% raises its effective resolution; scaling it up would not add information.
+% If a higher-resolution original of the photograph becomes available, restore
+% width=\textwidth.
+\includegraphics[width=0.80\textwidth]{fig0_setup.png}
 \caption{Measurement bench. The five MCM31/EV trainer units, labelled Board-1 to
 Board-5, correspond to boards B1--B5 in Table~\ref{tab:perfold} and
 Fig.~\ref{fig:lock}. One unit is under test at a time, powered from a shared
