@@ -34,6 +34,22 @@
 \graphicspath{{figures/}}
 \newcommand{\SER}{\mathrm{SER}}
 
+% ---------------------------------------------------------------------
+% Draft notes. Unwritten sections must be VISIBLE in the PDF: a LaTeX
+% comment renders as nothing, so a section awaiting content looks broken
+% rather than pending. Set \draftfalse before submission and every note
+% disappears; nothing else changes.
+% ---------------------------------------------------------------------
+\newif\ifdraft
+\drafttrue          % <<< SET TO \draftfalse BEFORE SUBMISSION
+\newcommand{\todonote}[2]{%
+  \ifdraft
+    \par\medskip\noindent
+    \fbox{\parbox{0.94\columnwidth}{\footnotesize
+      \textbf{[TO WRITE --- #1]}\\[2pt]#2}}%
+    \par\medskip
+  \fi}
+
 \begin{document}
 
 \title{Neural Demodulation of Hardware-Captured PSK and Star-QAM Waveforms
@@ -152,20 +168,50 @@ detection~\cite{ye2018power}. Modulation classification from sampled in-phase
 and quadrature data has received particular attention, along with the associated
 public datasets~\cite{oshea2018classification}.
 
-% >>> SLOT A: recent neural demodulation / neural receiver work (last 2-3 yr).
-% For each: one sentence on what it does, one on how it differs from this work.
-% Emphasis should fall on what each paper supplies to its network (carrier?
-% timing? constellation?) since that is our axis of comparison.
+\todonote{recent neural demodulation, 2--3 paragraphs}{%
+Add work from the last two to three years on neural demodulation and neural
+receivers. For each: one sentence on what it does, one on how it differs here.
+The organising axis should be \emph{what each system is given}---carrier
+frequency, symbol timing, pulse shape, constellation---because that is the axis
+on which this paper positions itself (Section~\ref{sec:limitations} states
+exactly what ours receives). Close the subsection by noting that these systems
+are evaluated on held-out partitions without a structural bound on context.}
 
 \subsection{Evaluation validity and memorisation}
-% >>> SLOT B: prior work that addresses train/test contamination, sequence
-% memorisation, or evaluation protocol in learned communications. If little
-% exists, say so explicitly -- that absence is part of the motivation.
+This paper's premise is that held-out evaluation is insufficient when the
+transmitted sequence is short and periodic. Related concerns are long-standing
+in machine learning generally---train/test contamination, and models that
+exploit dataset artefacts rather than the intended signal---but the specific
+failure considered here is narrower: the test sequence itself is predictable
+from its own past, so a model with sufficient context can reach a low error rate
+without demodulating.
+
+\todonote{evaluation validity, 1--2 paragraphs}{%
+Add any prior work in learned communications that addresses train/test
+contamination, sequence memorisation, or evaluation protocol. Two outcomes are
+both acceptable and should be stated plainly:
+\emph{(i)} if such work exists, position ours as the first to bound receiver
+context below the linear complexity of the test sequence rather than argue the
+point empirically;
+\emph{(ii)} if little exists, say so directly---that absence is itself part of
+the motivation, and is a stronger opening than a padded list. Do not manufacture
+citations to fill this subsection.}
 
 \subsection{Hardware-captured RF datasets}
-% >>> SLOT C: existing hardware RF datasets, their device counts, and whether
-% ground truth is asserted from the transmitter configuration or measured.
-% Our contribution is a measured ground truth with independent verification.
+Public RF datasets are commonly synthesised, or captured from a small number of
+transmitters with ground truth asserted from the transmitter's configuration
+rather than measured from the emitted waveform. The distinction matters here:
+Section~\ref{sec:dataset} shows a case in which the configured data word is
+\emph{not} a reliable statement of the transmitted symbol sequence, and
+Section~\ref{sec:groundtruth} obtains labels by measurement instead.
+
+\todonote{hardware RF datasets, 1--2 paragraphs}{%
+Add existing hardware-captured RF datasets. For each, record the number of
+physical devices and---most importantly---whether ground truth is
+\emph{asserted} from the transmitter configuration or \emph{measured} from the
+waveform. That column is where our contribution sits; a small comparison table
+would carry it well if three or more comparable datasets exist. Note our device
+count honestly (five) alongside theirs.}
 
 \subsection{Classical receiver theory}
 Classical treatments of the receiver functions replaced by learned
@@ -951,15 +997,26 @@ which sets the resolution of the cross-device evaluation.
 
 % =====================================================================
 \section*{Acknowledgment}
-% TODO: laboratory access, technical assistance, funding.
+\todonote{acknowledgment}{%
+Laboratory access, the technical assistance received during the capture
+campaign, and any funding source. The lab assistant who supported the bench
+sessions should be named here if not an author.}
+
+\todonote{references --- VERIFY BEFORE SUBMISSION}{%
+Every entry in \texttt{refs.bib} was written from working knowledge, not copied
+from a database. Author lists, titles, venues and years are believed correct;
+\textbf{volumes and page numbers must be checked} against IEEE Xplore, and DOIs
+added. Delete this note once verified.}
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
 % =====================================================================
-% TODO: author biographies. IEEE Access requires a short biography and
-% photograph for each author, placed here.
-% \begin{IEEEbiography}[{\includegraphics[...]{photo.jpg}}]{Author One}
-% ... \end{IEEEbiography}
+\todonote{author biographies}{%
+IEEE Access requires a short biography and a photograph for each author, placed
+here after the references. Use the \texttt{IEEEbiography} environment from the
+class documentation; the photograph is passed as the optional argument as a
+$1\,\text{in}\times1.25\,\text{in}$ \texttt{includegraphics} with
+\texttt{keepaspectratio}.}
 
 \end{document}
