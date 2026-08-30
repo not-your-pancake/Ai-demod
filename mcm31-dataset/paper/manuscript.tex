@@ -63,7 +63,7 @@ Under a Provable Memorisation Bound}
   [repository URL].}%
 }
 
-\markboth{IEEE Access}{Author \MakeLowercase{\textit{et al.}}:
+\markboth{IEEE Access}{M.K.H Nabil \MakeLowercase{\textit{et al.}}:
 Neural Demodulation Under a Provable Memorisation Bound}
 
 \maketitle
@@ -90,10 +90,10 @@ attains symbol error rates statistically indistinguishable from a blind
 matched-filter receiver across all three modulations, while receiving neither
 the carrier frequency, the pulse shape, nor the constellation geometry. Holding
 out an entire data word costs $0.005$ in symbol error rate relative to a random
-split, and both a shuffled-label control and a signal-free positional control
-remain at chance. We additionally report two negative results: a
-constellation-geometry loss term does not improve error rate, and a widely
-suggested carrier-sensitivity comparison does not survive measurement.
+split, and on that split both a shuffled-label control and a signal-free
+positional control remain at chance. We additionally report two negative
+results: a constellation-geometry loss term does not improve error rate, and a
+widely suggested carrier-sensitivity comparison does not survive measurement.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -726,8 +726,12 @@ are the best conditioned: four of five train on fourteen records.
 \begin{table*}[!t]
 \caption{Per-fold results. \emph{Train rec.} is the number of records in the
 training partition; the two folds with fewer than three are the thin folds
-discussed in the text. \emph{Position-only} is the strongest predictor that
-observes no signal, against chance levels of $0.500$, $0.750$ and $0.875$.
+discussed in the text. \emph{Position-only} is a lookup from a symbol's index
+within the data word to its most frequent label, against chance levels of
+$0.500$, $0.750$ and $0.875$. It is a meaningful control only where the withheld
+word is absent from training; every leave-one-board-out fold reuses the training
+word, position then determines the label exactly, and the entry is marked
+\textit{n/a} (Section~\ref{sec:controls}).
 }
 
 \label{tab:perfold}
@@ -739,7 +743,7 @@ Modulation & Held out & Train records & Test symbols
 \midrule
 \textit{Leave-one-pattern-out} & & & & & & \\
 BPSK & PRBS63 & 1 & 53{,}880 & 0.0001 & 0.0000 & 0.5290 \\
-BPSK & S1 & 15 & 3{,}592 & 0.0000 & 0.0000 & 0.5011 \\
+BPSK & S1 & 15 & 3{,}592 & 0.0000 & 0.0000 & 0.5003 \\
 QPSK & Q1 & 2 & 35{,}950 & 0.0174 & 0.0001 & 0.7751 \\
 QPSK & Q2 & 11 & 3{,}595 & 0.0042 & 0.0000 & 0.7502 \\
 QPSK & Q3 & 11 & 3{,}595 & 0.0064 & 0.0000 & 0.8334 \\
@@ -750,35 +754,38 @@ QPSK & Q3 & 11 & 3{,}595 & 0.0064 & 0.0000 & 0.8334 \\
 8-QAM & T6 & 14 & 3{,}596 & 0.1185 & 0.0064 & 0.8751 \\
 \addlinespace
 \textit{Leave-one-board-out} & & & & & & \\
-BPSK & B1 & 12 & 14{,}368 & 0.0001 & 0.0000 & 0.4867 \\
-BPSK & B2 & 13 & 10{,}776 & 0.0000 & 0.0000 & 0.4233 \\
-BPSK & B3 & 13 & 10{,}776 & 0.0002 & 0.0000 & 0.4179 \\
-BPSK & B4 & 13 & 10{,}776 & 0.0000 & 0.0000 & 0.5132 \\
-BPSK & B5 & 13 & 10{,}776 & 0.0002 & 0.0000 & 0.4655 \\
-QPSK & B1 & 8 & 14{,}380 & 0.0070 & 0.0000 & 0.7291 \\
-QPSK & B2 & 10 & 7{,}190 & 0.0054 & 0.0000 & 1.0000 \\
-QPSK & B3 & 10 & 7{,}190 & 0.0049 & 0.0000 & 0.9167 \\
-QPSK & B4 & 10 & 7{,}190 & 0.0036 & 0.0000 & 0.7918 \\
-QPSK & B5 & 10 & 7{,}190 & 0.0174 & 0.0001 & 0.7917 \\
-8-QAM & B1 & 8 & 25{,}172 & 0.1287 & 0.0057 & 0.8572 \\
-8-QAM & B2 & 13 & 7{,}192 & 0.1194 & 0.0049 & 0.5000 \\
-8-QAM & B3 & 13 & 7{,}192 & 0.1193 & 0.0057 & 0.3751 \\
-8-QAM & B4 & 13 & 7{,}192 & 0.1283 & 0.0060 & 1.0000 \\
-8-QAM & B5 & 13 & 7{,}192 & 0.1675 & 0.0302 & 0.5624 \\
+BPSK & B1 & 12 & 14{,}368 & 0.0001 & 0.0000 & n/a \\
+BPSK & B2 & 13 & 10{,}776 & 0.0000 & 0.0000 & n/a \\
+BPSK & B3 & 13 & 10{,}776 & 0.0002 & 0.0000 & n/a \\
+BPSK & B4 & 13 & 10{,}776 & 0.0000 & 0.0000 & n/a \\
+BPSK & B5 & 13 & 10{,}776 & 0.0002 & 0.0000 & n/a \\
+QPSK & B1 & 8 & 14{,}380 & 0.0070 & 0.0000 & n/a \\
+QPSK & B2 & 10 & 7{,}190 & 0.0054 & 0.0000 & n/a \\
+QPSK & B3 & 10 & 7{,}190 & 0.0049 & 0.0000 & n/a \\
+QPSK & B4 & 10 & 7{,}190 & 0.0036 & 0.0000 & n/a \\
+QPSK & B5 & 10 & 7{,}190 & 0.0174 & 0.0001 & n/a \\
+8-QAM & B1 & 8 & 25{,}172 & 0.1287 & 0.0057 & n/a \\
+8-QAM & B2 & 13 & 7{,}192 & 0.1194 & 0.0049 & n/a \\
+8-QAM & B3 & 13 & 7{,}192 & 0.1193 & 0.0057 & n/a \\
+8-QAM & B4 & 13 & 7{,}192 & 0.1283 & 0.0060 & n/a \\
+8-QAM & B5 & 13 & 7{,}192 & 0.1675 & 0.0302 & n/a \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
 \subsection{Negative controls}
+\label{sec:controls}
 \begin{table}[!t]
-\caption{Controls. Both must fail, and both do.}
+\caption{Controls, leave-one-pattern-out folds. Both must fail, and both do.
+The position-only control is restricted to this split for the reason given in
+the text.}
 \label{tab:controls}
 \centering
 \begin{tabular}{lcccc}
 \toprule
 Modulation & Chance & Shuffled & Position-only & Model \\
 \midrule
-BPSK  & 0.500 & 0.4979 & 0.5151 & 0.0000 \\
+BPSK  & 0.500 & 0.4979 & 0.5147 & 0.0000 \\
 QPSK  & 0.750 & 0.7349 & 0.7862 & 0.0000 \\
 8-QAM & 0.875 & 0.8834 & 0.8523 & 0.0065 \\
 \bottomrule
@@ -786,18 +793,36 @@ QPSK  & 0.750 & 0.7349 & 0.7862 & 0.0000 \\
 \end{table}
 
 Permuting labels among the symbols of each fold leaves performance at chance,
-confirming that no path exists from input to target other than the waveform. The
-strongest possible predictor that observes no signal---a lookup table from a
-symbol's index within the data word to its most frequent label---also remains at
-chance on every split, including the random one, because partitioning at record
-level means different records carry different data words
-(Table~\ref{tab:controls}, Fig.~\ref{fig:controls}).
+confirming that no path exists from input to target other than the waveform.
+
+The second control requires a qualification that is easy to overlook. Labels are
+a periodic tiling of the transmitted word, so a symbol's index within that word
+determines its label exactly. Across all $148$ pairs of records carrying the same
+word---including pairs drawn from different boards and different
+attenuations---the label sequences are identical up to a cyclic shift. A
+predictor reading only the symbol index therefore attains a symbol error rate of
+zero on any split whose test partition reuses a training word, which is the case
+for every leave-one-board-out, leave-one-attenuation-out and random fold. On
+those splits the position-only figure is not a control and we do not report it.
+
+It is a control on leave-one-pattern-out, where the withheld word is absent from
+training and is not a cyclic shift of any training word: the best cyclic
+agreement between distinct words is $0.500$ for QPSK and $0.375$ for 8-QAM,
+against chance agreements of $0.250$ and $0.125$. There the lookup sits at
+chance for all three modulations---$0.5147$ against $0.500$, $0.7862$ against
+$0.750$, and $0.8523$ against $0.875$ (Table~\ref{tab:controls},
+Fig.~\ref{fig:controls}).
+
+This concerns the control, not the receiver. The network is given a window of
+waveform samples and nothing else: it receives no symbol index and classifies
+each window independently, so on no split can it exploit the positional
+redundancy that defeats the lookup.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{fig3_controls.pdf}
 \caption{Both negative controls remain at their respective chance levels while
-the receiver does not.}
+the receiver does not. Leave-one-pattern-out folds.}
 \label{fig:controls}
 \end{figure}
 

@@ -72,30 +72,35 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Generalisation}{6}{subsection.6.2}\protected@file@percent }
 \newlabel{sec:generalisation}{{\mbox  {VI-B}}{6}{Generalisation}{subsection.6.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Negative controls}{6}{subsection.6.3}\protected@file@percent }
+\newlabel{sec:controls}{{\mbox  {VI-C}}{6}{Negative controls}{subsection.6.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Symbol error rate against signal-to-noise ratio for the learned and blind classical receivers, leave-one-pattern-out. Hollow triangles mark operating points at which no errors occurred in the test set, drawn at the $1/N$ resolution floor. All quantities saturate above $9$~dB.}}{7}{figure.4}\protected@file@percent }
 \newlabel{fig:ser}{{4}{7}{Symbol error rate against signal-to-noise ratio for the learned and blind classical receivers, leave-one-pattern-out. Hollow triangles mark operating points at which no errors occurred in the test set, drawn at the $1/N$ resolution floor. All quantities saturate above $9$~dB}{figure.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Per-fold results. \emph  {Train rec.} is the number of records in the training partition; the two folds with fewer than three are the thin folds discussed in the text. \emph  {Position-only} is the strongest predictor that observes no signal, against chance levels of $0.500$, $0.750$ and $0.875$. }}{7}{table.7}\protected@file@percent }
-\newlabel{tab:perfold}{{VII}{7}{Per-fold results. \emph {Train rec.} is the number of records in the training partition; the two folds with fewer than three are the thin folds discussed in the text. \emph {Position-only} is the strongest predictor that observes no signal, against chance levels of $0.500$, $0.750$ and $0.875$}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Per-fold results. \emph  {Train rec.} is the number of records in the training partition; the two folds with fewer than three are the thin folds discussed in the text. \emph  {Position-only} is a lookup from a symbol's index within the data word to its most frequent label, against chance levels of $0.500$, $0.750$ and $0.875$. It is a meaningful control only where the withheld word is absent from training; every leave-one-board-out fold reuses the training word, position then determines the label exactly, and the entry is marked \textit  {n/a} (Section~\ref {sec:controls}). }}{7}{table.7}\protected@file@percent }
+\newlabel{tab:perfold}{{VII}{7}{Per-fold results. \emph {Train rec.} is the number of records in the training partition; the two folds with fewer than three are the thin folds discussed in the text. \emph {Position-only} is a lookup from a symbol's index within the data word to its most frequent label, against chance levels of $0.500$, $0.750$ and $0.875$. It is a meaningful control only where the withheld word is absent from training; every leave-one-board-out fold reuses the training word, position then determines the label exactly, and the entry is marked \textit {n/a} (Section~\ref {sec:controls})}{table.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 8-QAM symbol error rate by evaluation split. Withholding a complete data word is indistinguishable from a random partition; withholding a board is not.}}{8}{figure.5}\protected@file@percent }
 \newlabel{fig:splits}{{5}{8}{8-QAM symbol error rate by evaluation split. Withholding a complete data word is indistinguishable from a random partition; withholding a board is not}{figure.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Controls. Both must fail, and both do.}}{8}{table.8}\protected@file@percent }
-\newlabel{tab:controls}{{VIII}{8}{Controls. Both must fail, and both do}{table.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Both negative controls remain at their respective chance levels while the receiver does not.}}{8}{figure.6}\protected@file@percent }
-\newlabel{fig:controls}{{6}{8}{Both negative controls remain at their respective chance levels while the receiver does not}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Recovered constellation geometry}{8}{subsection.6.4}\protected@file@percent }
-\newlabel{sec:geometry}{{\mbox  {VI-D}}{8}{Recovered constellation geometry}{subsection.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Controls, leave-one-pattern-out folds. Both must fail, and both do. The position-only control is restricted to this split for the reason given in the text.}}{8}{table.8}\protected@file@percent }
+\newlabel{tab:controls}{{VIII}{8}{Controls, leave-one-pattern-out folds. Both must fail, and both do. The position-only control is restricted to this split for the reason given in the text}{table.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Both negative controls remain at their respective chance levels while the receiver does not. Leave-one-pattern-out folds.}}{8}{figure.6}\protected@file@percent }
+\newlabel{fig:controls}{{6}{8}{Both negative controls remain at their respective chance levels while the receiver does not. Leave-one-pattern-out folds}{figure.6}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Ablation of the constellation term of \eqref  {eq:loss}, leave-one-board-out. Differences lie within run-to-run variation.}}{8}{table.9}\protected@file@percent }
 \newlabel{tab:ablation}{{IX}{8}{Ablation of the constellation term of \eqref {eq:loss}, leave-one-board-out. Differences lie within run-to-run variation}{table.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Hardware characterisation}{8}{subsection.6.5}\protected@file@percent }
-\newlabel{sec:hardware}{{\mbox  {VI-E}}{8}{Hardware characterisation}{subsection.6.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Recovered constellation geometry}{8}{subsection.6.4}\protected@file@percent }
+\newlabel{sec:geometry}{{\mbox  {VI-D}}{8}{Recovered constellation geometry}{subsection.6.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Destination of 8-QAM errors at $0$~dB. Left: confusions drawn on the constellation, line width proportional to count. Right: share of errors against inter-point distance, compared with a uniform-error null.}}{9}{figure.7}\protected@file@percent }
 \newlabel{fig:geometry}{{7}{9}{Destination of 8-QAM errors at $0$~dB. Left: confusions drawn on the constellation, line width proportional to count. Right: share of errors against inter-point distance, compared with a uniform-error null}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Hardware characterisation}{9}{subsection.6.5}\protected@file@percent }
+\newlabel{sec:hardware}{{\mbox  {VI-E}}{9}{Hardware characterisation}{subsection.6.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Demodulator lock threshold across five boards, measured against the known transmitted sequence. A single threshold accounts for every unit.}}{9}{figure.8}\protected@file@percent }
 \newlabel{fig:lock}{{8}{9}{Demodulator lock threshold across five boards, measured against the known transmitted sequence. A single threshold accounts for every unit}{figure.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Discussion}{9}{section.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Evaluation validity as the primary result}{9}{subsection.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Interpreting parity}{9}{subsection.7.2}\protected@file@percent }
 \citation{gardner1986ted}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Interpreting parity}{10}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Implications for instrumentation practice}{10}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Limitations}{10}{section.8}\protected@file@percent }
+\newlabel{sec:limitations}{{VIII}{10}{Limitations}{section.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Conclusion}{10}{section.9}\protected@file@percent }
 \bibstyle{IEEEtran}
 \bibdata{refs}
 \bibcite{oshea2017intro}{1}
@@ -106,9 +111,5 @@
 \bibcite{mengali1997sync}{6}
 \bibcite{gardner1986ted}{7}
 \bibcite{golomb1982shift}{8}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Implications for instrumentation practice}{10}{subsection.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Limitations}{10}{section.8}\protected@file@percent }
-\newlabel{sec:limitations}{{VIII}{10}{Limitations}{section.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IX}Conclusion}{10}{section.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{10}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{11}{section*.2}\protected@file@percent }
 \gdef \@abspage@last{11}

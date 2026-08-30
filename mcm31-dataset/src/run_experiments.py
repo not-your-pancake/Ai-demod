@@ -20,7 +20,7 @@ def save():
 
 for mod in ("BPSK", "QPSK", "8QAM"):
     cap = M.MAX_RECEPTIVE_FIELD_SYMBOLS[mod]
-    n_word = int(meta.loc[meta.modulation == mod, "n_sym_word"].iloc[0])
+    n_word = meta["n_sym_word"].to_numpy()   # per record, not per modulation
     for split_name, folds in SP.make_splits(meta, mod).items():
         for fold_name, tr, te in folds:
             t0 = time.time()

@@ -121,15 +121,32 @@ def train_fold(mod, cap, tr_caps, te_caps, arrays, sps, seed=0,
     return net, evaluate(net, ws_te, rng, EVAL_SNR), len(ws_tr), len(ws_te)
 
 
-def position_baseline(mod, cap, tr_caps, te_caps, arrays, sps, n_sym_word):
-    """Best possible predictor that sees NO waveform - only the symbol's index
-    within the word. A lookup table is optimal here, so this is an upper bound
-    on what position alone can achieve."""
+def position_baseline(mod, cap, tr_caps, te_caps, arrays, sps, n_word_by_capture):
+    """Predictor that sees NO waveform - only the symbol's index within the word.
+
+    Meaningful ONLY on leave-one-pattern-out. Labels are a periodic tiling of the
+    transmitted word, and two records carrying the same word have label sequences
+    that are identical up to a cyclic shift. So wherever the test partition
+    reuses a training word - every leave-one-board-out, leave-one-attenuation-out
+    and random fold - position determines the label exactly and the attainable
+    error rate is zero, not chance. What this function returns on those splits is
+    set by an arbitrary word-phase offset between records and means nothing. Read
+    it only where the withheld word is absent from training.
+
+    The modulus is each TEST record's own word length: BPSK carries a 63-symbol
+    pseudorandom sequence in some records and a 24-symbol word in others, so one
+    modulus per modulation is wrong.
+    """
     wave, label, wo, lo = arrays
-    ws_tr = DT.WindowSet(wave, label, wo, lo, tr_caps, sps, cap)
-    ws_te = DT.WindowSet(wave, label, wo, lo, te_caps, sps, cap)
     n_cls = M.n_classes(mod)
-    table = np.zeros((n_sym_word, n_cls), dtype=np.int64)
-    np.add.at(table, (ws_tr.symbol_index % n_sym_word, ws_tr.y), 1)
-    pred = table.argmax(1)[ws_te.symbol_index % n_sym_word]
-    return 1.0 - float((pred == ws_te.y).mean())
+    ws_tr = DT.WindowSet(wave, label, wo, lo, tr_caps, sps, cap)
+    correct = total = 0
+    for c in te_caps:
+        n_word = int(n_word_by_capture[c])
+        table = np.zeros((n_word, n_cls), dtype=np.int64)
+        np.add.at(table, (ws_tr.symbol_index % n_word, ws_tr.y), 1)
+        ws_te = DT.WindowSet(wave, label, wo, lo, [c], sps, cap)
+        pred = table.argmax(1)[ws_te.symbol_index % n_word]
+        correct += int((pred == ws_te.y).sum())
+        total += len(ws_te.y)
+    return 1.0 - correct / total
