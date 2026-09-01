@@ -22,6 +22,7 @@
 
 \documentclass[journal]{IEEEtran}   % SUBMISSION SWAP -> {ieeeaccess}
 
+\usepackage[T1]{fontenc}   % accented names in the bibliography need T1
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -165,17 +166,108 @@ Learned physical-layer processing has been demonstrated for end-to-end
 autoencoder transceivers~\cite{oshea2017intro}, for systems trained over the
 air~\cite{dorner2018ota}, and for joint channel estimation and
 detection~\cite{ye2018power}. Modulation classification from sampled in-phase
-and quadrature data has received particular attention, along with the associated
-public datasets~\cite{oshea2018classification}.
+and quadrature data has received particular attention, together with the
+synthetic datasets used to benchmark it~\cite{satyanarayan2023RML}. Broad
+reviews of the area are given in~\cite{hoydis2021nativeAirInterface,
+akroutMLPtoGPT, wangDlphysicalLayer}, and of distribution shift specifically
+in~\cite{akrout2023domaingeneralization}.
 
-\todonote{recent neural demodulation, 2--3 paragraphs}{%
-Add work from the last two to three years on neural demodulation and neural
-receivers. For each: one sentence on what it does, one on how it differs here.
-The organising axis should be \emph{what each system is given}---carrier
-frequency, symbol timing, pulse shape, constellation---because that is the axis
-on which this paper positions itself (Section~\ref{sec:limitations} states
-exactly what ours receives). Close the subsection by noting that these systems
-are evaluated on held-out partitions without a structural bound on context.}
+The useful axis for comparison is what each system is \emph{given}.
+Table~\ref{tab:related_a} records, for twenty-three recent learned receivers and
+demodulators, whether the carrier frequency, the symbol timing, the pulse shape
+and the constellation are supplied rather than recovered, together with the
+domain of the input and the origin of the evaluation data.
+
+The distribution is uneven. Ten operate on baseband in-phase and quadrature
+samples and eight on frequency-domain subcarriers; four take symbols already at
+the output of a matched filter, and one operates on passband samples.
+Seventeen are given the carrier frequency and sixteen the symbol timing. Twenty
+are given the constellation, and nineteen fix a known pulse-shape family without
+presenting it to the network. Twenty-one are evaluated on simulated waveforms;
+the two exceptions use hardware captures for validation only.
+
+\begin{table*}[!t]
+\caption{What recent learned receivers and demodulators are given.
+\emph{family} denotes a fixed known pulse-shape family that is not itself
+presented to the network; \emph{blind} denotes symbol timing recovered by the
+system; \emph{partial} denotes a residual offset estimated from the signal;
+\emph{n.s.} denotes a property the paper does not state, which is not the same
+as a property it does not use. Domains: passband, baseband in-phase and
+quadrature, post-matched-filter symbols, frequency domain. Data: simulated,
+hardware used for validation only, hardware as the primary source. Surveys
+without a system are cited in the text and not tabulated.}
+\label{tab:related_a}
+\centering
+\begin{tabular}{lcccccc}
+\toprule
+System & Carrier & Timing & Pulse & Const. & Domain & Data \\
+\midrule
+Zhu \textit{et al.}~\cite{Zhu2022WaveformLevelIntelligence} & yes & blind & family & no & baseband & sim. \\
+Zhu \textit{et al.}~\cite{Zhu2022EndtoEnd} & yes & blind & family & yes & baseband & sim. \\
+Hanna \textit{et al.}~\cite{Hanna2022SignalProcessing} & partial & blind & family & yes & baseband & hw-valid. \\
+Xiao \textit{et al.}~\cite{Xiao2023_UnifiedDeep} & no & blind & family & no & baseband & sim. \\
+Zhu \textit{et al.}~\cite{Zhu2023DLWave} & yes & blind & family & yes & baseband & sim. \\
+Chia \textit{et al.}~\cite{Chia2022RN} & yes & yes & family & yes & baseband & sim. \\
+Tonix-Gleason \textit{et al.}~\cite{Tonix2025NNAided} & yes & yes & family & yes & freq. & sim. \\
+Liu \textit{et al.}~\cite{liu2026Universal} & yes & yes & family & yes & freq. & sim. \\
+Zhang \textit{et al.}~\cite{Zhang2018Enhanced} & no & blind & family & yes & passband & sim. \\
+Dakic \textit{et al.}~\cite{dakic2021LoRa} & no & blind & family & yes & baseband & sim. \\
+Zheng \textit{et al.}~\cite{Zheng2022DemodNet} & no & yes & yes & yes & symbols & sim. \\
+Allwin \textit{et al.}~\cite{alwin2024LLRSymNet} & yes & yes & yes & yes & symbols & sim. \\
+Gansekoele \textit{et al.}~\cite{ganse2024MLApprochDemapping} & yes & yes & yes & yes & symbols & sim. \\
+Polvani \textit{et al.}~\cite{polvani2021MIMO} & yes & yes & yes & yes & symbols & sim. \\
+Wang \textit{et al.}~\cite{wang2024optimalSequence} & yes & yes & family & yes & baseband & sim. \\
+Chen \textit{et al.}~\cite{chen2024robustSymboldetection} & yes & yes & family & yes & freq. & sim. \\
+Gorday \textit{et al.}~\cite{gorday2020complexNN} & no & yes & family & yes & baseband & sim. \\
+Fischer \textit{et al.}~\cite{fischer2022OFDM} & yes & yes & family & yes & freq. & sim. \\
+Honkala \textit{et al.}~\cite{honkala2021deeprxfullyconvolutionaldeep} & yes & yes & family & yes & freq. & sim. \\
+Korpi \textit{et al.}~\cite{korpi2021UplinkCNN} & yes & yes & family & yes & freq. & sim. \\
+Cammerer \textit{et al.}~\cite{cammerer2020trainableCS} & yes & yes & family & no & freq. & hw-valid. \\
+Hoydis \textit{et al.}~\cite{hoydis2021nativeAirInterface} & yes & yes & family & yes & freq. & sim. \\
+Sathyanarayanan \textit{et al.}~\cite{satyanarayan2023RML} & yes & yes & family & yes & baseband & sim. \\
+\addlinespace
+This work & no & yes & family & no & passband & hw-primary \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+A minority withhold more. Zhang \textit{et al.} demodulate BPSK with a
+sliding-window one-dimensional convolutional network on raw passband samples,
+detecting phase-shift locations without explicit carrier synchronisation or
+symbol-period grouping~\cite{Zhang2018Enhanced}; that system is the closest to
+ours in input domain, and differs in being evaluated on simulated waveforms and
+in being given the constellation. Xiao \textit{et al.} take raw baseband samples
+and compensate time and frequency offsets blindly while jointly predicting the
+modulation type and the symbol index~\cite{Xiao2023_UnifiedDeep}. Dakic
+\textit{et al.} predict LoRa symbols directly from baseband samples and report
+robustness to emulated carrier and time offsets without explicit synchronisation
+modules~\cite{dakic2021LoRa}. Zhu \textit{et al.} recover bit sequences from
+oversampled baseband sequences while handling symbol timing offsets blindly
+through a shifted binary cross-entropy loss~\cite{Zhu2022EndtoEnd}. Hanna
+\textit{et al.} estimate carrier offset, timing and symbol rate blind and then
+decode with a minimum-distance receiver against the classified modulation's
+constellation~\cite{Hanna2022SignalProcessing}, and are one of the two entries
+whose evaluation involves hardware.
+
+The larger group operates in the frequency domain with synchronisation already
+established. DeepRx performs channel estimation, equalisation and soft demapping
+jointly and emits bit log-likelihood ratios for
+5G~\cite{honkala2021deeprxfullyconvolutionaldeep}, and its MIMO extension adds
+either a combining-based or a fully learned transformation
+layer~\cite{korpi2021UplinkCNN}. Cammerer \textit{et al.} train a bit-wise
+autoencoder that learns geometric constellation shaping and bit labelling
+jointly with iterative demapping and decoding~\cite{cammerer2020trainableCS},
+making it one of the three tabulated systems not given a constellation. A
+further group learns the demapping alone, from symbols already at the
+matched-filter output~\cite{Zheng2022DemodNet, alwin2024LLRSymNet,
+ganse2024MLApprochDemapping, polvani2021MIMO}.
+
+These systems are evaluated on held-out partitions. Twelve of the twenty-three
+report a random held-out split; the remaining eleven do not state one. None
+reports a partition grouped by recording or by device, and none constrains the
+receiver's input context relative to the complexity of the transmitted sequence,
+which is the property Section~\ref{sec:bound} establishes structurally rather
+than argues empirically.
 
 \subsection{Evaluation validity and memorisation}
 This paper's premise is that held-out evaluation is insufficient when the
@@ -186,16 +278,28 @@ failure considered here is narrower: the test sequence itself is predictable
 from its own past, so a model with sufficient context can reach a low error rate
 without demodulating.
 
-\todonote{evaluation validity, 1--2 paragraphs}{%
-Add any prior work in learned communications that addresses train/test
-contamination, sequence memorisation, or evaluation protocol. Two outcomes are
-both acceptable and should be stated plainly:
-\emph{(i)} if such work exists, position ours as the first to bound receiver
-context below the linear complexity of the test sequence rather than argue the
-point empirically;
-\emph{(ii)} if little exists, say so directly---that absence is itself part of
-the motivation, and is a stronger opening than a padded list. Do not manufacture
-citations to fill this subsection.}
+Work in radio-frequency sensing has begun to quantify the effect. Shulman
+shows that segment-level cross-validation causes severe data leakage and
+optimism in drone identification benchmarks, and that regrouping the evaluation
+by recording collapses the inflated
+accuracies~\cite{shulman2026rfdronebenchmarksoverstate}; among the studies
+surveyed here it is the only one that reports a recording-grouped split. The
+same failure is documented outside wireless: Brookshire \textit{et al.} show
+that dividing recordings into segments without grouping by subject produces
+severe leakage and heavily inflated performance in translational
+electroencephalography studies~\cite{brook2024dataLeakage}.
+
+The underlying concern is long-standing in machine learning generally. Carlini
+\textit{et al.} give a quantitative framework for testing whether a sequence
+model has unintentionally memorised rare training
+sequences~\cite{nicolas2019secretSharer}, and Arpit \textit{et al.} show that
+gradient-based optimisation learns simple patterns before it memorises
+noise~\cite{arpit2017memorizationinDL}. These results establish that the
+partition matters, and that memorisation is measurable after training. None of
+them bounds what a receiver can memorise before training begins. We are not
+aware of prior work in learned communications that constrains receiver context
+below the linear complexity of the test sequence, and that absence is part of
+the motivation for Section~\ref{sec:bound}.
 
 \subsection{Hardware-captured RF datasets}
 Public RF datasets are commonly synthesised, or captured from a small number of
@@ -205,13 +309,59 @@ Section~\ref{sec:dataset} shows a case in which the configured data word is
 \emph{not} a reliable statement of the transmitted symbol sequence, and
 Section~\ref{sec:groundtruth} obtains labels by measurement instead.
 
-\todonote{hardware RF datasets, 1--2 paragraphs}{%
-Add existing hardware-captured RF datasets. For each, record the number of
-physical devices and---most importantly---whether ground truth is
-\emph{asserted} from the transmitter configuration or \emph{measured} from the
-waveform. That column is where our contribution sits; a small comparison table
-would carry it well if three or more comparable datasets exist. Note our device
-count honestly (five) alongside theirs.}
+Table~\ref{tab:related_c} lists twelve public radio-frequency datasets against
+three axes: the number of physical devices, the granularity of the labels, and
+whether the data are captured from hardware or simulated. Nine are captured
+primarily from hardware, one uses hardware for validation only, and two are
+simulated.
+
+\begin{table}[!t]
+\caption{Public radio-frequency datasets. \emph{n.s.} denotes a quantity the
+dataset does not state. The device counts are as reported; ours is the smallest
+in the table.}
+\label{tab:related_c}
+\centering
+\begin{tabular}{lrll}
+\toprule
+Dataset & Devices & Label & Source \\
+\midrule
+Hanna \textit{et al.}~\cite{hanna2022WiSig} & 174 & device & hw-primary \\
+Vrieze \textit{et al.}~\cite{vrieze2018earnestRF} & n.s. & mod.-class & hw-primary \\
+Al-Shawabka \textit{et al.}~\cite{amani2020fingerprint} & n.s. & device & hw-valid. \\
+Elmaghbub \textit{et al.}~\cite{bub2021usecase} & 25 & device & hw-primary \\
+Zahid \textit{et al.}~\cite{zahid2025comrad} & 27 & device & hw-primary \\
+Morin \textit{et al.}~\cite{Morin2019Transmitter} & 20 & device & hw-primary \\
+Utrilla~\cite{Utrilla2020MIGOU-MOD} & n.s. & mod.-class & hw-primary \\
+Allahham \textit{et al.}~\cite{saria2019droneRF} & 3 & mod.-class & hw-primary \\
+Kashani \textit{et al.}~\cite{kashani2024BLE} & 13 & device & hw-primary \\
+Jagannath \textit{et al.}~\cite{jagannat2024commercialDevice} & 10 & device & hw-primary \\
+Jaensch \textit{et al.}~\cite{jaensch2024radiomapestimation} & n.s. & n.s. & sim. \\
+Yapar \textit{et al.}~\cite{yapar2024datasetpathlosstoaradio} & n.s. & n.s. & sim. \\
+\addlinespace
+This work & 5 & symbol & hw-primary \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The axis that matters here is label granularity. Seven of the twelve label at
+device level, three at modulation-class level, and two do not state a
+granularity. None labels individual symbols. Hanna \textit{et al.} release the
+largest, ten million packets from 174 transmitters recorded across 41 receivers
+over a month~\cite{hanna2022WiSig}; Elmaghbub \textit{et al.} capture 25 LoRa
+transceivers across indoor, outdoor and wired
+testbeds~\cite{bub2021usecase}; Zahid \textit{et al.} capture 27
+radios~\cite{zahid2025comrad}; Morin \textit{et al.}
+twenty~\cite{Morin2019Transmitter}; Kashani \textit{et al.}
+thirteen~\cite{kashani2024BLE}; and Jagannath \textit{et al.} ten commercial
+chipsets~\cite{jagannat2024commercialDevice}. Our five units are fewer than any
+of these, and far fewer than the 174 of~\cite{hanna2022WiSig}.
+
+The distinction we draw is therefore not scale but what a label denotes. The
+datasets above answer which device transmitted a signal, or which modulation it
+carries. A symbol-level label answers which constellation point was transmitted
+at a given instant, which is what a demodulator must predict, and which
+Section~\ref{sec:groundtruth} obtains by measurement from the waveform rather
+than by assertion from the transmitter's configuration.
 
 \subsection{Classical receiver theory}
 Classical treatments of the receiver functions replaced by learned

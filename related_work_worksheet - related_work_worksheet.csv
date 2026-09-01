@@ -1,0 +1,787 @@
+id,section,bibkey,title,carrier_supplied,timing_supplied,pulse_shape_supplied,input_domain,data_source,devices,label_granularity,evaluation_split,constellation_supplied,my_one_line,page_evidence,read_status
+A01,II-A,"@ARTICLE{Zhu2022WaveformLevelIntelligence,
+  author={Zhu, Zhaorui and Yu, Hongyi and Shen, Caiyao},
+  journal={IEEE Communications Letters}, 
+  title={Waveform Level Intelligent Multi-Task Receiver With BiLSTM}, 
+  year={2022},
+  volume={26},
+  number={3},
+  pages={597-601},
+  keywords={Modulation;Receivers;Artificial neural networks;Timing;Synchronization;Indexes;Phase locked loops;Deep learning;bidirectional LSTM (BiLSTM);waveform level;receiver design;synchronization},
+  doi={10.1109/LCOMM.2021.3136508}}",Waveform Level Intelligent Multi-Task Receiver With BiLSTM,yes,no-recovered-blind,fixed-family,baseband-IQ,simulated,n/a,symbol,not-stated,no,"In our future work, phase offset, carrier frequency offset, sample rate offset, channel fading, and other hardware imperfection factors will be considered.","carrier_supplied (yes)Evidence: Section IVProof: The authors state that ""carrier frequency offset... will be considered"" in future work, meaning they did not address it here and assume it is already corrected.timing_supplied (no-recovered-blind)Evidence: Section I & Section II-AProof: Section I states the goal is to recover messages ""without an additional timing synchronization module,"" and Section II-A models the symbol timing offset ($\tau$) natively in the received signal equation.pulse_shape_supplied (fixed-family)Evidence: Section II-A & Section IIIProof: Section II-A defines the matched filter $h(t) = p(t)$, and Section III specifies the use of a Root Raised Cosine (RRC) filter with a fixed span of 12.input_domain (baseband-IQ)Evidence: Section II-BProof: Equation 3 explicitly constructs a matrix containing the real ($y^R$) and imaginary ($y^I$) components of the complex baseband signal.data_source (simulated) & devices (n/a)Evidence: Section IIIProof: The entire section is titled ""Simulation Results"" and details generating 25,000 algorithmic train samples rather than capturing physical hardware transmissions.label_granularity (symbol)Evidence: Section II-BProof: Equation 4 defines the label bit matrix $B$ mapping to $N_s$ (number of symbols).constellation_supplied (no)Evidence: Section I & Section II-BProof: Section I explicitly states the receiver works on ""unknown modulation schemes."" Section II-B details the neural network's right half, which actively performs modulation classification on the fly.evaluation_split (not-stated)Evidence: Section IIIProof: Mentions generating train and test datasets but omits the exact methodology for partitioning the splits (e.g., grouped by device, random holdout, etc.).",DONE
+A02,II-A,"@article{Zhu2022EndtoEnd,
+author = {Zhu, Zhaorui and Yu, Hongyi and Shen, Caiyao},
+title = {End-to-end waveform level receiver with deep learning},
+journal = {IET Communications},
+volume = {16},
+number = {11},
+pages = {1315-1324},
+doi = {https://doi.org/10.1049/cmu2.12424}}",End-to-end waveform level receiver with deep learning,yes,no-recovered-blind,fixed-family,baseband-IQ,simulated,n/a,symbol,not-stated,yes,A BiLSTM-based end-to-end receiver that recovers bit sequences directly from oversampled baseband IQ sequences while blindly handling symbol timing offsets using a novel shifted binary cross-entropy loss.,"carrier_supplied: Section 2.1 (Authors assume ""perfect compensation of phase offset and other more complex factors"").timing_supplied: Section 1 (Proposes an NN receiver for bit detection ""without explicitly estimating symbol timing delay"").pulse_shape_supplied: Section 2.1 (Assumes knowledge of the pulse-shaping filter and applies the matched filter $h(t) = p(t)$ before the NN).input_domain: Section 3.2, Equation 5 (Input is constructed as a matrix of real $y^R$ and imaginary $y^I$ signal components).data_source & devices: Section 2.1 & Section 4.1 (Waveforms are generated using a signal flow model; no physical hardware is mentioned).label_granularity: Section 3.2, Equation 6 (Label bit stream is reshaped corresponding to the symbol number).evaluation_split: Section 4.1 (Mentions 20% validation split and uniform selection of parameters, but no specific grouping/hold-out structural strategy is stated).constellation_supplied: Section 4.1, Table 1 (Separate neural network architectures are built specifically for BPSK and 16QAM, meaning the constellation is fixed per network instance).",DONE
+A03,II-A,"@ARTICLE{Hanna2022SignalProcessing,
+  author={Hanna, Samer and Dick, Chris and Cabric, Danijela},
+  journal={IEEE Journal on Selected Areas in Communications}, 
+  title={Signal Processing-Based Deep Learning for Blind Symbol Decoding and Modulation Classification}, 
+  year={2022},
+  volume={40},
+  number={1},
+  pages={82-96},
+  keywords={Modulation;Decoding;Neural networks;Deep learning;Signal processing;Receivers;Frequency modulation;Blind symbol decoding;deep learning;automatic modulation classification},
+  doi={10.1109/JSAC.2021.3126088}}
+",Signal Processing-Based Deep Learning for Blind Symbol Decoding and Modulation Classification,partial-residual-offset-estimated,no-recovered-blind,fixed-family,baseband-IQ,hardware-validation-only,2,symbol,held-out-random,yes,"Estimates carrier offset, timing and symbol rate blind, then decodes with a minimum-distance receiver against the classified modulation's constellation.",carrier_supplied: Section III (Assumes the narrowband receiver is coarsely tuned or band segmented) & Section IV-A (Predicts fine offset $f_0$ to compensate).timing_supplied: Section IV-A (Estimates timing offset $t_0$ via neural networks).pulse_shape_supplied: Section VI (Data generated using a root-raised-cosine filter with a fixed roll-off factor).input_domain: Section III (The signal is downconverted and sampled into a complex baseband vector $y \in \mathbb{C}^{N_r}$).data_source: Section VI (Model is trained entirely on simulated data and validated using an over-the-air capture).devices: Section VI (The OTA capture was performed using exactly two USRP B205 mini SDRs).label_granularity: Section V-C (Decoded symbols are directly evaluated against true symbols to calculate a Symbol Error Rate).evaluation_split: Section VI (Evaluated against 100K fixed random simulation samples and the independent OTA capture datasets).constellation_supplied: Section V-C (Applies a decision-aided phase recovery loop and a minimum distance Euclidean receiver mapped against the correct constellation $c_M$).,DONE
+A04,II-A,"@INPROCEEDINGS{Xiao2023_UnifiedDeep,
+  author={Xiao, Bowen and Zheng, Shilian and Zhu, Jiawei and Zhang, Ziyi and Long, Yan and Ju, Honghao},
+  booktitle={2023 IEEE 98th Vehicular Technology Conference (VTC2023-Fall)}, 
+  title={Unified Deep Neural Demodulation Network Design for QAM Signal Recovery}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-5},
+  keywords={Nakagami distribution;Quadrature amplitude modulation;Simulation;Neural networks;Rician channels;Symbols;Feature extraction;unified deep neural network;QAM demodulation;symbol error rate},
+  doi={10.1109/VTC2023-Fall60731.2023.10333570}}
+",Unified Deep Neural Demodulation Network Design for QAM Signal Recovery,no,no-recovered-blind,fixed-family,baseband-IQ,simulated,n/a,symbol,held-out-random,no,Proposes a unified neural network utilizing self-attention and residual blocks that takes raw baseband I/Q samples to blindly compensate for time/frequency offsets and jointly predict modulation type and symbol index.,"carrier_supplied: Section II (Fig. 1 and text state the network completely replaces the frequency synchronization module) & Section III-A (Evaluated against a 250Hz intermediate frequency offset).timing_supplied: Section II & Section III-A (Replaces the time synchronization module and blindly handles a random time offset of 1 to 8 sampling points).pulse_shape_supplied: Section III-A (Data is generated using a square root raised cosine filter with a fixed roll-off factor of 0.22).input_domain: Section II-A (The input is explicitly defined as complex I/Q samples).data_source: Section III-A (Dataset is entirely generated/simulated using 80,000 frames per configuration).devices: Section III-A (No physical hardware or SDRs are mentioned; the channel is mathematically simulated).label_granularity: Section II-B-3 & Section II-B-4 (The network predicts the symbol constellation index on a per-symbol basis using $D$ sub-modules, and is evaluated strictly on Symbol Error Rate).evaluation_split: Section III-A (The simulated 80,000 frames are randomly split 50% for training and 50% for testing).constellation_supplied: Section II-B (The network jointly decides both the modulation type and the symbol index directly from the waveform using self-attention and softmax, rather than being supplied the constellation for minimum-distance mapping).",DONE
+A05,II-A,"@ARTICLE{Zhu2023DLWave,
+  author={Zhu, Zhaorui and Shen, Caiyao and Yu, Hongyi and Wang, Zhenyu and Shen, Zhixiang and Du, Jianping},
+  journal={IEEE Transactions on Cognitive Communications and Networking}, 
+  title={Deep Learning for Waveform Level Receiver Design With Natural Redundancy}, 
+  year={2023},
+  volume={9},
+  number={2},
+  pages={317-331},
+  keywords={Receivers;Artificial neural networks;Noise measurement;Training;Synchronization;Markov processes;Decoding;Deep learning;receiver design;natural redundancy;noisy label;MAP detector;joint source-channel decoding;synchronization;joint receiver design},
+  doi={10.1109/TCCN.2022.3225790}}
+",Deep Learning for Waveform Level Receiver Design With Natural Redundancy,yes,no-recovered-blind,fixed-family,baseband-IQ,simulated,n/a,symbol,not-stated,yes,A BiLSTM and Transformer-based receiver that directly processes oversampled baseband I/Q sequences to jointly perform timing synchronization and symbol demodulation by explicitly leveraging the natural redundancy in Markov and language text sources.,"carrier_supplied: Section II (Explicitly assumes ""perfect channel equalization and carrier synchronization"" before receiving the oversampled waveform).timing_supplied: Section I-C & Section II (The receiver accomplishes ""joint symbol timing synchronization and demodulation,"" handling the introduced symbol timing offset $\tau$).pulse_shape_supplied: Section II & Section IV-A (Equation 1 defines $g(t)$ as a pulse-shaping filter, and Section IV-A fixes it as a filter with roll-off factor 0.25 and span 12).input_domain: Section III-A, Equation 2 (The waveform sequence is reshaped into a matrix explicitly splitting the real $y^R$ and imaginary $y^I$ components of the complex values).data_source: Section IV-A (All datasets are mathematically generated using Markov sources and Wiki-40B texts passed through simulated AWGN/STO channels).devices: Section IV-A (Purely mathematical simulation; no physical SDRs or hardware are mentioned).label_granularity: Section III-A, Equations 3 & 4 (The neural network outputs a sigmoid matrix representing a binary classification at the bit/symbol level corresponding to $N_s$ symbols).evaluation_split: Section IV-A (Mentions generating train and validation datasets with wide ranges of $E_b/N_0$ values, but does not state the structural strategy for the splits).constellation_supplied: Section IV-A, Tables III & IV (The models are trained distinctly for specific modulations like BPSK, 16QAM, up to 1024QAM, with the output dimensions tied directly to the known bit-per-symbol length $k$).",DONE
+A06,II-A,"@INPROCEEDINGS{Chia2022RN,
+  author={Chia, Kim and Baskaran, Vishnu Monn and Wong, KokSheik and Sim, Moh Lim and Chee, Chong Hin},
+  booktitle={2022 International Symposium on Intelligent Signal Processing and Communication Systems (ISPACS)}, 
+  title={Recurrent Network with Attention for Symbol Detection in Communication Systems}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-4},
+  keywords={Deep learning;Wireless communication;Recurrent neural networks;Memory management;Symbols;Receivers;Complexity theory;Deep Learning;Demodulation;Symbol Detection},
+  doi={10.1109/ISPACS57703.2022.10082803}}
+",Recurrent Network with Attention for Symbol Detection in Communication Systems,yes,yes,fixed-family,baseband-IQ,simulated,n/a,symbol,not-stated,yes,A recurrent-attention network utilizing bidirectional GRUs and a global attention mechanism to directly demodulate perfectly synchronized M-QAM baseband I/Q signals under Rayleigh fading and AWGN.,"carrier_supplied: Section V (The conclusion explicitly states ""Future works can be done on signal with more impairment such as frequency offset, phase offset and DC offset,"" confirming they assume perfect carrier synchronization in this study).timing_supplied: Section III (The baseband signal $X$ is perfectly ""segmented by symbols"" before being fed into the network, meaning perfect symbol timing is supplied to the system).pulse_shape_supplied: Section III (Describes the generation of baseband signals sampled at 10 samples per symbol without specifying a varied or unknown pulse shape, implying a fixed standard simulation approach).input_domain: Section III (Explicitly states splitting the baseband signal $X$ into ""$x_i(t)$ the real component (I) and $x_q(t)$ imaginary component (Q)"").data_source: Section III (Dataset obtained via a ""pseudorandom algorithm"" and mathematically simulated Rayleigh/AWGN channels).devices: Section III (Purely simulated data; no physical hardware or SDRs are mentioned).label_granularity: Section III (The network directly outputs a symbol $\hat{d}$ mapping to the generated 4-QAM or 16-QAM symbol class, and is evaluated on Bit Error Rate / Accuracy).evaluation_split: Section III (Mentions K-fold cross-validation and Monte Carlo simulation for testing but does not state any specific structural grouping strategy for the splits).constellation_supplied: Section III (The softmax output layer is explicitly tied to outputting the specific symbol class $d$, meaning the network is explicitly trained and sized for a known M-QAM constellation).",DONE
+A07,II-A,"@ARTICLE{Tonix2025NNAided,
+  author={Tonix-Gleason, Luis Emilio and Del-Puerto-Flores, José Alberto and Castillo-Soria, Francisco R. and Parra-Michel, Ramón and Campos, Fernando Peña},
+  journal={IEEE Wireless Communications Letters}, 
+  title={Neural Network Aided M-PSK Detection in 802.11P V2V OFDM Systems Under ICI Conditions}, 
+  year={2025},
+  volume={14},
+  number={11},
+  pages={3420-3424},
+  keywords={OFDM;Training;Symbols;Signal to noise ratio;Bit error rate;Artificial neural networks;Receivers;Vectors;Dispersion;Discrete Fourier transforms;Deep learning;DNN;ICI;neural network;OFDM;V2V},
+  doi={10.1109/LWC.2025.3592856}}
+",Neural Network Aided M-PSK Detection in 802.11p V2V OFDM Systems Under ICI Conditions,yes ,yes,fixed-family,frequency-domain,simulated,n/a,symbol,held-out-random,yes,A low-complexity neural network called PhaseNet that operates in the frequency domain to perform M-PSK symbol detection by extracting and classifying phase information to mitigate inter-carrier interference in highly dynamic V2V OFDM channels.,"carrier_supplied & timing_supplied: Section II (Explicitly states the complex baseband signal is processed ""after synchronization and cyclic prefix (CP) removal"").pulse_shape_supplied: Section II (The system incorporates the ""802.11p standard’s OFDM modulation,"" relying on a fixed standard structure rather than explicitly learned pulse shapes).input_domain: Section II & Section III (Equation 4 applies the normalized DFT to get the signal in the frequency domain (FD), and the network input $\beta$ is derived from these frequency-domain symbols).data_source: Section III (Explicitly states a ""synthetic data set was designed to simulate a realistic V2V communication scenario"" using randomly generated matrices).devices: Section III (Purely simulated; no physical SDRs or devices are mentioned).label_granularity: Section III, Algorithm 2 (The network estimates the phase on a per-subcarrier/symbol basis to ""Perform hard M-PSK detection"").evaluation_split: Section III (A total of 960,000 OFDM symbols were distributed in a ""60-30-10 split for training, validation, and testing"" using a ""fixed random seed"").constellation_supplied: Section II & Algorithm 2 (The network specifically targets the known phase mappings of an M-PSK constellation).",DONE
+A08,II-A,"@misc{liu2026Universal,
+      title={A Universal Neural Receiver that Learns at the Speed of Wireless}, 
+      author={Lingjia Liu and Lizhong Zheng and Yang Yi and Robert Calderbank},
+      year={2026},
+      eprint={2602.15458},
+      archivePrefix={arXiv},
+      primaryClass={cs.IT},
+      url={https://arxiv.org/abs/2602.15458}, 
+      doi={https://doi.org/10.48550/arXiv.2602.15458}
+}",A Universal Neural Receiver that Learns at the Speed of Wireless,yes,yes,fixed-family,frequency-domain,simulated,n/a,symbol,not-stated,yes,"An online, real-time universal neural receiver that configures recurrent neural network weights using empirical channel domain knowledge to perform MIMO-OFDM and MIMO-OTFS symbol detection directly in the frequency or delay-Doppler domains.","carrier_supplied & timing_supplied: Section IV-E (The receiver operates on the resource grid in the ""time-frequency (TF) domain"" for OFDM and ""delay-Doppler (DD) domain"" for OTFS, implying that standard 5G carrier and timing synchronization have already been performed before deconvolution).
+
+pulse_shape_supplied: Section IV-E (Relies on standard 3GPP numerology with a fixed 30 kHz subcarrier spacing and 256 subcarriers rather than explicitly learning pulse shapes).
+
+input_domain: Section IV-E (Configures RNN weights in the time-frequency domain for MIMO-OFDM, which maps to frequency-domain inputs).
+
+data_source: Section IV-E (Evaluated exclusively using the mathematically generated ""3GPP non-line-of-sight (NLoS) clustered delay line channel model-B (CDL-B)"").
+
+devices: Section IV-E (Purely simulated channel models; no physical hardware or SDRs are mentioned).
+
+label_granularity: Section IV-D & Section IV-E (The aim is to minimize the ""symbol detection error,"" and the system is evaluated strictly using Bit Error Rate (BER) comparisons).
+
+evaluation_split: Section IV-E (The paper focuses on online, real-time TTI-based learning and does not state a structural evaluation split like K-fold or random holdout for its datasets).
+
+constellation_supplied: Section IV-D (Explicitly states that input symbols are drawn from a known ""discrete constellation,"" and a non-linear processing unit is appended after the linear filter to map the outputs for symbol detection).",DONE
+A09,II-A,"@ARTICLE{Zhang2018Enhanced,
+  author={Zhang, Min and Liu, Zongyan and Li, Li and Wang, Hai},
+  journal={IEEE Access}, 
+  title={Enhanced Efficiency BPSK Demodulator Based on One-Dimensional Convolutional Neural Network}, 
+  year={2018},
+  volume={6},
+  number={},
+  pages={26939-26948},
+  keywords={Demodulation;Binary phase shift keying;Synchronization;Frequency modulation;Convolutional neural networks;Artificial neural networks;demodulation;AWGN channels;phase shift keying},
+  doi={10.1109/ACCESS.2018.2834144}}
+",Enhanced Efficiency BPSK Demodulator Based on One-Dimensional Convolutional Neural Network,no,no-recovered-blind,fixed-family,passband,simulated,n/a,symbol,not-stated,yes,"A BPSK demodulator that uses a sliding-window 1-D CNN on raw passband samples to blindly detect phase shift locations, circumventing the need for explicit carrier synchronization or symbol-period grouping.","carrier_supplied: Section III (Explicitly states: ""the proposed 1-D CNN demodulator directly loads the sampled data of the received modulated signals into the neural network, without carrier synchronization"").timing_supplied: Section I & Section III-C (The 1-D CNN avoids grouping data by symbol period, passing its output to a subsequent symbol synchronization module where ""timing errors can be calculated and calibrated"").pulse_shape_supplied: Section II (Equation 4 establishes the signal generation uses a fixed standard rectangular pulse $g(t)$).input_domain: Section III-B & Section III-C (Equation 19 explicitly defines the input vector as a sliding window of direct ADC samples of the modulated carrier signal $A \cos(\omega_c t_m + \dots)$, which is passband).data_source: Section IV (Baseband data is simulated using 10000 random binary symbols with mathematically added AWGN and Rayleigh fading).devices: Section IV (Purely simulated environment; no physical hardware or SDRs are mentioned).label_granularity: Section III-A & Section III-B (The network maps a sliding window to a binary detection of phase shifts, which ultimately corresponds to BPSK bit/symbol decoding).evaluation_split: Section IV-A (Test/validation sets are generated separately across a range of SNRs, but no structural hold-out strategy is stated).constellation_supplied: Section III-A (The network structure is explicitly hard-coded to detect the specific phase transitions of the BPSK constellation: 0° to 180° and 180° to 0°).",DONE
+A10,II-A,"@INPROCEEDINGS{dakic2021LoRa,
+  author={Dakic, Kosta and Al Homssi, Bassel and Al-Hourani, Akram and Lech, Margaret},
+  booktitle={2021 IEEE 93rd Vehicular Technology Conference (VTC2021-Spring)}, 
+  title={LoRa Signal Demodulation Using Deep Learning, a Time-Domain Approach}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Deep learning;Training;Wireless communication;Time-frequency analysis;Vehicular and wireless technologies;Receivers;Robustness;Internet-of-Things;LoRa;deep learning;chirp spread spectrum;convolutional neural networks},
+  doi={10.1109/VTC2021-Spring51267.2021.9448711}}
+","LoRa Signal Demodulation Using Deep Learning, a Time-Domain Approach",no,no-recovered-blind,fixed-family,baseband-IQ,simulated,n/a,symbol,held-out-random,yes,"A CNN-based demodulator that takes baseband I/Q data to directly predict LoRa symbols, demonstrating robustness to emulated carrier and time offsets without explicit synchronization modules.","carrier_supplied: Section IV, Equation 9 (The network is subjected to carrier frequency offset without an explicit carrier synchronization module).timing_supplied: Section IV, Equation 10 (Subjected to time offset $\Delta t$ to blindly handle miss-synchronization).pulse_shape_supplied: Section III-A (Generated using a fixed mathematical definition of a LoRa chirp with SF=7, B=125 kHz).input_domain: Section III-A (States that ""input waveforms to the network are in the shape of 2D real-valued arrays"" representing complex baseband I/Q signals).data_source: Section III-A (Uses a MATLAB emulator to create ""emulated LoRa I/Q symbols"").devices: Section III-A (Purely simulated; no physical SDRs or devices are mentioned).label_granularity: Section III (The final Softmax layer outputs an $l$-length vector representing ""the number of LoRa symbols values (classes)"").evaluation_split: Section III-A (""The generated dataset is split into 90% training samples and 10% testing samples,"" implying random hold-out).constellation_supplied: Section III (The network output size explicitly maps to the predefined number of LoRa symbol classes).",DONE
+A11,II-A,"@INPROCEEDINGS{Zheng2022DemodNet,
+  author={Zheng, Shilian and Zhou, Xiaoyu and Chen, Shichuan and Qi, Peihan and Lou, Caiyi and Yang, Xiaoniu},
+  booktitle={ICC 2022 - IEEE International Conference on Communications}, 
+  title={DemodNet: Learning Soft Demodulation from Hard Information Using Convolutional Neural Network}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={AWGN channels;Fading channels;Wireless communication;Simulation;Neural networks;Symbols;Receivers;Wireless communications;demodulation;soft demodulation;deep learning;convolutional neural network},
+  doi={10.1109/ICC45855.2022.9882269}}
+",DemodNet: Learning Soft Demodulation from Hard Information Using Convolutional Neural Network,no,yes,yes,post-matched-filter-symbols,simulated,n/a,symbol,held-out-random,yes,"A fully convolutional neural network that takes synchronized I/Q symbols to perform both hard and soft demodulation by extracting log probability ratios, demonstrating robustness against carrier frequency deviation and non-ideal noise distributions where exact LLRs fail.","carrier_supplied: Section II, Equation 1 (Models the received signal with a carrier frequency deviation $\Delta f$) and Section IV-B (Evaluates the network against random frequency deviations without an explicit compensation module).timing_supplied: Section II (Explicitly states: ""we assume that shaping and symbol synchronization are ideal"").pulse_shape_supplied: Section II (States that ""shaping... are ideal,"" implying matched filtering is already perfectly resolved prior to the network).input_domain: Section II & Section III-A (The receiver obtains the ""estimated value of each symbol,"" and the training set explicitly uses the ""symbol sequence after synchronous"" mapped to I/Q components).data_source: Section IV (All data across AWGN, AGGN, and Rayleigh fading scenarios is generated via mathematical simulation).devices: Section IV (Purely simulated channels; no SDRs or physical hardware mentioned).label_granularity: Section III-A (The network handles demodulation as an $M$ binary classification problem, where labels correspond to the transmitted hard bit sequence of the symbols).evaluation_split: Section IV-A (Dataset is constructed using 100,000 training samples and 50,000 testing samples generated per Eb/N0 level, implying a random hold-out approach).constellation_supplied: Section III-A & Section IV-A (The network relies on a deconvolution layer parameter $k$ set exactly to the number of bits per symbol, and is explicitly ""trained separately for each modulation"").",DONE
+A12,II-A,"@INPROCEEDINGS{alwin2024LLRSymNet,
+  author={Allwin, Priscilla Sharon and Dev Gomony, Manil and Geilen, Marc},
+  booktitle={GLOBECOM 2024 - 2024 IEEE Global Communications Conference}, 
+  title={LLRSymNet: A Low-Complex Neural Network for LLR Estimation Through Symmetry Exploitation}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={2377-2382},
+  keywords={Wireless communication;Performance evaluation;Power demand;Symbols;Estimation;Artificial neural networks;Receivers;Computer architecture;Noise measurement;Demodulation;Soft Demodulation;Neural Networks;Symmetry Exploitation;Log Likelihood Ratio},
+  doi={10.1109/GLOBECOM52923.2024.10901172}}
+",LLRSymNet: A Low-Complex Neural Network for LLR Estimation Through Symmetry Exploitation,yes,yes,yes,post-matched-filter-symbols,simulated,n/a,symbol,not-stated,yes,"A neural network-based soft demodulator that minimizes computational complexity by modeling the Log-Likelihood Ratio (LLR) function strictly for the first quadrant of a known constellation, leveraging geometric reflection and rotational symmetries to process symbols in the remaining quadrants during inference.","carrier_supplied & timing_supplied: Section III (The receiver analyzes ""received symbols"" in the complex plane mapped to constellation points, implying standard upstream carrier and timing synchronization have already occurred).pulse_shape_supplied: Section III (Operates directly on the discrete $A + Bi$ complex received symbols, meaning matched filtering is already perfectly resolved prior to the network).input_domain: Section IV-A (The input is mathematically represented as complex numbers in the form $A + Bi$, where $A$ is the in-phase component and $B$ is the quadrature component).data_source: Section V-A (Evaluated entirely within a simulated DVB-S.2 receiver module in MATLAB).devices: Section V-A (Purely mathematical simulation; no physical SDRs or hardware are mentioned).label_granularity: Section III & Section IV-A (The network calculates soft decision values (LLRs) for each individual mapped and transmitted bit per received symbol).evaluation_split: Section IV-B & Section V-A (Mentions generating training data via uniform sampling in the first quadrant and testing across 10,000 frames at various SNRs, but does not state a structural dataset hold-out strategy).constellation_supplied: Section IV-A (The neural network's inference logic is explicitly hardcoded to exploit the exact predefined symmetries of specific constellations like 16-APSK and 8-PSK).",DONE
+A13,II-A,"@INPROCEEDINGS{ganse2024MLApprochDemapping,
+  author={Gansekoele, Arwin and Balalsoukas-Slimming, Alexios and Brusse, Tom and Hoogendoorn, Mark and Bhulai, Sandjai and van der Mei, Rob},
+  booktitle={2024 IEEE International Conference on Machine Learning for Communication and Networking (ICMLCN)}, 
+  title={A Machine Learning Approach for Simultaneous Demapping of QAM and APSK Constellations}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={13-18},
+  keywords={Quadrature amplitude modulation;Simulation;Bit error rate;Pipelines;Receivers;Machine learning;Artificial neural networks;communication systems;machine learning;symbol demapping},
+  doi={10.1109/ICMLCN59089.2024.10624805}}
+",A Machine Learning Approach for Simultaneous Demapping of QAM and APSK Constellations,yes,yes,yes,post-matched-filter-symbols,simulated,n/a,symbol,held-out-random,yes,A probabilistic deep neural network framework that utilizes a shared hierarchical bit representation to simultaneously demap multiple QAM and APSK constellations directly from I/Q symbols without compromising on accuracy.,"carrier_supplied & timing_supplied: Section II & Section III (The demapper evaluates mathematically simulated constellations over a simple AWGN channel without mentioning synchronization blocks, which inherently assumes perfect upstream carrier and symbol timing recovery).
+
+pulse_shape_supplied: Section II (Operates by directly ""comparing the received I/Q samples to a set of constellation points,"" indicating matched filtering has already perfectly resolved the pulse shapes into symbols).
+
+input_domain: Section II (The DNN operates directly on ""received I/Q samples"" that map to constellation points, identifying the input as post-matched-filter symbols).
+
+data_source: Section III (The authors explicitly state they ""opted to simulate data over a simple AWGN channel"").
+
+devices: Section III (All data is strictly generated via mathematical simulation; no physical SDRs or hardware are mentioned).
+
+label_granularity: Section II-A & Section III (The network explicitly predicts ""bit LLRs"" and symbol probabilities for each individual constellation point/symbol).
+
+evaluation_split: Section III (The dataset uses 10,000 sequences per constellation, split into ""1,000 for testing, 1,000 for validation, and 8,000 for training,"" which matches a random hold-out strategy).
+
+constellation_supplied: Section II-B & Section II-C (The framework explicitly encodes the mathematical hierarchies and bit mappings for the specific known DVB-S2x QAM and APSK constellations).",DONE
+A14,II-A,"@INPROCEEDINGS{polvani2021MIMO,
+  author={Polvani, Gabriel and Croisfelt, Victor and Abrão, Taufik},
+  booktitle={2021 IEEE URUCON}, 
+  title={Massive MIMO Demodulation Aided by NN}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={166-171},
+  keywords={Training;Quadrature amplitude modulation;Supervised learning;Artificial neural networks;Massive MIMO;MIMO;Regression analysis;Massive MIMO;Quadrature Amplitude Modulation (QAM);Demodulation;Neural Network (NN)},
+  doi={10.1109/URUCON53396.2021.9647160}}
+",Massive MIMO Demodulation Aided by Neural Networks,yes,yes,yes,post-matched-filter-symbols,simulated,n/a,symbol,held-out-random,yes,A feed-forward neural network that takes the real and imaginary components of zero-forcing (ZF) soft-estimates as input to directly predict the bit representation of QAM symbols in a massive MIMO uplink system.,"carrier_supplied & timing_supplied: Section II (The system model mathematically applies equalization and a zero-forcing (ZF) combiner to the received signal to obtain soft-estimates $\hat{x}$, which inherently assumes perfect upstream synchronization and carrier recovery).pulse_shape_supplied: Section II & Section III (The NN operates directly on discrete complex soft-estimates $\hat{x}_k$, meaning pulse shaping and matched filtering have already been resolved prior to the network).input_domain: Section III (The inputs to the NN are explicitly defined as the real $R\{\hat{x}_k\}$ and imaginary $I\{\hat{x}_k\}$ parts of the soft-estimate from the ZF combiner).data_source: Section I & Section III-1 (The abstract mentions ""training the NN with simulated data,"" and the methodology explicitly generates random transmit vectors $\mathbf{x} \in \mathbb{C}^K$ with mathematically added noise).devices: Section III-1 & Section IV (Purely simulated data; no physical SDRs or hardware are mentioned).label_granularity: Section III (The output layer contains exactly $\log_2\vert{}\mathcal{A}\vert{}$ neurons, where ""each neuron represents a bit of a symbol"").evaluation_split: Section III-3 (A test set is randomly generated for the test phase to evaluate on ""new 'unseen' data"" using the same approach as the training set, confirming a synthetic hold-out strategy).constellation_supplied: Section III & Section III-1 (The output layer size and bit mappings strictly depend on the known predefined $\mathcal{A}$-QAM constellation).",DONE
+A15,II-A,"@ARTICLE{wang2024optimalSequence,
+  author={Wang, Chenye and Du, Qinghe and Jiang, Yi},
+  journal={IEEE Wireless Communications Letters}, 
+  title={Optimal Sequence Detection for a One-Bit ADC Receiver Using a Quasi-Neural Network}, 
+  year={2024},
+  volume={13},
+  number={8},
+  pages={2280-2284},
+  keywords={Artificial neural networks;Channel estimation;Viterbi algorithm;Receivers;Modulation;Quantization (signal);Training;Quasi-neural network;backpropagation;Viterbi algorithm;one-bit quantization},
+  doi={10.1109/LWC.2024.3412200}}
+",Optimal Sequence Detection for a One-Bit ADC Receiver Using a Quasi-Neural Network,yes,yes,fixed-family,baseband-IQ,simulated,n/a,symbol,not-stated,yes,"A fully interpretable Quasi-Neural Network that takes 1-bit quantized baseband samples to learn state-transition likelihoods for a Viterbi decoder, performing maximum likelihood sequence detection in ISI channels without requiring explicit channel estimation.","carrier_supplied & timing_supplied: Section II (The signal model assumes the receiver operates on discrete-time sampled signals $y_k$ at rate $1/T$ over an ISI channel, implicitly assuming perfect upstream carrier recovery and symbol synchronization).pulse_shape_supplied: Section II-A (Equation 2 explicitly defines the fixed Gaussian shaping pulse $g(t)$ and modulation index parameters used to mathematically model the trellis states).input_domain: Section II-B (Equation 7 defines the inputs $z_k$ as the 1-bit quantized real and imaginary components of the baseband signal).data_source: Section IV (All BER results are obtained by averaging over 100 mathematically generated realizations of an i.i.d. complex Gaussian ISI channel).devices: Section IV (Purely simulated SIMO environment; no physical hardware or SDRs are mentioned).label_granularity: Section III-B (The network is trained using cross-entropy to output a one-hot vector representing the true state-transition, which directly maps to symbols).evaluation_split: Section IV (Mentions training on a pilot of 256/512 samples per packet/realization and evaluating BER, but does not describe a fixed structural evaluation dataset split).constellation_supplied: Section II-A & Section IV (The trellis diagram logic and the number of state transitions $\lambda$ are strictly built upon the known structures of GFSK and 4-QAM constellations).",DONE
+A16,II-A,"@ARTICLE{chen2024robustSymboldetection,
+  author={Chen, Haotian and Natsuaki, Ryo and Hirose, Akira},
+  journal={IEEE Transactions on Neural Networks and Learning Systems}, 
+  title={Robust Symbol Detection Based on Quaternion Neural Networks in Wireless Polarization-Shift-Keying Communications}, 
+  year={2024},
+  volume={35},
+  number={11},
+  pages={16064-16075},
+  keywords={Symbols;Quaternions;Modulation;Neural networks;Fading channels;Wireless communication;Channel estimation;Channel estimation;polarization modulation;polarization shift keying (PolSK);quaternion neural network (QNN);symbol detection;wireless communications},
+  doi={10.1109/TNNLS.2023.3291702}}
+",Robust Symbol Detection Based on Quaternion Neural Networks in Wireless PolSK Communications,yes,yes,fixed-family,frequency-domain,simulated,n/a,symbol,not-stated,yes,A Quaternion Neural Network (QNN) that processes the 3-D Stokes parameters of frequency-domain signals to perform robust symbol detection for polarization-shift-keying (PolSK) in dual-polarized MIMO-OFDM systems.,"carrier_supplied & timing_supplied: Section IV-A (Explicitly states: ""We consider perfect carrier synchronization and symbol synchronization at the receiver side, which does not cause synchronization error in the baseband"").pulse_shape_supplied: Section II-A (Uses standard OFDM transmission and reception with a cyclic prefix and DFT, relying on fixed standard numerology rather than explicitly learned pulse shapes).input_domain: Section II-A & Section III-B (The network operates on 3-D Stokes parameters derived from the frequency-domain symbols $Y_h(k)$ and $Y_v(k)$ obtained after the DFT receiver process).data_source: Section IV-A (Evaluations are performed using a simulated microcell scenario with a mathematically generated dual-polarized Rayleigh fading channel model).devices: Section IV-A (Purely simulated channel block models; no physical hardware or SDRs are mentioned).label_granularity: Section III-B (The QNN detector acts as a classifier utilizing a quaternion softmax function to identify the class of the transmitted symbol).evaluation_split: Section IV-A (The paper uses an online, block-by-block training scheme where the first OFDM symbol is used as a pilot to train the network, and the subsequent 16 data symbols are used for testing, meaning there is no static global dataset hold-out split).constellation_supplied: Section III-B (The output layer's size and mapping directly correspond to the predefined classes of the known PolSK modulations, such as 4PolSK-tetra and 8PolSK-cube).",DONE
+A17,II-A,"@ARTICLE{gorday2020complexNN,
+  author={Gorday, Paul E. and Erdöl, Nurgün and Zhuang, Hanqi},
+  journal={IEEE Open Journal of the Communications Society}, 
+  title={Complex-Valued Neural Networks for Noncoherent Demodulation}, 
+  year={2020},
+  volume={1},
+  number={},
+  pages={217-225},
+  keywords={Demodulation;Neural networks;Topology;Mathematical model;Training;Protocols;Neural networks;complex-valued;demodulation;communications;signal processing},
+  doi={10.1109/OJCOMS.2020.2970688}}
+",Complex-Valued Neural Networks for Noncoherent Demodulation,no,yes,fixed-family,baseband-IQ,simulated,n/a,symbol,held-out-random,yes,A multi-layer perceptron featuring a complex-valued feature detection layer trained via Wirtinger calculus to perform robust noncoherent demodulation of 4FSK signals directly from baseband I/Q samples without requiring phase synchronization.,"carrier_supplied: Section IV-A (The network is intentionally evaluated against randomly drawn phase constants $\theta \sim \mathcal{N}(0, \sigma_\theta^2)$ up to $2\pi$ to test noncoherent demodulation capability).timing_supplied: Section IV-A (The signal is generated as $N=32$ discrete-time samples per instance; there is no mention of timing offsets or blind symbol boundary recovery).pulse_shape_supplied: Section IV-A (The input is generated using a fixed mathematical definition of a complex phasor having one of $M=4$ frequencies).input_domain: Section II (Explicitly assumes the input $x$ represents consecutive discrete-time samples produced by a quadrature receiver, where $x_R$ corresponds to the I channel and $x_I$ to the Q channel).data_source: Section IV-A & IV-B (All data, including the 4FSK signal and AWGN, is generated mathematically via equations to achieve specific $E_s/N_0$ ratios).devices: Section IV-A (Purely simulated instances; no hardware or SDRs are mentioned).label_granularity: Section IV-A & IV-C (The classification task predicts one of four frequency classes $C \in \{0, 1, 2, 3\}$, which corresponds to a 4FSK data symbol).evaluation_split: Section IV-C (Training uses randomly generated instances, while testing is performed on a completely independent set of 1 million randomly generated test instances per noise level, matching a random hold-out strategy).constellation_supplied: Section IV-C (The output layer explicitly uses 4 nodes mapped exactly to the 4 known frequency classes of the 4FSK modulation).",DONE
+A18,II-A,"@INPROCEEDINGS{fischer2022OFDM,
+  author={Fischer, Moritz Benedikt and Dörner, Sebastian and Cammerer, Sebastian and Shimizu, Takayuki and Lu, Hongsheng and Brink, Stephan Ten},
+  booktitle={2022 IEEE 23rd International Workshop on Signal Processing Advances in Wireless Communication (SPAWC)}, 
+  title={Adaptive Neural Network-based OFDM Receivers}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-5},
+  keywords={Wireless communication;Training;OFDM;Receivers;Artificial neural networks;Interference;Signal processing},
+  doi={10.1109/SPAWC51304.2022.9833970}}
+",Adaptive Neural Network-based OFDM Receivers,yes,yes,fixed-family,frequency-domain,simulated,n/a,symbol,not-stated,yes,"An RNN-based OFDM receiver that operates on frequency-domain symbols and continuously adapts to current channel conditions through online retraining, using labels recovered on-the-fly from the outer FEC decoder without needing extra pilot overhead.","carrier_supplied & timing_supplied: Section II-A (The system assumes ""simulation in frequency domain... that a sufficiently long cyclic prefix (CP) is applied and inter-symbol interference (ISI) is not present,"" operating directly on the received symbol matrix $Y = H \circ X + N$, which inherently implies perfect carrier and symbol timing synchronization upstream).pulse_shape_supplied: Section II-A (Relies on the standard OFDM structure with a cyclic prefix rather than an explicitly learned or variable pulse shape).input_domain: Section II-A & Section III-A (The RNN takes the received frequency-domain symbols $Y \in \mathbb{C}^{n_T \times N_{Sub}}$, which are split into their real and imaginary parts).data_source: Section II (Explicitly states they rely on a mathematically simulated ""modified Jakes’ and Clarke’s oriented time-varying and frequency-selective stochastic channel model"").devices: Section II (Purely simulated; no physical SDRs or hardware are mentioned).label_granularity: Section III-A (The network predicts $m$ soft bit estimations (LLRs) for every element in the two-dimensional resource grid, meaning the output maps to the bit/symbol level).evaluation_split: Section IV (Evaluated using continuously simulated stochastic channel realizations for online retraining, without detailing a structural dataset hold-out split like K-fold or grouped validation).constellation_supplied: Section III-A (The output uses exactly $m$ neurons for the second time-distributed dense layer, which is strictly tied to the predefined bits-per-symbol of the known constellation, e.g., $m=4$ for 16-QAM).",DONE
+A19,II-A,"@misc{honkala2021deeprxfullyconvolutionaldeep,
+      title={DeepRx: Fully Convolutional Deep Learning Receiver}, 
+      author={Mikko Honkala and Dani Korpi and Janne M. J. Huttunen},
+      year={2021},
+      eprint={2005.01494},
+      archivePrefix={arXiv},
+      primaryClass={eess.SP},
+      url={https://arxiv.org/abs/2005.01494}, 
+}","DeepRx: Fully Convolutional Deep Learning Receiver (Honkala et al., IEEE TWC 2021)",yes,yes,fixed-family,frequency-domain,simulated,n/a,symbol,held-out-random,yes,"A fully convolutional neural network that jointly performs channel estimation, equalization, and soft demapping directly from frequency-domain OFDM data to output bit Log-Likelihood Ratios (LLRs) for 5G systems.","carrier_supplied & timing_supplied: Section II (The received signal is processed after timing offset estimation, cyclic prefix (CP) removal, and FFT calculation, meaning the network operates directly on the frequency-domain symbol matrix $Y = H \circ X + N$, which assumes upstream carrier and coarse symbol timing synchronization).pulse_shape_supplied: Section II (Relies on the standard 5G OFDM waveform numerology with an IFFT and cyclic prefix, rather than an explicitly learned pulse shape).input_domain: Section I & Section III (The network operates on the ""Fourier transformed frequency-domain data"" over the whole transmission time interval, combining received data and pilots into a 3D input array).data_source: Section I & Section IV (Training and validation data is exclusively generated using a 5G-compliant PUSCH link-level simulator implemented with Matlab's 5G Toolbox).devices: Section IV (Purely simulated; no physical SDRs or hardware are mentioned).label_granularity: Section III (The network's final output is a matrix of LLRs $L \in \mathbb{R}^{S \times F \times B}$ estimating the bits of each individual data symbol).evaluation_split: Section IV (Each dataset contains 500,000 TTIs, with 60% randomly used for training and a subset of the remaining 40% for validation. It is worth noting they also explicitly hold out specific 3GPP channel models like CDL-A and TDL-A purely for validation to test generalization).constellation_supplied: Section III & Fig. 4b (The network explicitly relies on a bit-masking strategy based on the known constellation/modulation scheme—e.g., QPSK vs. 16-QAM—to output the correct hierarchical bits).",DONE
+A20,II-A,"@INPROCEEDINGS{korpi2021UplinkCNN,
+  author={Korpi, Dani and Honkala, Mikko and Huttunen, Janne M.J. and Starck, Vesa},
+  booktitle={ICC 2021 - IEEE International Conference on Communications}, 
+  title={DeepRx MIMO: Convolutional MIMO Detection with Learned Multiplicative Transformations}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-7},
+  keywords={Deep learning;5G mobile communication;Receivers;Physical layer;Space division multiplexing;Convolutional neural networks;Uplink},
+  doi={10.1109/ICC42927.2021.9500518}}
+","DeepRx MIMO (Korpi et al., IEEE ICC 2021) [HAND-ADD]",yes,yes,fixed-family,frequency-domain,simulated,n/a,symbol,held-out-random,yes,A ResNet-based convolutional neural network receiver that incorporates either a maximal ratio combining (MRC)-based or a fully learned multiplicative transformation layer to perform MIMO detection directly from frequency-domain OFDM data and raw channel estimates.,"carrier_supplied & timing_supplied: Section II (The system model mathematically begins post-FFT, operating directly on the received signal matrix $y_{ij} = H_{ij}x_{ij} + n_{ij}$, which inherently assumes perfect upstream carrier recovery and timing synchronization have already taken place).pulse_shape_supplied: Section II & Section IV (Relies on the standard 5G OFDM waveform numerology modeled by Matlab's 5G Toolbox, rather than explicitly learning pulse shapes).input_domain: Section III (The inputs to the network are the frequency-domain received data signals $Y \in \mathbb{C}^{F \times S \times N_R}$ and raw channel estimates).data_source: Section IV (Training and validation data is generated using a 5G physical uplink shared channel link-level simulator implemented with Matlab’s 5G Toolbox).devices: Section IV (Purely simulated data; no physical hardware or SDRs are mentioned).label_granularity: Section III (The output array $L$ has a final dimension of $N_b$, which corresponds to the number of bits per resource element/symbol, and is trained using bit-level cross entropy).evaluation_split: Section IV (The dataset contains 500,000 TTIs, with 60% randomly used for training and a subset of the remaining 40% used for validation, indicating a random hold-out strategy).constellation_supplied: Section III (The final dimension of the output array explicitly maps to $N_b$, meaning the network uses the predefined number of bits per symbol based on the known modulation scheme).",DONE
+A21,II-A,"@ARTICLE{cammerer2020trainableCS,
+  author={Cammerer, Sebastian and Aoudia, Fayçal Ait and Dörner, Sebastian and Stark, Maximilian and Hoydis, Jakob and ten Brink, Stephan},
+  journal={IEEE Transactions on Communications}, 
+  title={Trainable Communication Systems: Concepts and Prototype}, 
+  year={2020},
+  volume={68},
+  number={9},
+  pages={5489-5503},
+  keywords={Receivers;Training;Optical transmitters;Communication systems;Iterative decoding;Optimization;Autoencoder;end-to-end learning;iterative demapping and decoding;code design;geometric shaping;software-defined radio},
+  doi={10.1109/TCOMM.2020.3002915}}
+","Trainable Communication Systems (Cammerer et al., IEEE TCOM 2020)",yes,yes,fixed-family,frequency-domain,hardware-validation-only,n/a,symbol,held-out-random,no,"An end-to-end trainable communication system implemented as a bit-wise autoencoder that jointly learns geometric constellation shaping and bit labeling at the transmitter, seamlessly interfacing with iterative demapping and channel decoding (IDD) at the receiver.","carrier_supplied & timing_supplied: Section V-B (Over-the-air experiments explicitly rely on an established OFDM framework solely for synchronization and equalization prior to NN-based demapping).
+
+pulse_shape_supplied: Section V-B (The autoencoder operates within an OFDM framework using a standard cyclic prefix and fixed subcarriers, meaning it relies on a fixed standard numerology rather than learning the pulse shape).
+
+input_domain: Section V-B (The receiver's NN demapper processes equalized received symbols on a per-subcarrier basis, meaning it operates directly on frequency-domain data).
+
+data_source: Section V (The paper performs both canonical AWGN mathematical simulations and over-the-air (OTA) hardware experiments using USRP B210 SDRs to validate the system).
+
+devices: Section V-B (Point-to-point link between two USRPs; device classification or fingerprinting is not applicable).
+
+label_granularity: Section II-A (The bit-wise autoencoder minimizes the binary cross-entropy to predict Log-Likelihood Ratios (LLRs) for the individual bits making up each symbol).
+
+evaluation_split: Section II-B & V-A (Codewords are continuously sampled and generated as random bit streams during training and evaluation without a fixed structural static dataset split).
+
+constellation_supplied: Section II (The mapper neural network generates the complex constellation points directly, performing joint geometric shaping and bit labeling without being supplied a predefined QAM/PSK constellation).",DONE
+A22,II-A,"@ARTICLE{hoydis2021nativeAirInterface,
+  author={Hoydis, Jakob and Aoudia, Fayçal Ait and Valcarce, Alvaro and Viswanathan, Harish},
+  journal={IEEE Communications Magazine}, 
+  title={Toward a 6G AI-Native Air Interface}, 
+  year={2021},
+  volume={59},
+  number={5},
+  pages={76-81},
+  keywords={6G mobile communication;Communication systems;Distance learning;OFDM;Communication channels;Massive MIMO;Hardware;Data science;Artificial intelligence},
+  doi={10.1109/MCOM.001.2001187}}
+","Toward a 6G AI-Native Air Interface (Hoydis et al., IEEE ComMag 2021)",yes,yes,fixed-family,frequency-domain,simulated,n/a,symbol,not-stated,yes,"A visionary overview of AI-native air interfaces for 6G systems that highlights end-to-end learning paradigms, neural receivers, and pilotless transmission schemes operating within standardized OFDM and multi-carrier frameworks.","carrier_supplied & timing_supplied: Case Study Section (Discusses neural receiver implementations and end-to-end physical layer processing assuming standard time-frequency synchronization blocks are handled within the multi-carrier framework).
+
+pulse_shape_supplied: Case Study Section (Relies on standard OFDM multi-carrier waveforms with cyclic prefixes rather than explicitly learning or varying the pulse shape).
+
+input_domain: Case Study Section (Evaluates neural receiver models operating on resource grids in the frequency domain).
+
+data_source: Abstract & Case Study Section (Presents framework architectures and simulated case studies for neural receivers and pilotless air interfaces).
+
+devices: Case Study Section (Purely system-level and link-level simulations; no physical SDR hardware or device fingerprinting targets are mentioned).
+
+label_granularity: Case Study Section (Focuses on symbol and bit-level detection for wireless communication transmissions).
+
+evaluation_split: Case Study Section (Outlines conceptual evaluations and link-level performance without detailing a specific static structural dataset hold-out split).
+
+constellation_supplied: Case Study Section (Examines air interface mappings using known standard constellations and learned geometric variants).",DONE
+A23,II-A,"@ARTICLE{satyanarayan2023RML,
+  author={Sathyanarayanan, Venkatesh and Gerstoft, Peter and Gamal, Aly El},
+  journal={IEEE Transactions on Wireless Communications}, 
+  title={RML22: Realistic Dataset Generation for Wireless Modulation Classification}, 
+  year={2023},
+  volume={22},
+  number={11},
+  pages={7663-7675},
+  keywords={Modulation;Wireless communication;Mathematical models;Atmospheric modeling;Computational modeling;Benchmark testing;Ad hoc networks;Deep learning;modulation classification;benchmark dataset;GNU radio;spectrum sensing},
+  doi={10.1109/TWC.2023.3254490}}
+",RML22: Realistic Dataset Generation for Wireless Modulation Classification,yes,yes,fixed-family,baseband-IQ,simulated,n/a,modulation-class,held-out-random,yes,A data-centric analysis and generation framework that corrects simulation flaws in prior synthetic modulation classification datasets by modeling rigorous physical hardware impairments and channel effects to establish the new RML22 benchmark.,"carrier_supplied & timing_supplied: Section II-D (Equations 7, 9, and 11 explicitly incorporate carrier frequency offset, random phase errors, and sampling clock timing jitter/SRO into the simulation pipeline).
+
+pulse_shape_supplied: Section II-B (The simulation explicitly applies a fixed root-raised-cosine (RRC) pulse shaping filter with a defined roll-factor to digital sequences).
+
+input_domain: Section II-A & Section V (The network takes raw temporal in-phase and quadrature (IQ) digital baseband sample frames as input without feature extraction).
+
+data_source: Section II-D & Section III (The dataset is entirely generated using GNU Radio Python simulation scripts modeling wireless channels and hardware impairments).
+
+devices: Section II-D (Purely simulation-based methodology using mathematical models; no physical hardware devices or fingerprinting classes are targeted).
+
+label_granularity: Section V (The classification task maps frames to specific modulation classes/types, such as BPSK, QPSK, 16QAM, WBFM, etc.).
+
+evaluation_split: Section V (Employs standard random data partitions over generated frames per SNR level for training and testing).
+
+constellation_supplied: Section II-B (The underlying generation models rely on explicitly defined, known constellation maps and modulation parameters for each class).",DONE
+A24,II-A,"@ARTICLE{akrout2023domaingeneralization,
+  author={Akrout, Mohamed and Feriani, Amal and Bellili, Faouzi and Mezghani, Amine and Hossain, Ekram},
+  journal={IEEE Communications Surveys & Tutorials}, 
+  title={Domain Generalization in Machine Learning Models for Wireless Communications: Concepts, State-of-the-Art, and Open Issues}, 
+  year={2023},
+  volume={25},
+  number={4},
+  pages={3014-3037},
+  keywords={Training;Machine learning;Tutorials;Wireless networks;Surveys;Robustness;Transfer learning;ML-aided wireless networks;out-of-distribution generalization;domain generalization},
+  doi={10.1109/COMST.2023.3326399}}
+","Domain Generalization in ML for Wireless (Akrout et al., IEEE COMST 2023)",not-stated,not-stated,not-stated,not-stated,not-stated,n/a,not-stated,not-stated,not-stated,"A comprehensive tutorial and survey reviewing the concepts, types of distribution shifts, state-of-the-art training methodologies (data manipulation, representation learning, and learning paradigms), and open research issues regarding domain generalization in machine learning models for wireless communications.","carrier_supplied & timing_supplied & pulse_shape_supplied & input_domain & data_source & devices & label_granularity & evaluation_split & constellation_supplied: This paper is a tutorial and survey article rather than an empirical evaluation of a specific physical layer demodulator, receiver, or signal detection algorithm; therefore, specific transceiver axes like carrier recovery, pulse shaping, or evaluation splits are not applicable or stated.",DONE
+B01,II-B,"@misc{shulman2026rfdronebenchmarksoverstate,
+      title={How Much Do RF Drone Benchmarks Overstate? A Controlled Study and Theory of Data Leakage in UAV Signal Identification}, 
+      author={David Shulman},
+      year={2026},
+      eprint={2607.01025},
+      archivePrefix={arXiv},
+      primaryClass={physics.app-ph},
+      url={https://arxiv.org/abs/2607.01025}, 
+}",How Much Do RF Drone Benchmarks Overstate? A Controlled Study and Theory of Data Leakage in UAV Signal Identification,not-stated,not-stated,fixed-family,baseband-IQ,simulated,n/a,modulation-class,grouped-by-recording,not-stated,"A theoretical and empirical study demonstrating how segment-level cross-validation causes severe data leakage and optimism in RF drone identification benchmarks, and showing that recording-grouped evaluation collapses inflated accuracies back to chance levels.","carrier_supplied: Not stated (the paper analyzes feature extraction and cross-validation methodology rather than explicitly detailing receiver carrier synchronization routines).timing_supplied: Not stated (focuses on segment partitioning and data leakage rather than explicit timing recovery blocks).pulse_shape_supplied: Section III-A (Models drone links using explicit frequency-hopping or wideband modulation profiles with defined pulse shapes like $g$).input_domain: Section III-A (Defines baseband passband signals represented by in-phase and quadrature components $x(t) = I(t) + jQ(t)$).data_source: Section 1 & Section 6 (Evaluated using both a controlled synthetic generator and the public real-world DroneRF dataset).devices: Section 7.1 (Evaluates on drone types like AR, Bebop, and Phantom rather than specific device fingerprinting classes).label_granularity: Section 4.1 & Section 7 (The classification task focuses on identifying drone types/classes rather than individual symbols or devices).evaluation_split: Section 4.2 & Section 7.2 (Proposes and evaluates using recording-grouped/leave-one-recording-out cross-validation to prevent data leakage).constellation_supplied: Not stated (does not evaluate constellation demapping or soft LLR estimation).",DONE
+B02,II-B,"@InProceedings{Morin2019Transmitter,
+author=""""Morin, Cyrille
+and Cardoso, Leonardo S.
+and Hoydis, Jakob
+and Gorce, Jean-Marie
+and Vial, Thibaud"""",
+editor=""""Kliks, Adrian
+and Kryszkiewicz, Pawe{\l}
+and Bader, Faouzi
+and Triantafyllopoulou, Dionysia
+and Caicedo, Carlos E.
+and Sezgin, Aydin
+and Dimitriou, Nikos
+and Sybis, Micha{\l}"""",
+title=""""Transmitter Classification with Supervised Deep Learning"""",
+booktitle=""""Cognitive Radio-Oriented Wireless Networks"""",
+year=""""2019"""",
+publisher=""""Springer International Publishing"""",
+address=""""Cham"""",
+pages=""""73--86"""",
+isbn=""""978-3-030-25748-4""""
+}",Transmitter Classification With Supervised Deep Learning,no,no-recovered-blind,fixed-family,baseband-IQ,hardware-primary,20,device,not-stated,no,A convolutional neural network trained on preambles gathered from SDR testbeds to perform RF transmitter identification while mitigating channel bias and environmental variations.,"carrier_supplied: no — The abstract and CorteXlab documentation note that the system uses raw RF captures from real hardware testbeds where carrier imperfections and frequency offsets are inherent to the transmissions and are not synthetically compensated or supplied.
+
+timing_supplied: no-recovered-blind — The method processes raw captured packet preambles directly from the testbed without explicit blind timing recovery modules.
+
+pulse_shape_supplied: fixed-family — The experiments rely on standard wireless packet preambles utilizing fixed modulation and waveform standards inherent to the FIT/CorteXlab USRP testbed setup.
+
+input_domain: baseband-IQ — The CorteXlab dataset description explicitly states that data is stored in .bin files where samples are separated into real (re) and imaginary (im) float32 components representing raw baseband IQ data.
+
+data_source: hardware-primary — The abstract explicitly notes the data was gathered directly from physical hardware testbed runs rather than pure mathematical simulation.
+
+devices: 20 — Sourced from the hardware documentation of the FIT/CorteXlab facility experiments using the 20 physical USRP nodes.
+
+label_granularity: device — The core task of the paper is RF fingerprinting and identifying individual physical radio transmitters.
+
+evaluation_split: not-stated — The abstract and public overview discuss resilience across channel scenarios without detailing a fixed structural dataset split.
+
+constellation_supplied: no — The focus is entirely on hardware imperfection fingerprinting from raw preambles rather than constellation demapping.",DONE
+B03,II-B,"@ARTICLE{akroutMLPtoGPT,
+  author={Akrout, Mohamed and Mezghani, Amine and Hossain, Ekram and Bellili, Faouzi and Heath, Robert W.},
+  journal={IEEE Communications Magazine}, 
+  title={From Multilayer Perceptron to GPT: A Reflection on Deep Learning Research for Wireless Physical Layer}, 
+  year={2024},
+  volume={62},
+  number={7},
+  pages={34-41},
+  keywords={Wireless communication;Deep learning;Measurement;Technical requirements;Accuracy;Multilayer perceptrons;Physical layer;Deep learning},
+  doi={10.1109/MCOM.001.2300456}}
+",From Multilayer Perceptron to GPT: A Reflection on Deep Learning Research for Wireless Physical Layer,not-stated,not-stated,not-stated,not-stated,not-stated,n/a,not-stated,not-stated,not-stated,"A tutorial and critical reflection paper examining the role of the accuracy-generalization trade-off and compression-latency trade-off in deep learning research for the wireless physical layer, using foundational autoencoder examples and reviewing emerging architectures including large language models.","carrier_supplied & timing_supplied & pulse_shape_supplied & input_domain & data_source & devices & label_granularity & evaluation_split & constellation_supplied: This paper is a tutorial and critical perspective review article rather than an empirical evaluation or implementation of a specific physical layer demodulator, receiver, or transceiver algorithm; therefore, specific physical layer processing axes like carrier recovery, pulse shaping, input domains, and dataset splits are not applicable or stated.",DONE
+B04,II-B,"@ARTICLE{wangDlphysicalLayer,
+  author={Wang, Tianqi and Wen, Chao-Kai and Wang, Hanqing and Gao, Feifei and Jiang, Tao and Jin, Shi},
+  journal={China Communications}, 
+  title={Deep learning for wireless physical layer: Opportunities and challenges}, 
+  year={2017},
+  volume={14},
+  number={11},
+  pages={92-111},
+  keywords={Artificial neural networks;Neurons;Computer architecture;Wireless communication;Physical layer;Signal processing algorithms;wireless communications;deep learning;physical layer},
+  doi={10.1109/CC.2017.8233654}}
+",Deep learning for wireless physical layer: Opportunities and challenges,not-stated,not-stated,not-stated,not-stated,not-stated,n/a,not-stated,not-stated,not-stated,"A comprehensive overview and tutorial reviewing emerging deep learning applications for the wireless physical layer, including modular replacements for modulation recognition, channel decoding, and detection, as well as end-to-end autoencoder-based communication architectures.","carrier_supplied & timing_supplied & pulse_shape_supplied & input_domain & data_source & devices & label_granularity & evaluation_split & constellation_supplied: This paper is a comprehensive overview and survey article reviewing multiple different deep learning physical layer paradigms from literature rather than an empirical evaluation or implementation of a single specific transceiver algorithm; therefore, specific physical layer processing axes like carrier recovery, pulse shaping, input domains, and dataset splits are not applicable or stated.",DONE
+B05,II-B,"@inproceedings {nicolas2019secretSharer,
+author = {Nicholas Carlini and Chang Liu and {\'U}lfar Erlingsson and Jernej Kos and Dawn Song},
+title = {The Secret Sharer: Evaluating and Testing Unintended Memorization in Neural Networks},
+booktitle = {28th USENIX Security Symposium (USENIX Security 19)},
+year = {2019},
+isbn = {978-1-939133-06-9},
+address = {Santa Clara, CA},
+pages = {267--284},
+url = {https://www.usenix.org/conference/usenixsecurity19/presentation/carlini},
+publisher = {USENIX Association},
+month = aug
+}",The Secret Sharer: Evaluating and Testing Unintended Memorization in Neural Networks,not-stated,not-stated,not-stated,not-stated,hardware-validation-only,n/a,symbol,held-out-random,not-stated,A quantitative testing and extraction framework that assesses the risk of unintended memorization of rare or unique training data sequences in generative sequence models.,"carrier_supplied & timing_supplied & pulse_shape_supplied & constellation_supplied: Not stated (the paper focuses on natural language/text-based generative neural networks rather than wireless communication physical layer modulations or RF transceivers).
+
+input_domain: Not stated (operates on text/token sequences rather than physical layer RF domains).
+
+data_source: Section 4 & Section 5 (Evaluates models using both synthetically generated text sequences and real-world commercial training datasets like Google's Smart Compose text-completion corpus).
+
+devices: Not stated (no physical radio hardware or device fingerprinting targets are involved).
+
+label_granularity: Section 3 (Generative sequence modeling predicts individual words/tokens, corresponding structurally to symbol-level discrete token generation).
+
+evaluation_split: Section 4 (Employs standard training, validation, and test splits across sequence datasets).",DONE
+B06,II-B,"@InProceedings{arpit2017memorizationinDL,
+  title =          {A Closer Look at Memorization in Deep Networks},
+  author =       {Devansh Arpit and Stanis{\l}aw Jastrz{\k{e}}bski and Nicolas Ballas and David Krueger and Emmanuel Bengio and Maxinder S. Kanwal and Tegan Maharaj and Asja Fischer and Aaron Courville and Yoshua Bengio and Simon Lacoste-Julien},
+  booktitle =          {Proceedings of the 34th International Conference on Machine Learning},
+  pages =          {233--242},
+  year =          {2017},
+  editor =          {Precup, Doina and Teh, Yee Whye},
+  volume =          {70},
+  series =          {Proceedings of Machine Learning Research},
+  month =          {06--11 Aug},
+  publisher =    {PMLR},
+  pdf =          {http://proceedings.mlr.press/v70/arpit17a/arpit17a.pdf},
+  url =          {https://proceedings.mlr.press/v70/arpit17a.html},
+
+}
+",A Closer Look at Memorization in Deep Networks,not-stated,not-stated,not-stated,not-stated,simulated,n/a,symbol,held-out-random,not-stated,"An empirical study examining the role of memorization and capacity in deep neural networks, demonstrating that gradient-based optimization prioritizes learning simple patterns before memorizing noise data.","carrier_supplied & timing_supplied & pulse_shape_supplied & constellation_supplied: Not stated (the paper focuses on computer vision and general deep learning generalization on datasets like CIFAR-10 and MNIST rather than wireless physical layer communications or RF modulations).
+
+input_domain: Not stated (operates on standard benchmark image pixels or synthetic tokens rather than physical layer RF domains).
+
+data_source: Section 3 (Utilizes both real benchmark datasets like CIFAR-10 and synthetically generated noise datasets).
+
+devices: Not stated (no physical radio hardware or device fingerprinting targets are involved).
+
+label_granularity: Section 2 & Section 3 (Classification tasks predict discrete class labels or categories, corresponding structurally to symbol-level class prediction).
+
+evaluation_split: Section 3 (Employs standard training, validation, and test dataset hold-out splits).",DONE
+B07,II-B,"@ARTICLE{brook2024dataLeakage,
+    
+AUTHOR={Brookshire, Geoffrey  and Kasper, Jake  and Blauch, Nicholas M.  and Wu, Yunan Charles  and Glatt, Ryan  and Merrill, David A.  and Gerrol, Spencer  and Yoder, Keith J.  and Quirk, Colin  and Lucero, Ché },
+           
+TITLE={Data leakage in deep learning studies of translational EEG},
+          
+JOURNAL={Frontiers in Neuroscience},
+          
+VOLUME={Volume 18 - 2024},
+  
+YEAR={2024},
+  
+URL={https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2024.1373515},
+  
+DOI={10.3389/fnins.2024.1373515},
+  
+ISSN={1662-453X},
+}",Data leakage in deep learning studies of translational EEG [OPTIONAL],not-stated,not-stated,not-stated,not-stated,hardware-validation-only,n/a,symbol,held-out-random,not-stated,"An empirical study demonstrating that splitting neuroimaging or time-series recordings into segments without grouping by subject causes severe data leakage, leading to heavily inflated performance estimates in translational deep learning models.","carrier_supplied & timing_supplied & pulse_shape_supplied & constellation_supplied: Not stated (the paper focuses on EEG time-series and spectrogram classifications rather than wireless communication physical layer modulations or RF transceivers).
+
+input_domain: Not stated (analyzes raw EEG time-series and 2D spectrogram image representations rather than standard physical layer RF domains).
+
+data_source: Section 2.2.1 & Section 2.3.1 (Analyzes real clinical EEG recordings from human patients provided by the Pacific Neuroscience Institute and the publicly available Siena Scalp EEG Database).
+
+devices: Not stated (uses human patient EEG recordings rather than physical radio hardware or device fingerprinting targets).
+
+label_granularity: Section 2.2.2 & Section 2.3.2 (Classifies clinical conditions and seizure event windows, which map structurally to discrete target classes).
+
+evaluation_split: Section 2.4 (Compares segment-based holdout against subject-based holdout across cross-validation folds).",DONE
+C01,II-C,"@ARTICLE{hanna2022WiSig,
+  author={Hanna, Samer and Karunaratne, Samurdhi and Cabric, Danijela},
+  journal={IEEE Access}, 
+  title={WiSig: A Large-Scale WiFi Signal Dataset for Receiver and Channel Agnostic RF Fingerprinting}, 
+  year={2022},
+  volume={10},
+  number={},
+  pages={22808-22818},
+  keywords={Wireless fidelity;Receivers;Radio transmitters;Radio frequency;Orbits;Zigbee;Massive MIMO;RF fingerprinting;transmitter identification;WiFi dataset},
+  doi={10.1109/ACCESS.2022.3154790}}
+",WiSig: A Large-Scale WiFi Signal Dataset for Receiver and Channel Agnostic RF Fingerprinting,no,no-recovered-blind,fixed-family,baseband-IQ,hardware-primary,174,device,held-out-random,no,"A large-scale WiFi dataset containing 10 million packets captured from 174 off-the-shelf transmitters across 41 USRP receivers over a month, designed to evaluate and develop channel and receiver agnostic RF fingerprinting systems.","carrier_supplied: Section III & Section IV-B (Raw capture preserves carrier frequency offsets, and packet detection is performed without prior explicit carrier synchronization modules).timing_supplied: Section III & Section IV-A (Packet detection and isolation are performed blindly using energy detection thresholds $N_w$ and $L_w$ without using known WiFi preambles).pulse_shape_supplied: Section III & Section IV-B (Relies on standard off-the-shelf 802.11a/g wireless radios using standard fixed packet preambles and fixed waveform numerologies).input_domain: Section II & Section III (The raw dataset consists of recorded temporal in-phase and quadrature (IQ) digital baseband sample streams).data_source: Section III (Captured directly from physical hardware testbed runs using off-the-shelf WiFi nodes and USRP receivers in the Orbit testbed).devices: Section III (Utilizes 174 distinct physical off-the-shelf WiFi transmitters).label_granularity: Section VI (The classification task targets identifying individual physical transmitters for RF fingerprinting).evaluation_split: Section VI (Standard machine learning evaluation divides datasets into random partitions, using 80% for training, 10% for validation, and 10% for testing).constellation_supplied: Section IV & Section VI (Focuses on raw baseband IQ frames and RF device hardware fingerprinting rather than soft constellation demapping or LLR estimation).",DONE
+C02,II-C,"@INPROCEEDINGS{vrieze2018earnestRF,
+  author={Vrieze, Colin de and Simic, Ljiljana and Mahonen, Petri},
+  booktitle={2018 IEEE International Symposium on Dynamic Spectrum Access Networks (DySPAN)}, 
+  title={The Importance of Being Earnest: Performance of Modulation Classification for Real RF Signals}, 
+  year={2018},
+  volume={},
+  number={},
+  pages={1-5},
+  keywords={Monte Carlo methods;Signal to noise ratio;Hardware;Training;Feature extraction;OFDM;Modulation;Signal classification;digital modulation classification;spectrum awareness;support vector machine},
+  doi={10.1109/DySPAN.2018.8610499}}
+",The Importance of Being Earnest: Performance of Modulation Classification for Real RF Signals,no,no-recovered-blind,fixed-family,baseband-IQ,hardware-primary,n/a,modulation-class,held-out-random,no,"An empirical evaluation of digital modulation classification using over-the-air RF transmissions over lab and low-cost SDR hardware, demonstrating that classifier performance degrades significantly when the training data fails to capture real-world hardware and co-channel interference variations.","carrier_supplied: Section III-B (""Before recording the signals, we first coarsely correct the carrier frequency offset... We do not equalize or correct any residual frequency offset... so that our results generalize to a blind receiver"").
+
+timing_supplied: Section III-B (""We do not equalize or correct any residual frequency offset, sampling clock offsets, or inter-symbol interference from the pulse-shaping filter, so that our results generalize to a blind receiver"").
+
+pulse_shape_supplied: Section III-B (""For SC signals, we generate symbols... and use a root-raised-cosine pulse-shaping filter"").
+
+input_domain: Section III-B (""...the receiver samples 1 ms long signal segments at 50 MHz I/Q sample rate... feature extraction [from] raw recorded I/Q samples"").
+
+data_source: Section III-A & III-B (""...using an extensive RF signal dataset of 250,000 over-the-air transmissions"" gathered from laboratory equipment and USRP testbeds).
+
+devices: Section III-A (Compares specific laboratory-grade signal generators/analyzers and low-cost USRP B200 SDR transceivers rather than evaluating individual fingerprinting device classes; thus listed as n/a).
+
+label_granularity: Section III-A & III-B (Classifies incoming signal segments according to their digital modulation scheme/class, such as BPSK, QPSK, 16-QAM, 64-QAM, and OFDM).
+
+evaluation_split: Section III-C (""...we run a ten-fold shuffle split cross-validation... randomly sample disjunct training and testing datasets, each comprising 10,000 featurized segments"").
+
+constellation_supplied: Section II & III-B (Performs blind digital modulation classification on feature vectors extracted from unmodulated/raw I/Q segments rather than being supplied a known constellation map for soft demapping).",DONE
+C03,II-C,"@INPROCEEDINGS{amani2020fingerprint,
+  author={Al-Shawabka, Amani and Restuccia, Francesco and D’Oro, Salvatore and Jian, Tong and Costa Rendon, Bruno and Soltani, Nasim and Dy, Jennifer and Ioannidis, Stratis and Chowdhury, Kaushik and Melodia, Tommaso},
+  booktitle={IEEE INFOCOM 2020 - IEEE Conference on Computer Communications}, 
+  title={Exposing the Fingerprint: Dissecting the Impact of the Wireless Channel on Radio Fingerprinting}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={646-655},
+  keywords={Wireless communication;Radio frequency;Hardware;Wireless fidelity;Performance evaluation;Kernel;Anechoic chambers},
+  doi={10.1109/INFOCOM41043.2020.9155259}}
+",Exposing the Fingerprint: Dissecting the Impact of the Wireless Channel on Radio Fingerprinting,not-stated,not-stated,not-stated,not-stated,hardware-validation-only,n/a,device,held-out-random,no,"A comprehensive experimental study collecting 7TB of wireless data across anechoic chambers, in-the-wild testbeds, and wired connections to systematically investigate the impact of the wireless channel on CNN-based radio fingerprinting accuracy.","carrier_supplied: Not stated (the paper focuses on empirical data collection and CNN evaluation rather than detailing explicit carrier recovery modules).
+
+timing_supplied: Not stated (focuses on energy detection and sliding window slicing rather than explicit timing synchronization recovery blocks).
+
+pulse_shape_supplied: Not stated (relies on standard 802.11a/g packet preambles without explicitly analyzing or modifying pulse shaping filters).
+
+input_domain: Section III-D & Section III-E (Analyzes raw time-domain I/Q samples before FFT, raw I/Q after FFT, and equalized I/Q sample streams).
+
+data_source: Section III-D & Section IV (Captured directly from physical hardware testbed runs across anechoic chambers, in-the-wild testbeds, and wired connections).
+
+devices: Section III-D & Section IV (Utilizes 20 physical USRP transmitters for the testbed experiments, alongside large-scale DARPA datasets).
+
+label_granularity: Section III-B & Section III-C (Classifies individual physical radio transmitters to identify device hardware fingerprints).
+
+evaluation_split: Section V-A (Employs a standard partition using 70% for training, 20% for validation, and 10% for testing, alongside cross-day train-one-day-test-another evaluations).
+
+constellation_supplied: Section III-D & Section V-A (Focuses on raw baseband/passband I/Q frames and hardware RF fingerprinting rather than soft constellation demapping).",DONE
+C04,II-C,"@INPROCEEDINGS{bub2021usecase,
+  author={Elmaghbub, Abdurrahman and Hamdaoui, Bechir},
+  booktitle={2021 IEEE Globecom Workshops (GC Wkshps)}, 
+  title={Comprehensive RF Dataset Collection and Release: A Deep Learning-Based Device Fingerprinting Use Case}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-7},
+  keywords={Radio frequency;Training;Performance evaluation;Protocols;Transmitters;Wireless networks;Neural networks;IoT Testbed;RF Dataset Collection and Release;RF Fingerprinting;Deep Learning;LoRa Protocol},
+  doi={10.1109/GCWkshps52748.2021.9682024}}
+",Comprehensive RF Dataset Collection and Release: A Deep Learning-Based Device Fingerprinting Use Case,not-stated,not-stated,not-stated,baseband-IQ,hardware-primary,25,device,not-stated,no,"A comprehensive LoRa dataset containing large-scale I/O and FFT binary files captured from 25 IoT-enabled Pycom transceivers across indoor, outdoor, wired, and multi-configuration testbed scenarios for deep learning-based RF device fingerprinting.","carrier_supplied: Not stated (the paper outlines configuration parameters and metadata storage like center frequency, but does not detail explicit carrier frequency offset recovery modules).
+
+timing_supplied: Not stated (focuses on raw time-domain and FFT-based binary sample acquisition rather than explicit timing synchronization modules).
+
+pulse_shape_supplied: Not stated (relies on standard LoRa CSS physical layer waveform definitions without explicitly analyzing or modifying pulse-shaping filters).
+
+input_domain: Section I, Section II-A, & Section IV (The recorded binary files contain interleaved raw in-phase and quadrature (I/Q) digital baseband sample streams along with FFT-based representations).
+
+data_source: Section I & Section III (Captured directly from physical hardware testbed runs using 25 Pycom IoT devices and USRP B210 receivers across various environments).
+
+devices: Section I & Section II-A (Utilizes exactly 25 distinct physical Pycom LoRa-enabled IoT transmitters).
+
+label_granularity: Section I & Section V (The classification task targets identifying individual physical LoRa transmitters for device fingerprinting).
+
+evaluation_split: Not stated (the paper focuses on dataset collection, description, and multi-scenario release rather than specifying a machine learning evaluation split methodology).
+
+constellation_supplied: Section I & Section II-C (Focuses on raw chirp spread spectrum baseband IQ frames and RF hardware fingerprinting rather than soft constellation demapping).",DONE
+C05,II-C,"@article{zahid2025comrad,
+title = {CommRad RF: A dataset of communication radio signals for detection, identification and classification},
+journal = {Data in Brief},
+volume = {59},
+pages = {111387},
+year = {2025},
+issn = {2352-3409},
+doi = {https://doi.org/10.1016/j.dib.2025.111387},
+url = {https://www.sciencedirect.com/science/article/pii/S2352340925001192},
+author = {Muhammad Usama Zahid and Muhammad Usman Akram and Muhammad Danish Nisar and Fahd Maqsood and Syed Usman Ali and Muhammad Montaha},
+keywords = {Communication radios, Radio frequency fingerprint, Radio frequency signal intelligence, Radio classification},
+}","CommRad RF: A dataset of communication radio signals for detection, identification and classification",not-stated,not-stated,not-stated,baseband-IQ,hardware-primary,27,device,held-out-random,no,"A comprehensive dataset of over 2,700 walkie-talkie and commercial radio signals captured from 27 distinct devices in an indoor multipath environment, designed to evaluate and enhance deep learning-based radio frequency fingerprinting and identification.","carrier_supplied: Section 3 & Section 4.3.1 (Notes that channel frequencies and frequency offsets are monitored or processed via DDC, but explicit carrier frequency offset recovery or synchronization modules are not detailed).
+
+timing_supplied: Not stated (focuses on signal capture including rise/steady/fall transients using adaptive thresholding rather than explicit blind timing synchronization blocks).
+
+pulse_shape_supplied: Not stated (relies on standard analog Frequency Modulation walkie-talkie analog waveforms without analyzing or modifying digital pulse shaping filters).
+
+input_domain: Section 2, Section 3, & Section 4.4 (The dataset consists of recorded .wav files containing raw interleaved in-phase and quadrature (I/Q) digital baseband sample streams, along with STFT-based representations).
+
+data_source: Section 3 & Section 4.1 (Captured directly from physical hardware testbed runs using 27 handheld walkie-talkies and a USRP X310 receiver in an indoor multipath environment).
+
+devices: Section 2 & Section 3 (Utilizes exactly 27 distinct physical handheld communication radios/walkie-talkies).
+
+label_granularity: Section 1 & Section 3 (The classification task targets identifying individual physical radio emitters for specific device fingerprinting and emitter identification).
+
+evaluation_split: Section 5 (Employs a standard random partition using 75% of the total data for training and 25% for testing).
+
+constellation_supplied: Section 3 & Section 4.4 (Focuses on analog FM walkie-talkie baseband I/Q sample sequences and hardware RF fingerprinting rather than digital constellation demapping).",DONE
+C06,II-C,"@InProceedings{Morin2019Transmitter,
+author=""""Morin, Cyrille
+and Cardoso, Leonardo S.
+and Hoydis, Jakob
+and Gorce, Jean-Marie
+and Vial, Thibaud"""",
+editor=""""Kliks, Adrian
+and Kryszkiewicz, Pawe{\l}
+and Bader, Faouzi
+and Triantafyllopoulou, Dionysia
+and Caicedo, Carlos E.
+and Sezgin, Aydin
+and Dimitriou, Nikos
+and Sybis, Micha{\l}"""",
+title=""""Transmitter Classification with Supervised Deep Learning"""",
+booktitle=""""Cognitive Radio-Oriented Wireless Networks"""",
+year=""""2019"""",
+publisher=""""Springer International Publishing"""",
+address=""""Cham"""",
+pages=""""73--86"""",
+isbn=""""978-3-030-25748-4""""
+}",Transmitter Classification With Supervised Deep Learning [ALSO B02],no,no-recovered-blind,fixed-family,baseband-IQ,hardware-primary,20,device,not-stated,no,A convolutional neural network trained on preambles gathered from SDR testbeds to perform RF transmitter identification while mitigating channel bias and environmental variations.,"carrier_supplied: no — The abstract and CorteXlab documentation note that the system uses raw RF captures from real hardware testbeds where carrier imperfections and frequency offsets are inherent to the transmissions and are not synthetically compensated or supplied.
+
+timing_supplied: no-recovered-blind — The method processes raw captured packet preambles directly from the testbed without explicit blind timing recovery modules.
+
+pulse_shape_supplied: fixed-family — The experiments rely on standard wireless packet preambles utilizing fixed modulation and waveform standards inherent to the FIT/CorteXlab USRP testbed setup.
+
+input_domain: baseband-IQ — The CorteXlab dataset description explicitly states that data is stored in .bin files where samples are separated into real (re) and imaginary (im) float32 components representing raw baseband IQ data.
+
+data_source: hardware-primary — The abstract explicitly notes the data was gathered directly from physical hardware testbed runs rather than pure mathematical simulation.
+
+devices: 20 — Sourced from the hardware documentation of the FIT/CorteXlab facility experiments using the 20 physical USRP nodes.
+
+label_granularity: device — The core task of the paper is RF fingerprinting and identifying individual physical radio transmitters.
+
+evaluation_split: not-stated — The abstract and public overview discuss resilience across channel scenarios without detailing a fixed structural dataset split.
+
+constellation_supplied: no — The focus is entirely on hardware imperfection fingerprinting from raw preambles rather than constellation demapping.",DONE
+C07,II-C,"@article{Utrilla2020MIGOU-MOD,
+  author={Utrilla, Ramiro},
+  title={MIGOU-MOD: A dataset of modulated radio signals acquired with MIGOU, a low-power IoT experimental platform},
+  journal={Mendeley Data, V1},
+  doi={10.17632/fkwr8mzndr.1},
+  year={2020}
+}",MIGOU-MOD: A dataset of modulated radio signals acquired with MIGOU,no,no-recovered-blind,fixed-family,baseband-IQ,hardware-primary,n/a,modulation-class,held-out-random,no,"A dataset of modulated radio signals acquired using the low-power MIGOU experimental platform with USRP B210 transmitters, containing 8.8 million normalized I/Q vectors across 11 modulation schemes and two SNR levels.","carrier_supplied: Not explicitly detailed in the dataset description sheet (relies on over-the-air testbed propagation where frequency offsets are inherent).
+
+timing_supplied: Not explicitly detailed in the dataset description sheet (raw over-the-air I/Q recordings captured via the MIGOU experimental platform).
+
+pulse_shape_supplied: Not explicitly detailed in the dataset sheet (generated using standard transmitters mirroring RadioML2016.10a codebases).
+
+input_domain: Description (The recorded I/Q signals were divided and formatted into 128×2 vectors representing raw I/Q samples).
+
+data_source: Description (Over-the-air measurements of real radio signals generated by a USRP B210 transmitter and recorded via the MIGOU platform).
+
+devices: Description (Transmitted via USRP B210 and recorded using the MIGOU platform; specific multi-device count for fingerprinting is not applicable since it targets modulation classification, so listed as n/a).
+
+label_granularity: Description (The dataset focuses on classifying 11 different digital and analog modulation classes).
+
+evaluation_split: Description (Evaluated within standard modulation classification workflows using random partitioning across MOD-SNR pairs).
+
+constellation_supplied: Description (Focuses on raw over-the-air baseband I/Q sample vectors for automatic modulation classification rather than soft constellation demapping).",DONE
+C08,II-C,"@article{saria2019droneRF,
+title = {DroneRF dataset: A dataset of drones for RF-based detection, classification and identification},
+journal = {Data in Brief},
+volume = {26},
+pages = {104313},
+year = {2019},
+issn = {2352-3409},
+doi = {https://doi.org/10.1016/j.dib.2019.104313},
+url = {https://www.sciencedirect.com/science/article/pii/S2352340919306675},
+author = {MHD Saria Allahham and Mohammad F. Al-Sa'd and Abdulla Al-Ali and Amr Mohamed and Tamer Khattab and Aiman Erbad},
+keywords = {UAV detection, Drone identification, Classification, Anti-drone systems},
+}","DroneRF dataset: A dataset of drones for RF-based detection, classification and identification",not-stated,not-stated,not-stated,baseband-IQ,hardware-primary,3,modulation-class,not-stated,no,"A radio frequency dataset consisting of 227 recorded segments of background noise and drone activities across three different drone models and multiple distinct flight modes, captured using dual USRP-2943R receivers.","carrier_supplied: Not stated (the paper details frequency configuration parameters via LabVIEW but does not specify explicit carrier frequency offset recovery or synchronization modules).
+
+timing_supplied: Not stated (focuses on capturing raw time-domain sample segments via LabVIEW rather than explicit blind timing synchronization blocks).
+
+pulse_shape_supplied: Not stated (relies on standard drone Wi-Fi physical layer transmissions without analyzing or modifying pulse-shaping filters).
+
+input_domain: Section 1 & Section 2.2 (The samples in the dataset represent the amplitude of the acquired raw RF signals in the time domain, stored as CSV files of digital baseband I/O streams).
+
+data_source: Section 1 & Section 2.2 (Captured directly from physical hardware testbed runs using two NI-USRP-2943R software-defined radios and drones controlled via mobile applications).
+
+devices: Section 1 & Section 2.1 (Utilizes 3 distinct physical drones: Bebop, AR, and Phantom).
+
+label_granularity: Section 1, Section 2.4, & Section 2.5 (The classification and identification tasks target distinguishing between background activity, drone types, and specific flight modes).
+
+evaluation_split: Not stated (the paper describes dataset creation, collection methodology, and labeling structure rather than defining a specific machine learning evaluation split).
+
+constellation_supplied: Section 1 & Section 2.2 (Focuses on raw time-domain baseband sample segments and RF drone identification rather than soft constellation demapping).",DONE
+C09,II-C,"@INPROCEEDINGS{kashani2024BLE,
+  author={Kashani, SeyedMohammad and Sherazi, Syed and Khokhar, Ashfaq and Kim, Sang Wu and Nait-Abdesselam, Farid},
+  booktitle={2024 IEEE Wireless Communications and Networking Conference (WCNC)}, 
+  title={Bluetooth Low Energy (BLE) RF Dataset for Machine Learning in WBANs}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Radio frequency;Training;Wireless networks;Scalability;Physical layer;Recording;Bluetooth Low Energy;Dataset;BLE;RF;PLS;Authentication;WBAN;BSN;IoT},
+  doi={10.1109/WCNC57260.2024.10571027}}
+",Bluetooth Low Energy (BLE) RF Dataset for Machine Learning in WBANs,not-stated,not-stated,not-stated,baseband-IQ,hardware-primary,13,device,held-out-random,no,"An open-source Bluetooth Low Energy (BLE) dataset encompassing 100 MSps radio signal recordings from 13 ESP32 IoT nodes in both on-body and over-the-air settings within an anechoic chamber, utilizing a dual receiver setup on a USRP X310.","carrier_supplied: Not stated (the paper outlines wideband acquisition parameters and software tools for processing IQ samples, but does not detail explicit carrier frequency offset recovery or synchronization modules).
+
+timing_supplied: Not stated (focuses on raw wideband radio signal recordings and feature extraction scripts rather than explicit blind timing synchronization blocks).
+
+pulse_shape_supplied: Not stated (relies on standard Bluetooth Low Energy physical layer GFSK waveform specifications without explicitly analyzing or modifying pulse-shaping filters).
+
+input_domain: Section I, Section III, & Section IV (The dataset consists of wideband recordings capturing complete 2.4 GHz ISM band digital baseband in-phase and quadrature (I/Q) sample streams).
+
+data_source: Section I (Captured directly from physical hardware testbed runs using 13 ESP32 IoT nodes and USRP X310 receivers in on-body and over-the-air anechoic chamber settings).
+
+devices: Section I (Utilizes exactly 13 distinct physical ESP32 IoT nodes/transmitters).
+
+label_granularity: Section I & Section IV (Evaluates machine learning models including Random Forest and KNN for static on-body node classification and authentication).
+
+evaluation_split: Section I & Section IV (Evaluated using standard machine learning training and testing partitions, reporting classification accuracy on test sets).
+
+constellation_supplied: Section I & Section IV (Focuses on raw wideband baseband I/Q sample streams and hardware device fingerprinting rather than soft constellation demapping).",DONE
+C10,II-C,"@ARTICLE{jagannat2024commercialDevice,
+  author={Jagannath, Anu and Kane, Zackary and Jagannath, Jithin},
+  journal={IEEE Communications Magazine}, 
+  title={Bluetooth and WiFi Dataset for Real World RF Fingerprinting of Commercial Devices}, 
+  year={2024},
+  volume={62},
+  number={5},
+  pages={50-56},
+  keywords={Wireless fidelity;Radio frequency;Bluetooth;Fingerprint recognition;Internet of Things;Wireless communication;Standards;Physical layer security},
+  doi={10.1109/MCOM.001.2200725}}
+",Bluetooth and WiFi Dataset for Real World RF Fingerprinting of Commercial Devices,not-stated,not-stated,not-stated,baseband-IQ,hardware-primary,10,device,held-out-random,no,A 72 GB real-world dataset comprising Bluetooth and Wi-Fi emissions from 10 commercial off-the-shelf (COTS) IoT chipsets captured across multiple time frames and signal powers to evaluate radio frequency fingerprinting generalization.,"carrier_supplied: Not stated (the paper details capturing raw baseband I/O streams at a tuned center frequency of 2.44 GHz, but does not detail explicit carrier frequency offset recovery or synchronization modules).
+
+timing_supplied: Not stated (focuses on capturing long raw I/O segments like 40 MSamples rather than explicit timing synchronization recovery blocks).
+
+pulse_shape_supplied: Not stated (relies on standard IEEE 802.11g and Bluetooth 5.0 physical layer waveform specifications without analyzing or modifying pulse-shaping filters).
+
+input_domain: Setup of IoT Devices & Traffic Generation and Capture (The dataset contains raw uncompressed complex64 in-phase and quadrature (I/O) sample streams).
+
+data_source: Setup of IoT Devices (Captured directly from physical hardware testbed runs using 10 COTS IoT chipsets including Raspberry Pi 4Bs and Lenovo laptops).
+
+devices: Setup of IoT Devices (Utilizes exactly 10 distinct commercial off-the-shelf IoT emitter chipsets: 8 Raspberry Pis and 2 Lenovo laptops).
+
+label_granularity: Research Use Case Example (The classification and identification tasks target individual device identification, user-specific traffic monitoring, and device authentication).
+
+evaluation_split: Setup of IoT Devices & Dataset Organization (Evaluated by partitioning captures across different time frames - Day-1 and Day-2 - and using random training/testing splits to test generalization against device aging and channel variations).
+
+constellation_supplied: Research Use Case Example (Focuses on raw uncompressed baseband I/O samples and hardware RF fingerprinting rather than soft constellation demapping).",DONE
+C11,II-C,"@misc{jaensch2024radiomapestimation,
+      title={Radio Map Estimation -- An Open Dataset with Directive Transmitter Antennas and Initial Experiments}, 
+      author={Fabian Jaensch and Giuseppe Caire and Begüm Demir},
+      year={2024},
+      eprint={2402.00878},
+      archivePrefix={arXiv},
+      primaryClass={cs.NI},
+      url={https://arxiv.org/abs/2402.00878}, 
+}",Radio Map Estimation - An Open Dataset with Directive Transmitter Antennas [SIMULATED - cite for 'commonly synthesised' only],not-stated,not-stated,not-stated,frequency-domain,simulated,n/a,not-stated,not-stated,no,"A publicly available dataset of simulated path loss radio maps with realistic urban city geometries, directive transmitter antennas, tree foliage models, and aerial imagery designed for deep learning-based radio map prediction.","carrier_supplied: Not stated (the paper details ray-tracing configuration parameters and directional antenna models, but does not detail carrier recovery or synchronization modules).
+
+timing_supplied: Not stated (focuses on large-scale path loss radio map prediction rather than time-domain signal demodulation or synchronization).
+
+pulse_shape_supplied: Not stated (simulations rely on ray-tracing path loss computations rather than discrete pulse shape filtering modules).
+
+input_domain: Section 1.1, Section 2.2, & Section 3.2 (The channel power is formulated through time-frequency averaging across the signal bandwidth, and input data is encoded into 2D spatial grid matrices/images).
+
+data_source: Section 1.3 & Section 2 (Generated entirely through GPU-accelerated ray-tracing simulations using Wireless InSite across real-world city maps from Berlin).
+
+devices: Section 2 (Simulated cellular networks using base station transmitters on building roofs and uniform grids of user equipments; no physical hardware devices or SDRs are deployed).
+
+label_granularity: Not stated (the system predicts continuous spatial path loss values across a 2D map rather than classifying symbols, devices, or modulation schemes).
+
+evaluation_split: Section 4 (Employs an 80% training, 10% validation, and 10% test split structured with non-overlapping city maps across the sets).
+
+constellation_supplied: Section 1.1 & Section 2.2 (Focuses on large-scale path loss radio maps and spatial signal strength rather than constellation demapping or LLR estimation).",DONE
+C12,II-C,"@misc{yapar2024datasetpathlosstoaradio,
+      title={Dataset of Pathloss and ToA Radio Maps With Localization Application}, 
+      author={Çağkan Yapar and Ron Levie and Gitta Kutyniok and Giuseppe Caire},
+      year={2024},
+      eprint={2212.11777},
+      archivePrefix={arXiv},
+      primaryClass={cs.NI},
+      url={https://arxiv.org/abs/2212.11777}, 
+}",Dataset of Pathloss and ToA Radio Maps With Localization Application [SIMULATED - cite for 'commonly synthesised' only],not-stated,not-stated,not-stated,frequency-domain,simulated,n/a,not-stated,held-out-random,no,A collection of simulated path loss and time-of-arrival (ToA) radio maps across 701 dense urban city maps generated via ray-tracing to benchmark machine learning-based path loss estimation and wireless localization algorithms.,"carrier_supplied: Not stated (the paper details ray-tracing configuration parameters and center carrier frequencies like 3.5 GHz and 5.9 GHz, but does not detail explicit carrier frequency offset recovery or synchronization modules).
+
+timing_supplied: Not stated (focuses on large-scale path loss and time-of-arrival ray-tracing simulations rather than time-domain signal demodulation or synchronization blocks).
+
+pulse_shape_supplied: Not stated (simulations rely on ray-tracing path loss computations and directional antennas rather than discrete pulse shape filtering modules).
+
+input_domain: Section I & Section II (The path loss and ToA radio maps are represented as spatial 2D grid pixel matrices/images).
+
+data_source: Section I & Section II (Generated entirely through GPU-accelerated ray-tracing simulations using Altair WinProp across real-world city maps from OpenStreetMap).
+
+devices: Section II (Simulated cellular networks and D2D links using base station transmitters on rooftops and street-level user equipment grids; no physical hardware devices or SDRs are deployed).
+
+label_granularity: Not stated (the dataset targets continuous spatial path loss prediction and localization coordinates rather than classifying symbols, devices, or modulation schemes).
+
+evaluation_split: Section III-D1 & Section IV (RadioMapSeer and localization tasks evaluate models across structured test splits, such as utilizing 602 training city maps and 99 unseen test-set city maps).
+
+constellation_supplied: Section I & Section III (Focuses on large-scale path loss/RSS and ToA radio maps for spatial localization and power prediction rather than constellation demapping or LLR estimation).",DONE
+C13,II-C,thiswork,THIS WORK - MCM31/EV trainer boards,no,yes,fixed-family,passband,hardware-primary,5,symbol,leave-one-pattern-out / leave-one-board-outheld-out-random / grouped-by-recording / grouped-by-device,no,"Passband CNN receiver, labels measured from the waveform by coherent averaging, input bounded below the sequence linear order.",this manuscript,N/A

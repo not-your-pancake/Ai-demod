@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.17)  30 AUG 2026 23:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.17)  1 SEP 2026 23:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -115,7 +115,15 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
 \IEEEPARstartletwidth=\dimen173
 \c@IEEEbiography=\count290
 \@IEEEtranrubishbin=\box54
-) (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+) (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 11
+6.
+
+(C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+))
+(C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
 
 (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
@@ -385,24 +393,24 @@ File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
 ) (manuscript.aux)
 \openout1 = `manuscript.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
 
 -- Lines per column: 58 (exact).
 (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
@@ -428,26 +436,25 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 53.
+Package hyperref Info: Link coloring OFF on input line 54.
  (manuscript.out) (manuscript.out)
 \@outlinefile=\write3
 \openout3 = `manuscript.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 84.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 85.
 
 
 (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 84.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 85.
 
 
 (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 1515) in paragraph at lines 164--170
-\OT1/ptm/m/n/10 for end-to-end au-toen-coder transceivers [[]1[]], for sys-tems
-
+Underfull \hbox (badness 1515) in paragraph at lines 165--174
+\T1/ptm/m/n/10 for end-to-end au-toen-coder transceivers [[]1[]], for sys-tems
  []
 
 
@@ -458,119 +465,126 @@ ppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-<figures/fig0_setup.png, id=182, 963.6pt x 512.66531pt>
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 198.
+
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 198.
+
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 198.
+
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 198.
+
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 321.
+
+[2]
+<figures/fig0_setup.png, id=271, 963.6pt x 512.66531pt>
 File: figures/fig0_setup.png Graphic file (type png)
 <use figures/fig0_setup.png>
-Package pdftex.def Info: figures/fig0_setup.png  used on input line 245.
+Package pdftex.def Info: figures/fig0_setup.png  used on input line 395.
 (pdftex.def)             Requested size: 412.80157pt x 219.6204pt.
- [2]
-Underfull \vbox (badness 4441) has occurred while \output is active []
+ [3] [4 <./figures/fig0_setup.png (PNG copy)>]
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 514.
 
 
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 514.
 
-LaTeX Font Warning: Font shape `OT1/ptm/m/scit' undefined
-(Font)              using `OT1/ptm/m/it' instead on input line 364.
-
-
-LaTeX Font Warning: Font shape `OT1/ptm/m/scit' undefined
-(Font)              using `OT1/ptm/m/it' instead on input line 364.
-
-[3 <./figures/fig0_setup.png (PNG copy)>]
-<figures/fig_constellation.pdf, id=218, 442.2792pt x 191.78242pt>
+<figures/fig_constellation.pdf, id=323, 442.2792pt x 191.78242pt>
 File: figures/fig_constellation.pdf Graphic file (type pdf)
 <use figures/fig_constellation.pdf>
-Package pdftex.def Info: figures/fig_constellation.pdf  used on input line 408.
+Package pdftex.def Info: figures/fig_constellation.pdf  used on input line 558.
 
 (pdftex.def)             Requested size: 516.0pt x 223.76122pt.
-<figures/fig_pipeline.pdf, id=220, 520.35297pt x 211.08862pt>
+<figures/fig_pipeline.pdf, id=325, 520.35297pt x 211.08862pt>
 File: figures/fig_pipeline.pdf Graphic file (type pdf)
 <use figures/fig_pipeline.pdf>
-Package pdftex.def Info: figures/fig_pipeline.pdf  used on input line 425.
+Package pdftex.def Info: figures/fig_pipeline.pdf  used on input line 575.
 (pdftex.def)             Requested size: 516.0pt x 209.3359pt.
- [4]
-Underfull \vbox (badness 1215) has occurred while \output is active []
+[5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5 <./figures/fig_constellation.pdf> <./figures/fig_pipeline.pdf>]
-Underfull \hbox (badness 1895) in paragraph at lines 623--630
-\OT1/ptm/m/n/10 one-pattern-out, leave-one-board-out, leave-one-attenuation-
+ [6 <./figures/fig_constellation.pdf> <./figures/fig_pipeline.pdf>]
+Underfull \hbox (badness 1895) in paragraph at lines 773--780
+\T1/ptm/m/n/10 one-pattern-out, leave-one-board-out, leave-one-attenuation-
  []
 
-<figures/fig1_ser_vs_snr.pdf, id=436, 449.2584pt x 242.37569pt>
+<figures/fig1_ser_vs_snr.pdf, id=542, 449.2584pt x 242.37569pt>
 File: figures/fig1_ser_vs_snr.pdf Graphic file (type pdf)
 <use figures/fig1_ser_vs_snr.pdf>
-Package pdftex.def Info: figures/fig1_ser_vs_snr.pdf  used on input line 643.
+Package pdftex.def Info: figures/fig1_ser_vs_snr.pdf  used on input line 793.
 (pdftex.def)             Requested size: 516.0pt x 278.38591pt.
-<figures/fig2_no_memorisation.pdf, id=439, 247.62512pt x 213.86748pt>
+[7]
+<figures/fig2_no_memorisation.pdf, id=557, 247.62512pt x 213.86748pt>
 File: figures/fig2_no_memorisation.pdf Graphic file (type pdf)
 <use figures/fig2_no_memorisation.pdf>
-Package pdftex.def Info: figures/fig2_no_memorisation.pdf  used on input line 7
-11.
+Package pdftex.def Info: figures/fig2_no_memorisation.pdf  used on input line 8
+61.
 (pdftex.def)             Requested size: 252.0pt x 217.65895pt.
 
-LaTeX Font Warning: Font shape `OT1/ptm/m/scit' undefined
-(Font)              using `OT1/ptm/m/it' instead on input line 735.
+
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 885.
 
 
-LaTeX Font Warning: Font shape `OT1/ptm/m/scit' undefined
-(Font)              using `OT1/ptm/m/it' instead on input line 735.
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 885.
 
 
-LaTeX Font Warning: Font shape `OT1/ptm/m/scit' undefined
-(Font)              using `OT1/ptm/m/it' instead on input line 735.
+LaTeX Font Warning: Font shape `T1/ptm/m/scit' undefined
+(Font)              using `T1/ptm/m/it' instead on input line 885.
 
-[6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7 <./figures/fig1_ser_vs_snr.pdf>]
-<figures/fig3_controls.pdf, id=548, 254.20282pt x 250.06543pt>
+[8 <./figures/fig1_ser_vs_snr.pdf> <./figures/fig2_no_memorisation.pdf>]
+<figures/fig3_controls.pdf, id=712, 254.20282pt x 250.06543pt>
 File: figures/fig3_controls.pdf Graphic file (type pdf)
 <use figures/fig3_controls.pdf>
-Package pdftex.def Info: figures/fig3_controls.pdf  used on input line 823.
+Package pdftex.def Info: figures/fig3_controls.pdf  used on input line 973.
 (pdftex.def)             Requested size: 252.0pt x 247.91275pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-<figures/fig5_error_geometry.pdf, id=553, 447.96286pt x 249.94408pt>
+[9]
+<figures/fig5_error_geometry.pdf, id=724, 447.96286pt x 249.94408pt>
 File: figures/fig5_error_geometry.pdf Graphic file (type pdf)
 <use figures/fig5_error_geometry.pdf>
-Package pdftex.def Info: figures/fig5_error_geometry.pdf  used on input line 87
-0.
+Package pdftex.def Info: figures/fig5_error_geometry.pdf  used on input line 10
+20.
 (pdftex.def)             Requested size: 516.0pt x 287.91779pt.
-
-Underfull \vbox (badness 3735) has occurred while \output is active []
-
- [8 <./figures/fig2_no_memorisation.pdf> <./figures/fig3_controls.pdf>]
-<figures/fig4_lock_threshold.pdf, id=670, 253.08368pt x 224.64934pt>
+<figures/fig4_lock_threshold.pdf, id=726, 253.08368pt x 224.64934pt>
 File: figures/fig4_lock_threshold.pdf Graphic file (type pdf)
 <use figures/fig4_lock_threshold.pdf>
-Package pdftex.def Info: figures/fig4_lock_threshold.pdf  used on input line 88
-8.
+Package pdftex.def Info: figures/fig4_lock_threshold.pdf  used on input line 10
+38.
 (pdftex.def)             Requested size: 252.0pt x 223.68896pt.
+ [10 <./figures/fig3_controls.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Underfull \vbox (badness 2903) has occurred while \output is active []
 
- [9 <./figures/fig5_error_geometry.pdf> <./figures/fig4_lock_threshold.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 976--981
-\OT1/ptm/m/n/10 carrier, fil-ter re-sponse, quan-ti-sa-tion, device-to-device
+Underfull \hbox (badness 10000) in paragraph at lines 1126--1131
+\T1/ptm/m/n/10 carrier, fil-ter re-sponse, quan-ti-sa-tion, device-to-device
  []
 
 
-Underfull \hbox (badness 1642) in paragraph at lines 976--981
-\OT1/ptm/m/n/10 in soft-ware. The boards' own noise con-trol con-tributes
+Underfull \hbox (badness 1642) in paragraph at lines 1126--1131
+\T1/ptm/m/n/10 in soft-ware. The boards' own noise con-trol con-tributes
  []
 
-[10]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-036.
- (C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+[11 <./figures/fig5_error_geometry.pdf> <./figures/fig4_lock_threshold.pdf>]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 11
+86.
+
+(C:\Users\hp\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-(manuscript.bbl) [11
-
-] (manuscript.aux)
+(manuscript.bbl [12]) [13] (manuscript.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
@@ -579,13 +593,13 @@ Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: F27224F02479537C22FC76196901E8F6;5488.
  ) 
 Here is how much of TeX's memory you used:
- 11032 strings out of 467510
- 174434 string characters out of 5410252
- 623656 words of memory out of 5000000
- 40043 multiletter control sequences out of 15000+600000
- 672722 words of font info for 126 fonts, out of 8000000 for 9000
+ 11387 strings out of 467510
+ 179099 string characters out of 5410252
+ 626019 words of memory out of 5000000
+ 40343 multiletter control sequences out of 15000+600000
+ 750543 words of font info for 166 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,9n,79p,732b,443s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,9n,79p,802b,587s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cme
 x10.pfb><C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
 cm/cmmi10.pfb><C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
@@ -611,9 +625,9 @@ s/utmb8a.pfb><C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/u
 tmbi8a.pfb><C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
 r8a.pfb><C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8
 a.pfb>
-Output written on manuscript.pdf (11 pages, 1766377 bytes).
+Output written on manuscript.pdf (13 pages, 1806083 bytes).
 PDF statistics:
- 924 PDF objects out of 1000 (max. 8388607)
- 90 named destinations out of 1000 (max. 500000)
+ 1062 PDF objects out of 1200 (max. 8388607)
+ 135 named destinations out of 1000 (max. 500000)
  313 words of extra memory for PDF output out of 10000 (max. 10000000)
 
