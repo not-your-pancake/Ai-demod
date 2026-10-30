@@ -7,6 +7,10 @@
 \citation{satyanarayan2023RML}
 \citation{hoydis2021nativeAirInterface,akroutMLPtoGPT,wangDlphysicalLayer}
 \citation{akrout2023domaingeneralization}
+\citation{satyanarayan2023RML}
+\citation{hoydis2021nativeAirInterface}
+\citation{Hanna2022SignalProcessing}
+\citation{cammerer2020trainableCS}
 \citation{Zhu2022WaveformLevelIntelligence}
 \citation{Zhu2022EndtoEnd}
 \citation{Hanna2022SignalProcessing}
@@ -28,8 +32,6 @@
 \citation{honkala2021deeprxfullyconvolutionaldeep}
 \citation{korpi2021UplinkCNN}
 \citation{cammerer2020trainableCS}
-\citation{hoydis2021nativeAirInterface}
-\citation{satyanarayan2023RML}
 \citation{Zhang2018Enhanced}
 \citation{Xiao2023_UnifiedDeep}
 \citation{dakic2021LoRa}
@@ -41,12 +43,13 @@
 \citation{Zheng2022DemodNet,alwin2024LLRSymNet,ganse2024MLApprochDemapping,polvani2021MIMO}
 \citation{shulman2026rfdronebenchmarksoverstate}
 \citation{brook2024dataLeakage}
-\citation{nicolas2019secretSharer}
-\citation{arpit2017memorizationinDL}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{}\protected@file@percent }
 \newlabel{sec:related}{{II}{2}{}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Learned physical-layer processing}{2}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Evaluation validity and memorisation}{2}{}\protected@file@percent }
+\citation{nicolas2019secretSharer}
+\citation{arpit2017memorizationinDL}
+\citation{saria2019droneRF}
 \citation{hanna2022WiSig}
 \citation{vrieze2018earnestRF}
 \citation{amani2020fingerprint}
@@ -66,10 +69,10 @@
 \citation{kashani2024BLE}
 \citation{jagannat2024commercialDevice}
 \citation{hanna2022WiSig}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces What recent learned receivers and demodulators are given. \emph  {family} denotes a fixed known pulse-shape family that is not itself presented to the network; \emph  {blind} denotes symbol timing recovered by the system; \emph  {partial} denotes a residual offset estimated from the signal; \emph  {n.s.} denotes a property the paper does not state, which is not the same as a property it does not use. \emph  {Domains}: passband, baseband in-phase and quadrature, post-matched-filter symbols, frequency domain. \emph  {Data}: simulated, hardware used for validation only, hardware as the primary source. Surveys without a system are cited in the text and not tabulated.}}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces What recent learned receivers and demodulators are given. \emph  {family} denotes a fixed known pulse-shape family that is not itself presented to the network; \emph  {blind} denotes symbol timing recovered by the system; \emph  {partial} denotes a residual offset estimated from the signal; \emph  {n.s.} denotes a property the paper does not state, which is not the same as a property it does not use. \emph  {Domains}: passband, baseband in-phase and quadrature, post-matched-filter symbols, frequency domain. \emph  {Data}: simulated, hardware used for validation only, hardware also used for over-the-air training (\emph  {hw-train}), hardware as the primary source. Surveys, datasets and vision articles without an evaluated receiver are cited in the text and not tabulated.}}{3}{}\protected@file@percent }
 \newlabel{tab:related_a}{{1}{3}{}{table.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Hardware-captured RF datasets}{3}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Public radio-frequency datasets. \emph  {n.s.} denotes a quantity the dataset does not state. The device counts are as reported; ours is the smallest in the table.}}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Public radio-frequency datasets. \emph  {n.s.} denotes a quantity the dataset does not state; \emph  {n/a} denotes a category that does not apply. The device counts are as reported. Ours is smaller than every stated count except the three of~\cite  {saria2019droneRF}.}}{3}{}\protected@file@percent }
 \newlabel{tab:related_c}{{2}{3}{}{table.2}{}}
 \citation{proakis2007digital}
 \citation{mengali1997sync}
@@ -94,67 +97,72 @@
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Ground Truth}{5}{}\protected@file@percent }
 \newlabel{sec:groundtruth}{{IV}{5}{}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Coherent averaging}{5}{}\protected@file@percent }
-\newlabel{eq:fold}{{1}{5}{}{equation.1}{}}
-\newlabel{eq:template}{{2}{5}{}{equation.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Measured constellations, all records pooled across the five boards and normalised per record to unit RMS. The 8-QAM panel shows the two rings at the measured radius ratio of $1.89$. No noise has been added.}}{6}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Measured constellations: individual symbols, not the coherently averaged template. Each symbol is downconverted and integrated over its own symbol interval. Each record is derotated by its own whole-record $m$th-power estimate \eqref  {eq:derotate} and normalised to unit RMS. All records are pooled across the five boards, and 6{,}000 symbols per panel are drawn at random. The spread therefore shows per-symbol capture variability, including device-to-device differences. The 8-QAM panel shows the two rings at the measured radius ratio of $1.89$. No noise has been added.}}{6}{}\protected@file@percent }
 \newlabel{fig:constellation}{{2}{6}{}{figure.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Processing chain. The upper path produces ground-truth labels by coherent averaging; the lower path produces the network's input. The paths share only the raw capture, and the labels reach the network only through the loss.}}{6}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Processing chain. The upper path produces ground-truth labels by coherent averaging; the lower path produces the network's input. The paths share the raw capture, and also the word period and the symbol timing $\tau ^{\star }$ estimated from the coherent template. The network's windows are cut on the symbol grid that $\tau ^{\star }$ defines, a dependency not drawn in the diagram. The label path reads the same filtered, resampled waveform from which the windows are cut (Section~\ref {sec:groundtruth}-B). At training and test time, software noise is added to each window first, and the window is then divided by its record's noise-free RMS (Section~\ref {sec:conditioning}). Labels reach the network only through the loss.}}{6}{}\protected@file@percent }
 \newlabel{fig:pipeline}{{3}{6}{}{figure.3}{}}
+\newlabel{eq:fold}{{1}{6}{}{equation.1}{}}
+\newlabel{eq:template}{{2}{6}{}{equation.2}{}}
 \newlabel{eq:period}{{3}{6}{}{equation.3}{}}
-\newlabel{eq:tsnr}{{4}{6}{}{equation.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Symbol extraction}{6}{}\protected@file@percent }
-\newlabel{eq:downconv}{{5}{6}{}{equation.5}{}}
-\citation{golomb1982shift}
+\newlabel{eq:tsnr}{{4}{7}{}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Symbol extraction}{7}{}\protected@file@percent }
+\newlabel{eq:downconv}{{5}{7}{}{equation.5}{}}
 \newlabel{eq:timing}{{6}{7}{}{equation.6}{}}
 \newlabel{eq:derotate}{{7}{7}{}{equation.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Verification of the labels}{7}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Receptive-field bound and model size. All configurations remain at or below the five-bit limit implied by \eqref  {eq:lfsr}.}}{7}{}\protected@file@percent }
-\newlabel{tab:bound}{{6}{7}{}{table.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Receiver}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}The receptive-field bound}{7}{}\protected@file@percent }
-\newlabel{sec:bound}{{\mbox  {V-A}}{7}{}{subsection.5.1}{}}
-\newlabel{eq:lfsr}{{8}{7}{}{equation.8}{}}
-\newlabel{eq:rf}{{9}{7}{}{equation.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Signal conditioning}{8}{}\protected@file@percent }
-\newlabel{eq:agc}{{10}{8}{}{equation.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Architecture and objective}{8}{}\protected@file@percent }
-\newlabel{eq:loss}{{11}{8}{}{equation.11}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Symbol error rate, learned (L) and blind classical (C) receivers, leave-one-pattern-out, mean over folds.}}{8}{}\protected@file@percent }
-\newlabel{tab:ser}{{7}{8}{}{table.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 8-QAM symbol error rate by evaluation split, mean over folds.}}{8}{}\protected@file@percent }
-\newlabel{tab:splits}{{8}{8}{}{table.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Evaluation splits}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Results}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Error rate against a blind classical receiver}{8}{}\protected@file@percent }
-\newlabel{sec:ser}{{\mbox  {VI-A}}{8}{}{subsection.6.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Generalisation}{8}{}\protected@file@percent }
-\newlabel{sec:generalisation}{{\mbox  {VI-B}}{8}{}{subsection.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Symbol error rate against signal-to-noise ratio for the learned and blind classical receivers, leave-one-pattern-out. Hollow triangles mark operating points at which no errors occurred in the test set, drawn at the $1/N$ resolution floor. All quantities saturate above $9$~dB.}}{9}{}\protected@file@percent }
-\newlabel{fig:ser}{{4}{9}{}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 8-QAM symbol error rate by evaluation split. Withholding a complete data word is indistinguishable from a random partition; withholding a board is not.}}{9}{}\protected@file@percent }
-\newlabel{fig:splits}{{5}{9}{}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Negative controls}{9}{}\protected@file@percent }
-\newlabel{sec:controls}{{\mbox  {VI-C}}{9}{}{subsection.6.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Per-fold results. \emph  {Train rec.} is the number of records in the training partition; the two folds with fewer than three are the thin folds discussed in the text. \emph  {Position-only} is a lookup from a symbol's index within the data word to its most frequent label, against chance levels of $0.500$, $0.750$ and $0.875$. It is a meaningful control only where the withheld word is absent from training; every leave-one-board-out fold reuses the training word, position then determines the label exactly, and the entry is marked {\it  n/a} (Section~\ref {sec:controls}). }}{10}{}\protected@file@percent }
-\newlabel{tab:perfold}{{9}{10}{}{table.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Controls, leave-one-pattern-out folds. Both must fail, and both do. The position-only control is restricted to this split for the reason given in the text.}}{10}{}\protected@file@percent }
-\newlabel{tab:controls}{{10}{10}{}{table.10}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Ablation of the constellation term of Equation\eqref  {eq:loss}, leave-one-board-out. Differences lie within run-to-run variation.}}{10}{}\protected@file@percent }
-\newlabel{tab:ablation}{{11}{10}{}{table.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Recovered constellation geometry}{10}{}\protected@file@percent }
-\newlabel{sec:geometry}{{\mbox  {VI-D}}{10}{}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Both negative controls remain at their respective chance levels while the receiver does not. Leave-one-pattern-out folds.}}{10}{}\protected@file@percent }
-\newlabel{fig:controls}{{6}{10}{}{figure.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Destination of 8-QAM errors at $0$~dB. Left: confusions drawn on the constellation, line width proportional to count. Right: share of errors against inter-point distance, compared with a uniform-error null.}}{11}{}\protected@file@percent }
-\newlabel{fig:geometry}{{7}{11}{}{figure.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Empirical Performance of the On-Board Demodulators}{11}{}\protected@file@percent }
-\newlabel{sec:hardware}{{\mbox  {VI-E}}{11}{}{subsection.6.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Discussion}{11}{}\protected@file@percent }
+\citation{golomb1982shift}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Receiver}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}The bounded input context}{8}{}\protected@file@percent }
+\newlabel{sec:bound}{{\mbox  {V-A}}{8}{}{subsection.5.1}{}}
+\newlabel{eq:lfsr}{{8}{8}{}{equation.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Context complexity of every measured word, in symbols. \emph  {Window} is the neighbouring context each window contains. \emph  {Lookup} is the accuracy of the best lookup from that context to the target label within the word, as if the neighbours were known without error. \emph  {Chance} is $1/(\text  {number of classes})$.}}{8}{}\protected@file@percent }
+\newlabel{tab:context}{{6}{8}{}{table.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Window geometry, receptive field and model size. \emph  {Context} is the number of neighbouring symbols before and after the target.}}{9}{}\protected@file@percent }
+\newlabel{tab:bound}{{7}{9}{}{table.7}{}}
+\newlabel{eq:rf}{{9}{9}{}{equation.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Signal conditioning}{9}{}\protected@file@percent }
+\newlabel{sec:conditioning}{{\mbox  {V-B}}{9}{}{subsection.5.2}{}}
+\newlabel{eq:agc}{{10}{9}{}{equation.10}{}}
+\newlabel{eq:noise}{{11}{9}{}{equation.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Architecture and objective}{9}{}\protected@file@percent }
+\newlabel{sec:arch}{{\mbox  {V-C}}{9}{}{subsection.5.3}{}}
+\newlabel{eq:loss}{{12}{10}{}{equation.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Evaluation splits}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Results}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Error rate against a classical reference receiver}{10}{}\protected@file@percent }
+\newlabel{sec:ser}{{\mbox  {VI-A}}{10}{}{subsection.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Symbol error rate against SNR for the learned and classical reference receivers on the same leave-one-pattern-out test records, as the unweighted mean over folds. SNR is the per-sample ratio of \eqref  {eq:noise}; $E_s/N_0 = \mathrm  {SNR} + 10$~dB. Learned: mean of three training seeds, with bars spanning the seeds. Classical: mean of five noise realisations. Hollow triangles mark operating points at which no error was observed in any run. They are drawn on a fixed floor line at $1.5\times 10^{-6}$, a plotting convention below every non-zero mean, not a confidence bound.}}{11}{}\protected@file@percent }
+\newlabel{fig:ser}{{4}{11}{}{figure.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Symbol error rate, learned (L) and classical reference (C) receivers, on the same leave-one-pattern-out test records, as the unweighted mean over folds. L is the mean of three training seeds; C is the mean of five noise realisations. A dash means no error was observed in any run; $<\!10^{-4}$ marks rates that are non-zero but below the last digit shown.}}{11}{}\protected@file@percent }
+\newlabel{tab:ser}{{8}{11}{}{table.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 8-QAM symbol error rate by evaluation split, as the unweighted mean over folds. Bars span three training seeds; for the random split they span seven runs (three seeds on the main partition and four further partitions). The dash-dot lines are leave-one-board-out without board B5 and leave-one-pattern-out without the T1+T2 fold, which trains on four records.}}{11}{}\protected@file@percent }
+\newlabel{fig:splits}{{5}{11}{}{figure.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 8-QAM symbol error rate by evaluation split, as the unweighted mean over folds, mean $\pm $ standard deviation over runs. \emph  {Runs}: training seeds, or for the random split seeds and partitions. Leave-one-attenuation-out has one seed. T3--T6 are the leave-one-pattern-out folds that train on fourteen records.}}{12}{}\protected@file@percent }
+\newlabel{tab:splits}{{9}{12}{}{table.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Generalisation}{12}{}\protected@file@percent }
+\newlabel{sec:generalisation}{{\mbox  {VI-B}}{12}{}{subsection.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Negative controls}{12}{}\protected@file@percent }
+\newlabel{sec:controls}{{\mbox  {VI-C}}{12}{}{subsection.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Per-fold results, training seed~0. \emph  {Train records} is the number of records in the training partition; the two folds with fewer than three are the thin folds discussed in the text. \emph  {Test symbols} counts evaluated windows, after the edge trimming of Section~\ref {sec:conditioning}. The S1, Q2, Q3 and T3--T6 folds each test a single record from board B1. \emph  {Position-only} is a lookup from a symbol's index within the data word to its most frequent training label, against chance levels of $0.500$, $0.750$ and $0.875$. It is a meaningful control only where the withheld word is absent from training. Every leave-one-board-out fold reuses the training word, so position then determines the label exactly, and the entry is marked {\it  n/a} (Section~\ref {sec:controls}). }}{13}{}\protected@file@percent }
+\newlabel{tab:perfold}{{10}{13}{}{table.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Controls on the leave-one-pattern-out folds, as the unweighted mean over folds. \emph  {Shuffled}: training labels permuted, test labels as measured; mean over five permutation seeds, with the range of the five fold-means in brackets. \emph  {Position-only}: the lookup of the text, with its cyclic-shift null mean in brackets. \emph  {Context-only}: a lookup from the true labels of the window's neighbouring symbols to the target label. Model: learned receiver at $6$~dB, mean of three seeds. Chance is $1-1/K$.}}{13}{}\protected@file@percent }
+\newlabel{tab:controls}{{11}{13}{}{table.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Constellation geometry}{13}{}\protected@file@percent }
+\newlabel{sec:geometry}{{\mbox  {VI-D}}{13}{}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Controls on the leave-one-pattern-out folds. Learned receiver at $6$~dB, mean of three seeds. Position-only lookup. Shuffled training labels, mean of five permutation seeds, with bars spanning the five fold-means. Dotted lines mark the nominal chance level $1-1/K$; the spread of the shuffled control is discussed in the text.}}{14}{}\protected@file@percent }
+\newlabel{fig:controls}{{6}{14}{}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Ablation of the constellation term of \eqref  {eq:loss}. One leave-one-board-out fold (B2 withheld), 18 epochs, one seed; the main results use $\lambda = 0.2$ and 25 epochs.}}{14}{}\protected@file@percent }
+\newlabel{tab:ablation}{{12}{14}{}{table.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Empirical Performance of the On-Board Demodulators}{14}{}\protected@file@percent }
+\newlabel{sec:hardware}{{\mbox  {VI-E}}{14}{}{subsection.6.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Destination of 8-QAM errors at $0$~dB. The figure comes from a separate training run with board B2 withheld (leave-one-board-out, $18$ epochs, $\lambda = 0.2$, seed~0), with one noise realisation: $863$ errors among $7{,}192$ test symbols. Left: confusions drawn on the unit-RMS reference constellation, with line width proportional to count. Each line combines both directions of a confusion; the two directions differ by $9.6\%$ of all errors in total. Pairs with fewer than five confusions are not drawn. Right: share of errors against inter-point distance, compared with a null in which every wrong class is equally likely.}}{15}{}\protected@file@percent }
+\newlabel{fig:geometry}{{7}{15}{}{figure.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Discussion}{15}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Behaviour of the boards' own BPSK demodulators on the PRBS63 word, across five boards: agreement of TP-9 with the transmitted sequence against TP-20 output level. The shaded band is the chance region up to the 95th percentile of the null ($69.8\%$), from the best agreement over 63 cyclic shifts and both polarities. Records at or below $509$~mV are consistent with chance; records at or above $626$~mV agree at $92$--$100\%$. No record falls between the two levels.}}{15}{}\protected@file@percent }
+\newlabel{fig:lock}{{8}{15}{}{figure.8}{}}
 \citation{gardner1986ted}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Demodulator lock threshold across five boards, measured against the known transmitted sequence. A single threshold accounts for every unit.}}{12}{}\protected@file@percent }
-\newlabel{fig:lock}{{8}{12}{}{figure.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Limitations}{12}{}\protected@file@percent }
-\newlabel{sec:limitations}{{VIII}{12}{}{section.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Limitations}{16}{}\protected@file@percent }
+\newlabel{sec:limitations}{{VIII}{16}{}{section.8}{}}
 \bibstyle{IEEEtran}
 \bibdata{refs}
 \bibcite{oshea2017intro}{1}
@@ -165,41 +173,41 @@
 \bibcite{akroutMLPtoGPT}{6}
 \bibcite{wangDlphysicalLayer}{7}
 \bibcite{akrout2023domaingeneralization}{8}
-\bibcite{Zhu2022WaveformLevelIntelligence}{9}
-\bibcite{Zhu2022EndtoEnd}{10}
-\bibcite{Hanna2022SignalProcessing}{11}
-\bibcite{Xiao2023_UnifiedDeep}{12}
-\bibcite{Zhu2023DLWave}{13}
-\bibcite{Chia2022RN}{14}
-\bibcite{Tonix2025NNAided}{15}
-\bibcite{liu2026Universal}{16}
-\bibcite{Zhang2018Enhanced}{17}
-\bibcite{dakic2021LoRa}{18}
-\bibcite{Zheng2022DemodNet}{19}
-\bibcite{alwin2024LLRSymNet}{20}
-\bibcite{ganse2024MLApprochDemapping}{21}
-\bibcite{polvani2021MIMO}{22}
-\bibcite{wang2024optimalSequence}{23}
-\bibcite{chen2024robustSymboldetection}{24}
-\bibcite{gorday2020complexNN}{25}
-\bibcite{fischer2022OFDM}{26}
-\bibcite{honkala2021deeprxfullyconvolutionaldeep}{27}
-\bibcite{korpi2021UplinkCNN}{28}
-\bibcite{cammerer2020trainableCS}{29}
+\bibcite{Hanna2022SignalProcessing}{9}
+\bibcite{cammerer2020trainableCS}{10}
+\bibcite{Zhu2022WaveformLevelIntelligence}{11}
+\bibcite{Zhu2022EndtoEnd}{12}
+\bibcite{Xiao2023_UnifiedDeep}{13}
+\bibcite{Zhu2023DLWave}{14}
+\bibcite{Chia2022RN}{15}
+\bibcite{Tonix2025NNAided}{16}
+\bibcite{liu2026Universal}{17}
+\bibcite{Zhang2018Enhanced}{18}
+\bibcite{dakic2021LoRa}{19}
+\bibcite{Zheng2022DemodNet}{20}
+\bibcite{alwin2024LLRSymNet}{21}
+\bibcite{ganse2024MLApprochDemapping}{22}
+\bibcite{polvani2021MIMO}{23}
+\bibcite{wang2024optimalSequence}{24}
+\bibcite{chen2024robustSymboldetection}{25}
+\bibcite{gorday2020complexNN}{26}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Conclusion}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{REFERENCES}{17}{}\protected@file@percent }
+\bibcite{fischer2022OFDM}{27}
+\bibcite{honkala2021deeprxfullyconvolutionaldeep}{28}
+\bibcite{korpi2021UplinkCNN}{29}
 \bibcite{shulman2026rfdronebenchmarksoverstate}{30}
 \bibcite{brook2024dataLeakage}{31}
-\@writefile{toc}{\contentsline {section}{\numberline {IX}Conclusion}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{REFERENCES}{13}{}\protected@file@percent }
 \bibcite{nicolas2019secretSharer}{32}
 \bibcite{arpit2017memorizationinDL}{33}
-\bibcite{hanna2022WiSig}{34}
-\bibcite{vrieze2018earnestRF}{35}
-\bibcite{amani2020fingerprint}{36}
-\bibcite{bub2021usecase}{37}
-\bibcite{zahid2025comrad}{38}
-\bibcite{Morin2019Transmitter}{39}
-\bibcite{Utrilla2020MIGOU-MOD}{40}
-\bibcite{saria2019droneRF}{41}
+\bibcite{saria2019droneRF}{34}
+\bibcite{hanna2022WiSig}{35}
+\bibcite{vrieze2018earnestRF}{36}
+\bibcite{amani2020fingerprint}{37}
+\bibcite{bub2021usecase}{38}
+\bibcite{zahid2025comrad}{39}
+\bibcite{Morin2019Transmitter}{40}
+\bibcite{Utrilla2020MIGOU-MOD}{41}
 \bibcite{kashani2024BLE}{42}
 \bibcite{jagannat2024commercialDevice}{43}
 \bibcite{jaensch2024radiomapestimation}{44}
@@ -208,7 +216,7 @@
 \bibcite{mengali1997sync}{47}
 \bibcite{gardner1986ted}{48}
 \bibcite{golomb1982shift}{49}
-\@writefile{toc}{\contentsline {subsection}{Md. Khalid Hasan Nabil}{14}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Ivan Grgi\'{c}}{14}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Md Maynul Islam}{14}{}\protected@file@percent }
-\gdef \@abspage@last{14}
+\@writefile{toc}{\contentsline {subsection}{Mohammad Khalid Hasan Nabil}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Ivan Grgi\'{c}}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Md. Maynul Islam}{18}{}\protected@file@percent }
+\gdef \@abspage@last{18}

@@ -12,8 +12,10 @@ The ring ratio used is 1.89, the mean MEASURED across all 15 8-QAM captures
 (range 1.867-1.914), not the handbook's quoted 1.965.
 
 Controls that must FAIL, per Section 11.4:
-  * shuffled labels   - break the waveform/label link; anything above chance
-                        means a leak
+  * shuffled labels   - TRAINING labels permuted, test labels as measured.
+                        With only 8-63 distinct clean windows per word, a single
+                        run can land far from chance either way; read the mean
+                        over several permutation seeds
   * position-only     - the best possible predictor that sees NO signal, just
                         the symbol's index within the word. On a random split
                         it scores 100% because the word repeats ~300 times;
@@ -84,18 +86,22 @@ def evaluate(net, ws, rng, snr_list) -> dict:
 def train_fold(mod, cap, tr_caps, te_caps, arrays, sps, seed=0,
                shuffle_labels=False, epochs=EPOCHS):
     wave, label, wo, lo = arrays
+    label_tr = label
     if shuffle_labels:
-        # Permute labels ONLY among the symbols of the captures in this fold.
-        # Shuffling the global array would hand a BPSK capture an 8-QAM label
-        # of 7, which is not a control - it is a crash, and before that a
-        # different experiment entirely. The alphabet must stay correct; only
-        # the waveform-to-label link may break.
+        # Permute the TRAINING labels only, among the training captures of this
+        # fold, and score against the test labels as measured. Shuffling the
+        # global array would hand a BPSK capture an 8-QAM label of 7, so the
+        # alphabet stays within the fold's modulation.
+        #
+        # The test labels must NOT be shuffled. An earlier version permuted
+        # train and test together; with the test targets randomised, chance was
+        # guaranteed whatever the network had learned, so the control could
+        # not fail (corrected 2026-10-30, after the technical reviews).
         rs = np.random.default_rng(seed + 999)
-        label = label.copy()
-        span = np.concatenate([np.arange(lo[c], lo[c + 1])
-                               for c in list(tr_caps) + list(te_caps)])
-        label[span] = rs.permutation(label[span])
-    ws_tr = DT.WindowSet(wave, label, wo, lo, tr_caps, sps, cap)
+        label_tr = label.copy()
+        span = np.concatenate([np.arange(lo[c], lo[c + 1]) for c in tr_caps])
+        label_tr[span] = rs.permutation(label_tr[span])
+    ws_tr = DT.WindowSet(wave, label_tr, wo, lo, tr_caps, sps, cap)
     ws_te = DT.WindowSet(wave, label, wo, lo, te_caps, sps, cap)
     assert not (set(ws_tr.capture.tolist()) & set(ws_te.capture.tolist()))
 

@@ -63,6 +63,16 @@ M.~Akrout, A.~Feriani, F.~Bellili, A.~Mezghani, and E.~Hossain, ``Domain
   Concepts, state-of-the-art, and open issues,'' \emph{IEEE Communications
   Surveys \& Tutorials}, vol.~25, no.~4, pp. 3014--3037, 2023.
 
+\bibitem{Hanna2022SignalProcessing}
+S.~Hanna, C.~Dick, and D.~Cabric, ``Signal processing-based deep learning for
+  blind symbol decoding and modulation classification,'' \emph{IEEE Journal on
+  Selected Areas in Communications}, vol.~40, no.~1, pp. 82--96, 2022.
+
+\bibitem{cammerer2020trainableCS}
+S.~Cammerer, F.~A. Aoudia, S.~Dörner, M.~Stark, J.~Hoydis, and S.~ten Brink,
+  ``Trainable communication systems: Concepts and prototype,'' \emph{IEEE
+  Transactions on Communications}, vol.~68, no.~9, pp. 5489--5503, 2020.
+
 \bibitem{Zhu2022WaveformLevelIntelligence}
 Z.~Zhu, H.~Yu, and C.~Shen, ``Waveform level intelligent multi-task receiver
   with bilstm,'' \emph{IEEE Communications Letters}, vol.~26, no.~3, pp.
@@ -71,11 +81,6 @@ Z.~Zhu, H.~Yu, and C.~Shen, ``Waveform level intelligent multi-task receiver
 \bibitem{Zhu2022EndtoEnd}
 ------, ``End-to-end waveform level receiver with deep learning,'' \emph{IET
   Communications}, vol.~16, no.~11, pp. 1315--1324, 2022.
-
-\bibitem{Hanna2022SignalProcessing}
-S.~Hanna, C.~Dick, and D.~Cabric, ``Signal processing-based deep learning for
-  blind symbol decoding and modulation classification,'' \emph{IEEE Journal on
-  Selected Areas in Communications}, vol.~40, no.~1, pp. 82--96, 2022.
 
 \bibitem{Xiao2023_UnifiedDeep}
 B.~Xiao, S.~Zheng, J.~Zhu, Z.~Zhang, Y.~Long, and H.~Ju, ``Unified deep neural
@@ -174,11 +179,6 @@ D.~Korpi, M.~Honkala, J.~M. Huttunen, and V.~Starck, ``Deeprx mimo:
   in \emph{ICC 2021 - IEEE International Conference on Communications}, 2021,
   pp. 1--7.
 
-\bibitem{cammerer2020trainableCS}
-S.~Cammerer, F.~A. Aoudia, S.~Dörner, M.~Stark, J.~Hoydis, and S.~ten Brink,
-  ``Trainable communication systems: Concepts and prototype,'' \emph{IEEE
-  Transactions on Communications}, vol.~68, no.~9, pp. 5489--5503, 2020.
-
 \bibitem{shulman2026rfdronebenchmarksoverstate}
 \BIBentryALTinterwordspacing
 D.~Shulman, ``How much do rf drone benchmarks overstate? a controlled study and
@@ -214,6 +214,15 @@ D.~Arpit, S.~Jastrz{\k{e}}bski, N.~Ballas, D.~Krueger, E.~Bengio, M.~S. Kanwal,
   Machine Learning Research, D.~Precup and Y.~W. Teh, Eds., vol.~70.\hskip 1em
   plus 0.5em minus 0.4em\relax PMLR, 06--11 Aug 2017, pp. 233--242. [Online].
   Available: \url{https://proceedings.mlr.press/v70/arpit17a.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{saria2019droneRF}
+\BIBentryALTinterwordspacing
+M.~S. Allahham, M.~F. Al-Sa'd, A.~Al-Ali, A.~Mohamed, T.~Khattab, and A.~Erbad,
+  ``Dronerf dataset: A dataset of drones for rf-based detection, classification
+  and identification,'' \emph{Data in Brief}, vol.~26, p. 104313, 2019.
+  [Online]. Available:
+  \url{https://www.sciencedirect.com/science/article/pii/S2352340919306675}
 \BIBentrySTDinterwordspacing
 
 \bibitem{hanna2022WiSig}
@@ -260,15 +269,6 @@ C.~Morin, L.~S. Cardoso, J.~Hoydis, J.-M. Gorce, and T.~Vial, ``Transmitter
 R.~Utrilla, ``Migou-mod: A dataset of modulated radio signals acquired with
   migou, a low-power iot experimental platform,'' \emph{Mendeley Data, V1},
   2020.
-
-\bibitem{saria2019droneRF}
-\BIBentryALTinterwordspacing
-M.~S. Allahham, M.~F. Al-Sa'd, A.~Al-Ali, A.~Mohamed, T.~Khattab, and A.~Erbad,
-  ``Dronerf dataset: A dataset of drones for rf-based detection, classification
-  and identification,'' \emph{Data in Brief}, vol.~26, p. 104313, 2019.
-  [Online]. Available:
-  \url{https://www.sciencedirect.com/science/article/pii/S2352340919306675}
-\BIBentrySTDinterwordspacing
 
 \bibitem{kashani2024BLE}
 S.~Kashani, S.~Sherazi, A.~Khokhar, S.~W. Kim, and F.~Nait-Abdesselam,

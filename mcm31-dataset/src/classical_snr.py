@@ -1,6 +1,8 @@
 """
-classical_snr.py - the blind classical receiver's SER vs SNR, measured with
-exactly the same noise the network sees, so the two curves are comparable.
+classical_snr.py - the blind classical receiver's SER vs SNR, mean over EVERY
+record of a modulation. Same noise convention as the network, not the same
+realisations. For the paper's like-for-like comparison (same test records,
+mean over leave-one-pattern-out folds) use classical_lopo.py.
 
 Noise is drawn from the CAPTURE reference level, identical to data.py, and the
 carrier is estimated blind from the noisy waveform - the receiver is given no

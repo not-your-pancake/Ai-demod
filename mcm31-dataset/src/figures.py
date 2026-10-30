@@ -6,11 +6,17 @@ Design decisions and why:
   * Identity is NEVER colour-alone: every series carries a distinct line style
     AND marker, so the figures survive greyscale printing and CVD readers.
   * Log SER axis. A measured SER of exactly zero cannot be drawn on a log
-    scale, so those points are plotted on a floor line at the 1/N resolution
-    limit with a hollow down-triangle and called out in the caption as "no
-    errors observed" - never silently clipped to a small positive number.
-  * Only 0-9 dB is plotted for the main result. Everything saturates above
-    9 dB and a flat line out to 30 dB would be padding, not evidence.
+    scale, so those points are plotted as hollow down-triangles on a fixed
+    floor line set below every non-zero value, and called out in the caption
+    as "no errors observed" - never silently clipped to a small positive
+    number. The floor is a plotting convention, not a confidence bound.
+  * Only 0-9 dB is plotted for the main result; that is where the receivers
+    differ. Above it both make a handful of errors in tens of thousands.
+  * Figures 1-3 use the protocol of the revised paper (2026-10-30): learned
+    receiver over three training seeds (results/revision_runs.csv), classical
+    reference on the same leave-one-pattern-out records
+    (results/classical_lopo.csv), shuffled-label control over five
+    permutation seeds (results/experiments.csv).
 
 Palette: validated categorical slots 1-3 (blue/orange/aqua), all-pairs pass.
 """
@@ -45,13 +51,15 @@ plt.rcParams.update({
 })
 
 exp = pd.read_csv(os.path.join(ROOT, "results", "experiments.csv"))
-cls = pd.read_csv(os.path.join(ROOT, "results", "classical_snr.csv"))
+rev = pd.read_csv(os.path.join(ROOT, "results", "revision_runs.csv"))
+cls = pd.read_csv(os.path.join(ROOT, "results", "classical_lopo.csv"))
 main = exp[exp.control == "none"]
+runs = pd.concat([main, rev[rev.kind == "seed"]], ignore_index=True)   # seeds 0-2
 SNRS = [0, 3, 6, 9]
 COLS = [f"snr{s}" for s in SNRS]
 MODS = ["BPSK", "QPSK", "8QAM"]
 TITLE = {"BPSK": "BPSK", "QPSK": "QPSK", "8QAM": "8-QAM"}
-FLOOR = 1.5e-5
+FLOOR = 1.5e-6   # below every non-zero mean (one error in one of three seeds ~3e-6)
 
 
 def save(fig, name):
@@ -61,34 +69,46 @@ def save(fig, name):
     print(f"  {name}.pdf / .png")
 
 
-def plot_series(ax, x, y, colour, style, marker, label, dx=0.0):
+def seed_curve(mod, split, drop_fold=None):
+    """Fold-mean SER per seed -> mean, min, max over seeds, per SNR."""
+    d = runs[(runs.modulation == mod) & (runs.split == split)]
+    if drop_fold:
+        d = d[d.fold != drop_fold]
+    g = d.groupby("seed")[COLS].mean()
+    return g.mean().to_numpy(), g.min().to_numpy(), g.max().to_numpy()
+
+
+def plot_series(ax, x, y, colour, style, marker, label, dx=0.0, lo=None, hi=None):
     """Draw a SER curve; zeros go on the floor line as hollow triangles.
 
-    `dx` nudges the floor markers sideways. Without it two series that both
-    reach zero at the same SNR stack exactly on top of each other and one
-    silently disappears - which reads as missing data, not as a tie.
+    `dx` shifts the series sideways. Without it two series that both reach
+    zero at the same SNR stack exactly on top of each other and one silently
+    disappears - which reads as missing data, not as a tie. `lo`/`hi` draw a
+    vertical bar spanning the runs.
     """
     y = np.asarray(y, dtype=float)
-    x = np.asarray(x, dtype=float)
+    x = np.asarray(x, dtype=float) + dx
     pos = y > 0
     zero = ~pos
     ax.plot(x[pos], y[pos], style, color=colour, marker=marker,
             ms=4.5, lw=1.6, mew=0, label=label, zorder=3)
+    if lo is not None:
+        ok = pos & (np.asarray(lo) > 0)
+        ax.vlines(x[ok], np.asarray(lo)[ok], np.asarray(hi)[ok], color=colour, lw=0.9, zorder=3)
     if zero.any():
-        ax.plot(x[zero] + dx, np.full(int(zero.sum()), FLOOR), "v",
+        ax.plot(x[zero], np.full(int(zero.sum()), FLOOR), "v",
                 mfc="none", mec=colour, ms=5, mew=1.2, ls="none", zorder=3)
 
 
 # ---------------------------------------------------------------- figure 1
-print("figure 1 - SER vs SNR, learned vs classical")
+print("figure 1 - SER vs SNR, learned vs classical reference")
 fig, axes = plt.subplots(1, 3, figsize=(7.1, 2.5), sharey=True)
 for ax, mod in zip(axes, MODS):
-    r = main[(main.modulation == mod) & (main.split == "leave_one_pattern_out")]
-    plot_series(ax, SNRS, [r[c].mean() for c in COLS], BLUE, "-", "o",
-                "Learned (this work)", dx=-0.22)
-    c = cls[cls.modulation == mod].iloc[0]
-    plot_series(ax, SNRS, [c[f"snr{s}"] for s in SNRS], ORANGE, "--", "s",
-                "Blind classical", dx=+0.22)
+    m, lo, hi = seed_curve(mod, "leave_one_pattern_out")
+    plot_series(ax, SNRS, m, BLUE, "-", "o", "Learned (this work)", dx=-0.22, lo=lo, hi=hi)
+    c = cls[cls["mod"] == mod].set_index("snr")
+    plot_series(ax, SNRS, [c.loc[s, "macro_mean"] for s in SNRS], ORANGE, "--", "s",
+                "Classical reference", dx=+0.22)
     chance = 1 - 1 / M.n_classes(mod)
     ax.axhline(chance, color=INK2, lw=0.7, ls=":", zorder=1)
     ax.text(-0.5, chance * 1.35, "chance", va="bottom", ha="left",
@@ -104,74 +124,81 @@ for ax, mod in zip(axes, MODS):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 axes[0].set_ylabel("Symbol error rate")
-# Annotate the two panels that reach the floor immediately, so an almost-empty
-# panel reads as the result it is rather than as missing data.
-axes[0].text(5.2, 4e-3, "no errors observed\nbeyond 0 dB",
-             ha="center", va="center", fontsize=6.4, color=INK2, style="italic")
 handles, labels = axes[0].get_legend_handles_labels()
 fig.legend(handles, labels, frameon=False, loc="lower center", ncol=2,
            bbox_to_anchor=(0.5, -0.13), handlelength=2.2)
 fig.text(0.5, -0.30,
-         "Hollow triangles mark points with no errors in the test set, drawn "
-         "at the 1/N resolution floor.\nSoftware AWGN on hardware captures; "
-         "leave-one-pattern-out, mean over folds.",
-         ha="center", fontsize=6.5, color=INK2)
+         "Hollow triangles: no errors observed, drawn on a fixed floor line (a visual "
+         "convention, not a bound).\nLearned: mean of 3 training seeds, bars span the "
+         "seeds. Classical: mean of 5 noise realisations.\nSoftware AWGN on hardware "
+         "captures; leave-one-pattern-out, unweighted mean over folds.",
+         ha="center", fontsize=6.3, color=INK2)
 save(fig, "fig1_ser_vs_snr")
 
 # ---------------------------------------------------------------- figure 2
-print("figure 2 - splits coincide (the memorisation evidence)")
+print("figure 2 - 8-QAM by split")
 fig, ax = plt.subplots(figsize=(3.5, 2.7))
-SPL = [("random", "Random split", AQUA, ":", "^"),
-       ("leave_one_board_out", "Leave-one-board-out", ORANGE, "--", "s"),
-       ("leave_one_pattern_out", "Leave-one-pattern-out", BLUE, "-", "o")]
-for sp, lab, col, st, mk in SPL:
-    r = main[(main.modulation == "8QAM") & (main.split == sp)]
-    plot_series(ax, SNRS, [r[c].mean() for c in COLS], col, st, mk, lab)
+q = runs[runs.modulation == "8QAM"]
+rnd = pd.concat([q[q.split == "random"][COLS], rev[rev.kind == "randsplit"][COLS]])
+plot_series(ax, SNRS, rnd.mean(), AQUA, ":", "^", f"Random 80/20 ({len(rnd)} runs)",
+            dx=-0.15, lo=rnd.min(), hi=rnd.max())
+m, lo, hi = seed_curve("8QAM", "leave_one_board_out")
+plot_series(ax, SNRS, m, ORANGE, "--", "s", "Leave-one-board-out", dx=0.15, lo=lo, hi=hi)
+m, lo, hi = seed_curve("8QAM", "leave_one_pattern_out")
+plot_series(ax, SNRS, m, BLUE, "-", "o", "Leave-one-pattern-out", lo=lo, hi=hi)
+# The two qualifications the text rests on: the board gap is one board (B5),
+# and the pattern gap is one thin fold (T1+T2 trains on four records).
+ax.plot(SNRS, seed_curve("8QAM", "leave_one_board_out", "board=B5")[0], "-.",
+        color=ORANGE, lw=1.0, alpha=0.7, label="Leave-one-board-out, B5 excluded")
+ax.plot(SNRS, seed_curve("8QAM", "leave_one_pattern_out", "group=T1+T2")[0], "-.",
+        color=BLUE, lw=1.0, alpha=0.7, label="Leave-one-pattern-out, T3–T6 only")
 ax.set_yscale("log")
-ax.set_ylim(1e-4, 0.6)
+ax.set_ylim(1e-5, 0.6)
 ax.set_xticks(SNRS)
 ax.set_xlabel("SNR (dB)")
 ax.set_ylabel("Symbol error rate")
-# Title states only what the data shows. Leave-one-pattern-out does sit on the
-# random split, which is the memorisation result; leave-one-board-out is
-# visibly harder above 6 dB, and saying "all splits coincide" would overclaim.
-ax.set_title("8-QAM: holding out a pattern costs nothing\n"
-             "(holding out a board does)", fontsize=8)
+ax.set_title("8-QAM symbol error rate by evaluation split", fontsize=8)
 ax.grid(True, which="major", axis="y", alpha=0.7)
 ax.set_axisbelow(True)
 for s in ("top", "right"):
     ax.spines[s].set_visible(False)
-ax.legend(frameon=False, loc="lower left", handlelength=2.2)
+ax.legend(frameon=False, loc="lower left", handlelength=2.2, fontsize=6.4)
 save(fig, "fig2_no_memorisation")
 
 # ---------------------------------------------------------------- figure 3
-print("figure 3 - controls that must fail")
+print("figure 3 - controls on leave-one-pattern-out")
 fig, ax = plt.subplots(figsize=(3.6, 2.7))
 x = np.arange(3)
 w = 0.26
-model = [main[(main.modulation == m) &
-              (main.split == "leave_one_pattern_out")]["snr6"].mean()
-         for m in MODS]
+lopo = runs[runs.split == "leave_one_pattern_out"]
+model = [lopo[lopo.modulation == m].groupby("seed").snr6.mean().mean() for m in MODS]
 pos = [main[(main.modulation == m) &
             (main.split == "leave_one_pattern_out")]["position_only_ser"].mean()
        for m in MODS]
-shu = [exp[(exp.control == "shuffled_labels") &
-           (exp.modulation == m)]["clean"].iloc[0] for m in MODS]
+# Shuffled: mean over five permutation seeds of the fold-mean; bars span the
+# five seeds. Single runs scatter much more widely - see the text.
+shu = [exp[(exp.control == "shuffled_labels") & (exp.modulation == m)]
+       .groupby("seed").clean.mean() for m in MODS]
 ax.bar(x - w, model, w * 0.9, color=BLUE, label="Learned receiver (6 dB)", zorder=3)
 ax.bar(x, pos, w * 0.9, color=ORANGE, label="Position-only (sees no signal)", zorder=3)
-ax.bar(x + w, shu, w * 0.9, color=AQUA, label="Shuffled labels", zorder=3)
+ax.bar(x + w, [s.mean() for s in shu], w * 0.9, color=AQUA,
+       label="Shuffled training labels", zorder=3)
+ax.errorbar(x + w, [s.mean() for s in shu],
+            yerr=[[s.mean() - s.min() for s in shu], [s.max() - s.mean() for s in shu]],
+            fmt="none", ecolor=INK, lw=0.8, capsize=2, zorder=5)
 for i, m in enumerate(MODS):
     ch = 1 - 1 / M.n_classes(m)
     ax.plot([i - 1.55 * w, i + 1.55 * w], [ch, ch], color=INK, lw=1.2,
             ls=":", zorder=4)
-ax.plot([], [], color=INK, lw=1.2, ls=":", label="Chance")
+ax.plot([], [], color=INK, lw=1.2, ls=":", label="Chance, 1 - 1/K")
 for i, v in enumerate(model):
-    ax.text(i - w, v + 0.03, f"{v:.4f}", ha="center", fontsize=6, color=INK)
+    lab = "0" if v == 0 else ("<0.0001" if v < 1e-4 else f"{v:.4f}")
+    ax.text(i - w, v + 0.03, lab, ha="center", fontsize=6, color=INK)
 ax.set_xticks(x)
 ax.set_xticklabels([TITLE[m] for m in MODS])
 ax.set_ylabel("Symbol error rate")
-ax.set_ylim(0, 1.0)
-ax.set_title("Both controls sit at chance;\nthe model does not", fontsize=8)
+ax.set_ylim(0, 1.05)
+ax.set_title("Controls on leave-one-pattern-out folds", fontsize=8)
 ax.grid(True, axis="y", alpha=0.7)
 ax.set_axisbelow(True)
 for s in ("top", "right"):

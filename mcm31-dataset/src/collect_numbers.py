@@ -70,7 +70,8 @@ print("CONTROLS")
 print("=" * 70)
 for m in ("BPSK", "QPSK", "8QAM"):
     ch = 1 - 1 / M.n_classes(m)
-    sh = exp[(exp.control == "shuffled_labels") & (exp.modulation == m)]["clean"].iloc[0]
+    # mean over every leave-one-pattern-out fold and permutation seed
+    sh = exp[(exp.control == "shuffled_labels") & (exp.modulation == m)]["clean"].mean()
     po = main[(main.modulation == m) &
               (main.split == "leave_one_pattern_out")]["position_only_ser"].mean()
     md = main[(main.modulation == m) &
