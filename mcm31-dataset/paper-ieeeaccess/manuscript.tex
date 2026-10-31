@@ -24,8 +24,9 @@
 %  \maketitle.
 %
 %  OUTSTANDING BEFORE SUBMISSION
-%   1. refs.bib entries were written from working knowledge. VERIFY EVERY
-%      ONE against IEEE Xplore -- volumes and pages especially -- and add DOIs.
+%   1. refs.bib was checked against Crossref, arXiv and DataCite on
+%      2026-10-31 (see its header). Table I codings for studies before 2025
+%      come from the hand-filled worksheet and were not re-read.
 %   2. Fig. 1: relabel the five boards individually as B1-B5.
 %   3. \history and \doi carry IEEE's placeholder values; IEEE fills them in.
 %   4. Numbers added in the 2026-10-30 revision come from src/:
@@ -34,7 +35,12 @@
 %      run_revision.py (extra seeds, partitions, latent head),
 %      run_experiments.py (corrected shuffled-label control), and
 %      revision_tables.py (Tables VII, VIII, X). Figs. 4-6 are drawn by
-%      src/figures.py and copied into figures/ here.
+%      src/figures.py and copied into figures/ here. The positive control
+%      (Section VI, tab:positive, added 2026-10-31) comes from
+%      window_control.py -> results/window_control.csv; print its table with
+%      "window_control.py --summary". The trace-readability control
+%      (Section VI-C) comes from isi_readability.py ->
+%      results/isi_readability.csv.
 %   5. AI-use and WorldCUR disclosures (draft notes in the Acknowledgment).
 % =====================================================================
 
@@ -139,7 +145,22 @@ nabil23549009015@student.bup.edu.bd).}
 % results: a constellation-geometry loss term does not improve error rate, and a
 % widely suggested carrier-sensitivity comparison does not survive measurement.
 
-Learned receivers are often evaluated on data whose transmitted sequence is short and periodic, which lets an expressive model predict a symbol from its neighbours instead of demodulating it. We bound this failure mode by construction. Each input window holds fewer neighbouring symbols than are needed to determine its label, which we verify for every transmitted word by enumerating the measured label sequences. We test it on 154,628 hardware-captured symbols from five trainer boards across BPSK, QPSK and star 8-QAM. Labels are measured from the waveform, not taken from the transmitter's configuration, and Gaussian noise is added in software. A 21,000-parameter convolutional receiver operates on symbol-synchronous passband windows and is given neither the carrier frequency nor the constellation. It comes close to a classical reference receiver that is given both: at the lowest signal-to-noise ratio its 8-QAM symbol error rate is 8.6% higher. The bound does not exclude partial predictability of the context, nor the trace of neighbouring symbols left by the transmitter's pulse response, which we measure at about 20 dB below the symbol's own energy. Empirically, the receiver does no better on a random split, where such cues would help, than on held-out words with comparable training data. Holding out a device costs more for one of the five boards. We also report two negative results. A constellation-aware loss term does not improve accuracy, and its latent output collapses to a single point. A commonly proposed carrier-sensitivity disadvantage for classical receivers does not hold up under direct measurement.
+Learned receivers are often evaluated on data whose transmitted sequence is short and periodic, which lets an expressive model predict a symbol from its neighbours
+instead of demodulating it. We bound this failure mode by construction: 
+each input window holds fewer neighbouring symbols than are needed to determine its label, verified 
+for every transmitted word by enumerating the measured labels. We test 
+it on 154,628 hardware-captured symbols from five trainer boards across 
+BPSK, QPSK and star 8-QAM. Labels are measured from the waveform, and 
+Gaussian noise is added in software. A 21,000-parameter convolutional receiver on symbol-synchronous 
+passband windows, given neither the carrier frequency nor the constellation, comes close to a classical reference receiver that 
+is given both: at the lowest signal-to-noise ratio its 8-QAM symbol error rate is 8.6\% higher. The bound does not exclude 
+partial predictability of the context, nor a trace of neighbouring symbols about 20 dB below the symbol's energy. 
+Empirically, the receiver does no better on a random split, where such cues would help, than on held-out words 
+with comparable training data. A positive control confirms the test: given a window past the bound, the same 
+network labels symbols it cannot see on a random split, yet fails on held-out words even without noise. 
+Holding out one of the five boards costs more. Two negative results are reported: a constellation-aware 
+loss term does not improve accuracy and its latent output collapses, and a commonly proposed carrier-sensitivity disadvantage of classical receivers does not hold up under measurement.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -177,7 +198,10 @@ also narrower than an impossibility result. A short context can still be
 partly predictive, and the transmitter's pulse response leaves a weak trace
 of neighbouring symbols inside the window. We measure both, and we use held-out
 words and a corrected shuffled-label control to test whether the receiver
-exploits them.
+exploits them. A positive control then removes the bound. Given a longer
+window, the same network memorises the transmitted words; a random split
+rewards this, and held-out words expose it. The evaluation can therefore detect
+the failure it is designed to exclude.
 
 The contributions are as follows.
 
@@ -194,21 +218,24 @@ constellation-point classes only (Section~\ref{sec:groundtruth}).
 neighbouring symbols inside a window are too few to determine the window's
 label, which we verify by enumerating the measured label sequences. We also
 measure what the bound does not exclude: partial predictability of the
-context, and inter-symbol interference from the transmitter
-(Sections~\ref{sec:bound}, \ref{sec:generalisation} and~\ref{sec:controls}).
-\item A characterisation of the boards' own demodulators, including a lock
-threshold reproducing across all five units, and evidence that self-consistency
-is an invalid criterion for demodulator lock (Section~\ref{sec:hardware}).
-\item Two negative results, reported because they bear directly on claims made
-elsewhere in this literature. A constellation-geometry loss term does not
-improve error rate, and the latent output it acts on collapses to a single
-point. A
-classical receiver's dependence on carrier knowledge does not constitute a
-practical disadvantage at any observation length tested
-(Sections~\ref{sec:geometry} and~\ref{sec:limitations}).
+context, and inter-symbol interference from the transmitter. A positive
+control, the same network with the bound removed, shows that held-out words
+detect the memorisation that a random split rewards
+(Sections~\ref{sec:bound}, \ref{sec:generalisation}, \ref{sec:controls}
+and~\ref{sec:positive}).
 \end{enumerate}
 
-We make no claim of improved error-rate performance. The learned receiver comes
+Three side results are reported briefly. A constellation-geometry loss term
+does not improve error rate, and its latent output collapses to a single point
+(Section~\ref{sec:geometry}). A classical receiver's dependence on carrier
+knowledge is not a practical disadvantage at any observation length tested
+(Section~\ref{sec:limitations}). The boards' own demodulators show a lock
+threshold that reproduces across all five units, and an unlocked demodulator
+can still give a self-consistent output (Section~\ref{sec:hardware}).
+
+We make no claim of improved error-rate performance, and the network is a
+small, conventional one-dimensional CNN. The contributions are the dataset and
+the evaluation design. The learned receiver comes
 close to a classical reference receiver but does not match it at the lowest
 signal-to-noise ratios (Section~\ref{sec:ser}). The contribution is that it gets
 this close without being given the carrier frequency, the constellation
@@ -342,11 +369,11 @@ failure considered here is narrower: the test sequence itself is predictable
 from its own past, so a model with sufficient context can reach a low error rate
 without demodulating.
 
-Work in radio-frequency sensing has begun to quantify the effect. Shulman
-shows that segment-level cross-validation causes severe data leakage and
-optimism in drone identification benchmarks, and that regrouping the evaluation
-by recording collapses the inflated
-accuracies~\cite{shulman2026rfdronebenchmarksoverstate}; among the studies
+Work in radio-frequency sensing has begun to quantify the effect. In a recent
+preprint, Shulman reports that segment-level cross-validation causes severe
+data leakage and optimism in drone identification benchmarks, and that
+regrouping the evaluation by recording brings the inflated accuracies down to
+chance~\cite{shulman2026rfdronebenchmarksoverstate}; among the studies
 surveyed here it is the only one that reports a recording-grouped split. The
 same failure is documented outside wireless: Brookshire \textit{et al.} show
 that dividing recordings into segments without grouping by subject produces
@@ -360,10 +387,10 @@ sequences~\cite{nicolas2019secretSharer}, and Arpit \textit{et al.} show that
 gradient-based optimisation learns simple patterns before it memorises
 noise~\cite{arpit2017memorizationinDL}. These results establish that the
 partition matters, and that memorisation is measurable after training. None of
-them limits, before training begins, what context a receiver can draw on. We
-are not aware of prior work in learned communications that constrains receiver
-context below the context complexity of the test sequence, and that absence is
-part of the motivation for Section~\ref{sec:bound}.
+them limits, before training begins, what context a receiver can draw on.
+Among the learned-receiver studies reviewed here, none constrains receiver
+context below the context complexity of the test sequence. That gap is part of
+the motivation for Section~\ref{sec:bound}.
 
 \subsection{Hardware-captured RF datasets}
 Public RF datasets are commonly synthesised, or captured from a small number of
@@ -773,6 +800,11 @@ for the error rate the labels permit, not an independent check of the labels.
 % =====================================================================
 \section{Receiver}
 
+This section defines what the receiver sees and how it is evaluated: the
+bounded input window (Section~\ref{sec:bound}), the signal conditioning and
+noise model (Section~\ref{sec:conditioning}), the network and its training
+(Section~\ref{sec:arch}), and the evaluation splits.
+
 \subsection{The bounded input context}
 \label{sec:bound}
 \emph{Window geometry.} The network receives a window of $N$ consecutive
@@ -873,12 +905,14 @@ test. For T1 one preceding symbol determines the label, so on a split whose
 test records carry a training word, a receiver able to read the previous symbol
 through the trace could look its label up. On leave-one-pattern-out it could
 not, because a lookup learned on the training words is at chance on the
-withheld word (Section~\ref{sec:controls}).
+withheld word (Section~\ref{sec:controls}). Section~\ref{sec:controls} also
+asks directly whether the network can read a neighbour through the trace.
 
 \emph{Enforcement.} The bound is enforced through the \emph{input} rather than
 through the layer stack. The network cannot attend to a symbol that is absent
 from its input, so the property is unaffected by later changes to the
 architecture. Table~\ref{tab:bound} gives the configuration.
+Section~\ref{sec:positive} removes the bound and shows what it prevents.
 
 \begin{table}[!t]
 \caption{Window geometry, receptive field and model size. \emph{Context} is the
@@ -1004,6 +1038,13 @@ units of variability.
 
 % =====================================================================
 \section{Results}
+
+The results answer three questions in turn. Section~\ref{sec:ser} asks how
+close the receiver comes to a classical one. Sections~\ref{sec:generalisation}
+and~\ref{sec:controls} ask whether it exploits the transmitted sequence.
+Section~\ref{sec:positive} asks whether that evaluation would detect
+exploitation if it occurred. Sections~\ref{sec:geometry}
+and~\ref{sec:hardware} report side results.
 
 \subsection{Error rate against a classical reference receiver}
 \label{sec:ser}
@@ -1260,6 +1301,32 @@ that the bound leaves in the window. A lookup from the true labels of a
 window's neighbours to its target label, fitted on the training records, gives
 $0.4959$, $0.6943$ and $0.9001$ on the withheld words (Table~\ref{tab:controls}), against chance levels of $0.500$, $0.750$ and $0.875$. The cues of Table~\ref{tab:context} do not transfer between words. On splits that reuse the training word they do: QPSK context then gives $0.583$--$0.596$. For 8-QAM the window holds no neighbour. If the previous symbol could be read through the interference of Section~\ref{sec:bound}, however, a lookup from it would give $0.625$ on the random split and $0.132$ on leave-one-board-out (zero on four of the five boards), against $0.902$ on leave-one-pattern-out. Section~\ref{sec:generalisation} finds no corresponding advantage for the receiver on those splits.
 
+\emph{Trace readability.} The context-only control uses true labels. It does
+not ask whether the network can read a neighbour through the trace of
+Section~\ref{sec:bound}, so we asked the network directly. The 8-QAM network
+was trained as in Section~\ref{sec:arch} to name the label of the previous, or
+the next, symbol from its target-only window. The test favours the shortcut.
+There is one network per record, trained on the first $75\%$ of the record and
+tested on the last $25\%$, so the word, the board and the positions are those
+it trained on. It is scored only where the target's class cannot give the
+answer away: at the four positions in each of T3--T6 whose point occurs twice
+with different neighbours. There, a predictor that knows the target's class
+exactly is right $0.501$ of the time. Over four words, both neighbours and
+three seeds, the network is right $0.500$ and $0.501$ of the time on
+noise-free windows, and less often at low SNR, where it also misreads the
+target. Trained on noise-free windows only, it reaches $0.507$ and $0.497$.
+With the neighbour inside the window, the same procedure names it correctly
+$0.89$--$0.93$ of the time at $0$~dB and in every run at least $0.999$ of the
+time from $15$~dB, so the probe works. The trace is measurable in the waveform averaged over hundreds of word
+repetitions; the network does not read it from a single window.
+
+Physics explains why reading it would not help. At the SNRs where the receiver
+makes 8-QAM errors, $0$ to $12$~dB (Table~\ref{tab:ser}), the energy of the
+trace is $2$ to $18$~dB below the noise in the symbol interval: $E_s/N_0$ is
+the SNR plus $10$~dB, and the trace lies $24$--$28$~dB below $E_s$. It reaches
+the noise level only near $15$~dB, from which the receiver makes no 8-QAM
+errors left to correct.
+
 \emph{Position-only.} The position-only control requires a qualification that is easy to overlook. Labels are
 a periodic tiling of the transmitted word, so a symbol's index within that word
 determines its label exactly. Across all $148$ pairs of records carrying the same
@@ -1301,7 +1368,110 @@ redundancy that defeats the lookup.
 \label{fig:controls}
 \end{figure}
 
+\subsection{Positive control: a longer window}
+\label{sec:positive}
+The comparisons above find no sign that the bounded receiver exploits the
+transmitted sequence. That finding would mean little if the evaluation could
+not detect such exploitation when it occurs. We therefore removed the bound and
+repeated the evaluation.
+
+\begin{table}[!t]
+\caption{Positive control: the network of Section~\ref{sec:arch} with the
+bound removed. Symbol error rate at $0$~dB, with noise-free test windows in
+brackets; 0 means no errors. \emph{Context}: neighbouring symbols before and
+after the target. \emph{Blanked}: the long window with the target and its two
+nearest neighbours set to zero before noise is added. \emph{Seen}: test records
+of three random $80/20$ partitions whose exact word occurs in training, mean
+over partitions. \emph{Withheld}: leave-one-pattern-out, unweighted mean over
+folds. Training seed~0. All three inputs are scored on the same symbols.}
+\label{tab:positive}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llccc}
+\toprule
+Mod. & Input & Context & Seen & Withheld \\
+\midrule
+8-QAM & Bounded & 0     & 0.1231 (0) & 0.1301 (0) \\
+      & Long    & 4+4   & 0.0010 (0) & 0.6221 (0.5756) \\
+      & Blanked & 4+4   & 0.0052 (0) & 0.8809 (0.8976) \\
+\addlinespace
+QPSK  & Bounded & 1+0   & 0.0055 (0) & 0.0096 (0) \\
+      & Long    & 6+6   & 0 (0)      & 0.3115 (0.2995) \\
+      & Blanked & 6+6   & 0.0003 (0) & 0.7524 (0.7365) \\
+\addlinespace
+BPSK  & Bounded & 2+2   & 0 (0)      & $<\!10^{-4}$ (0) \\
+      & Long    & 10+10 & $<\!10^{-4}$ (0) & 0.0463 (0.0381) \\
+      & Blanked & 10+10 & 0.0004 (0) & 0.5058 (0.5078) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Design.} The long input holds four neighbouring symbols on each side of
+the target for 8-QAM, six for QPSK and ten for BPSK. By enumeration on the
+measured labels, three on each side for 8-QAM and QPSK, and five for BPSK,
+already determine every label of every word, even with the target and its two
+nearest neighbours removed. The \emph{blanked} input is the long window with
+exactly those three symbols set to zero before noise is added. The blanked span
+exceeds the $\pm 0.88$-symbol support of the anti-alias filter, so no filtered
+copy of the target remains in the window. Whatever the blanked network labels
+correctly, it labels from the sequence. Loss, optimiser, epochs and training
+SNR range are those of Section~\ref{sec:arch}. Only the strides change, to fit
+the longer input, which raises the parameter count to $24{,}202$, $29{,}190$
+and $39{,}364$ for 8-QAM, QPSK and BPSK. Each record loses the same edge
+symbols under all three inputs, so they are scored on identical symbols.
+
+\emph{Leakage.} Every record repeats one short word, so the test needs care.
+Splits are by record, as throughout. No withheld word is a cyclic shift of a
+training word under any constellation rotation; the one such pair, T1 and T2,
+is already a single group. A lookup from the true labels of the long context,
+fitted on the training records, stays at or near chance on every
+leave-one-pattern-out fold: $0.504$, $0.750$ and $0.850$ for BPSK, QPSK and
+8-QAM, and $0.825$ for 8-QAM if every training word is also entered under each
+rotation. The withheld words therefore offer no context that a training word
+supplies. On the random partitions, each test record is classed by whether its
+exact word occurs in training. A T2 record counts as unseen when only T1 is
+trained. In the one partition where that arises, the long-window network did
+not carry the sequence of T1 over to its rotated copy.
+
+\emph{Result.} On seen words, the long-window network makes almost no errors at
+$0$~dB (Table~\ref{tab:positive}). For 8-QAM it gives $0.0010$, against
+$0.1231$ for the bounded window on the same symbols and about $0.12$ for the
+classical reference receiver (Table~\ref{tab:ser}). No receiver that decides
+each symbol from its own waveform can do this. The network is predicting
+symbols from the word. The blanked network shows this directly. It never sees
+the target, yet on seen words it labels it with an error rate of $0.0052$ at
+$0$~dB and without error on noise-free windows.
+
+On withheld words the same networks fail. The blanked network falls to chance.
+The long-window network, which does see the target, does far worse than the
+bounded one, and noise is not the cause: on noise-free windows it mislabels
+$0.5756$ of the 8-QAM and $0.2995$ of the QPSK symbols, where the bounded
+network mislabels none. Given the context, the network learns the training
+words in preference to the symbol, and a new word misleads it. For BPSK the
+effect sits in one fold. With S1 withheld the network trains on fifteen PRBS63
+records and reads the symbol ($0.0003$ at $0$~dB). With PRBS63 withheld it
+trains on the single S1 record and mislabels $0.0761$ of the noise-free PRBS63
+windows.
+
+\emph{What it shows.} Three things follow. First, the network can memorise,
+and it does so as soon as its input allows. Noise was added throughout
+training, so noise does not prevent memorisation. It makes the context more
+useful, not less. Second, a random split rewards memorisation, here by two
+orders of magnitude at $0$~dB, and on this corpus it cannot tell memorisation
+from demodulation. Third, leave-one-pattern-out exposes it. Under the bounded
+window neither signature appears. Seen and withheld words give $0.1231$ and
+$0.1301$ for 8-QAM, and $0.0055$ and $0.0096$ for QPSK. The QPSK difference
+comes from the Q1 fold, which trains on two records; without it the withheld
+mean is $0.0056$. The same holds at $-6$~dB, below the training range, where a
+partial context cue would help most. Without the two thin folds, T1+T2 and Q1,
+seen and withheld words give $0.408$ and $0.407$ for 8-QAM, and $0.142$ and
+$0.143$ for QPSK. The control was run with one training seed. Its effects
+exceed the seed spread of Section~\ref{sec:generalisation} by more than two
+orders of magnitude.
+
 \subsection{Constellation geometry}
+\label{sec:geometry}
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{fig5_error_geometry.pdf}
@@ -1317,16 +1487,15 @@ class is equally likely.}
 \label{fig:geometry}
 \end{figure*}
 
-\label{sec:geometry}
 The constellation term of \eqref{eq:loss} was ablated at
-$\lambda \in \{0,\,0.2,\,1.0\}$ (Table~\ref{tab:ablation}). The ablation is a
-separate, smaller run: one leave-one-board-out fold (B2 withheld), 18 epochs
-instead of 25, and one seed. Its absolute values therefore differ from the
-five-fold, 25-epoch means of Table~\ref{tab:splits}. In the main run, the B2
-fold gives $0.1194$ and $0.0049$ at $0$ and $6$~dB. Within the ablation, the
-three values of $\lambda$ differ by at most $0.0030$ at $0$~dB, less than the
-spread across training seeds reported in Section~\ref{sec:generalisation}.
-\emph{The constellation prior does not improve error rate.}
+$\lambda \in \{0,\,0.2,\,1.0\}$ in a separate, smaller run: one
+leave-one-board-out fold (B2 withheld), 18 epochs and one seed
+(Table~\ref{tab:ablation}). Its absolute values therefore differ from
+Table~\ref{tab:splits}; the main run gives $0.1194$ and $0.0049$ on the same
+fold at $0$ and $6$~dB. The three values of $\lambda$ differ by at most
+$0.0030$ at $0$~dB, less than the seed spread of
+Section~\ref{sec:generalisation}. \emph{The constellation term does not improve
+error rate.}
 
 \begin{table}[!t]
 \caption{Ablation of the constellation term of \eqref{eq:loss}. One
@@ -1347,84 +1516,48 @@ $1.0$ & 0.1276 & 0.0364 & 0.0058 & 0.0054 \\
 \end{tabular}
 \end{table}
 
-Nor does the prior make the latent head reproduce the constellation. For
-8-QAM, the latent outputs' mean distance to the nearest point of $\mathcal{C}$
-is $0.250$ at both $\lambda = 0.2$ and $\lambda = 1.0$. A random set of points
-of the same power gives $0.434$. But $0.250$ is exactly the value obtained when
-every output has the same magnitude: after normalisation such outputs lie on
-the unit circle, and the outer ring of $\mathcal{C}$ sits at radius $1.250$.
-We checked the head directly. We retrained the ablation fold at $\lambda = 0.2$
-and grouped the latent outputs of the noise-free test symbols by true class.
-The head has collapsed. For 8-QAM, all eight class means lie within $0.02$ of
-one point, $(0.71, 0.71)$, and the spread within each class is at most $0.003$.
-For QPSK, all four class means lie at $(-0.71, 0.71)$, the spread within each
-class is at most $0.005$, and the mean distance $0.005$ to the nearest point
-of $\mathcal{C}$ simply says that this single output sits on one constellation
-point. The head returns the same output for every input. That output satisfies
-the penalty while carrying no information about the symbol, exactly the
-degenerate solution noted in Section~\ref{sec:arch}. The constellation term
-therefore neither improves the error rate nor aligns the latent head with the
-constellation, and we do not present the head as evidence of recovered
-geometry. A penalty that tied each output to the point of its \emph{true}
-class would avoid the collapse, but it would supply the constellation geometry
-as supervision.
+Nor does it make the latent head reproduce the constellation. Retrained at
+$\lambda = 0.2$, the head returns the same output for every input: all eight
+8-QAM class means lie within $0.02$ of one point, all four QPSK class means lie
+at one point, and the spread within each class is at most $0.005$. That
+constant satisfies the penalty while carrying no information about the symbol,
+the degenerate solution noted in Section~\ref{sec:arch}. A penalty tied to each
+symbol's \emph{true} class would avoid the collapse, but would supply the
+geometry as supervision. We therefore do not present the head as evidence of
+recovered geometry.
 
-The classifier's errors, by contrast, are geometrically structured. In the run
-of Fig.~\ref{fig:geometry}, $79.5\%$ of the $863$ 8-QAM errors at $0$~dB land
-on the nearest constellation point, against $14.3\%$ if every wrong class were
-equally likely, an enrichment of $5.6\times$. For QPSK, all $33$ errors do,
-against $66.7\%$. Of the 56 off-diagonal cells of the 8-QAM confusion matrix,
-36 are exactly zero. The populated cells are the same-phase ring transition and
-the adjacent-quadrant transition, the two shortest distances in the
-constellation.
+The classifier's errors, by contrast, follow the geometry. In the run of
+Fig.~\ref{fig:geometry}, $79.5\%$ of the $863$ 8-QAM errors at $0$~dB land on
+the nearest constellation point, against $14.3\%$ if every wrong class were
+equally likely; for QPSK, all $33$ do, against $66.7\%$. This is the pattern
+additive noise produces in any receiver that discriminates by waveform
+distance. It is not a test of memorisation, since a model that had memorised
+waveform prototypes would err the same way. That question is addressed in
+Sections~\ref{sec:controls} and~\ref{sec:positive}.
 
-This is the pattern additive noise produces in any receiver that discriminates
-by waveform distance. It is consistent with the classifier having learned the
-constellation's geometry from data, although the loss never supplies class
-positions. It is not a test of memorisation. A model that had memorised
-waveform prototypes would confuse neighbouring prototypes under noise in the
-same way. The memorisation question is addressed by the bound of
-Section~\ref{sec:bound} and the controls of Section~\ref{sec:controls}, not by
-Fig.~\ref{fig:geometry}.
-
-
-\subsection{Empirical Performance of the On-Board Demodulators}
+\subsection{The boards' own demodulators}
 \label{sec:hardware}
-The captures also characterise the boards' own demodulators, measured against
-the known transmitted sequence rather than by self-consistency. This
-measurement uses the fifteen BPSK PRBS63 records (Fig.~\ref{fig:lock}).
-Agreement is the best agreement of the TP-9 output with PRBS63 over all 63
-cyclic shifts and both polarities. Its chance reference, $66.6\%$ with 95th
-percentile $69.8\%$, is the same maximisation applied to random sequences
-(Section~\ref{sec:groundtruth}-C). Across all five units, agreement is
-consistent with chance for all eleven records at or below $509$~mV output
-level. Two of them exceed the 95th percentile of the null marginally, at
-$71.4\%$ and $73.0\%$, about what eleven draws from the null would produce.
-Agreement reaches $92$--$100\%$ for all four records at or above $626$~mV.
-The interval between those two levels is the separation observed in our
-sampled records. No record falls inside it, so any
-threshold within it separates all five boards. A precise threshold is not
-established by these data.
+As a side result, the captures characterise the boards' own BPSK demodulators,
+measured against the known transmitted sequence on the fifteen PRBS63 records
+(Fig.~\ref{fig:lock}). Agreement is the best agreement of the TP-9 output with
+PRBS63 over all 63 cyclic shifts and both polarities. On random sequences the
+same maximisation gives $66.6\%$, with 95th percentile $69.8\%$
+(Section~\ref{sec:groundtruth}-C). All eleven records at or below $509$~mV
+output level are consistent with chance; two exceed the 95th percentile
+marginally, at $71.4\%$ and $73.0\%$, about what eleven draws from the null
+produce. All four records at or above $626$~mV agree at $92$--$100\%$. No
+record falls between the two levels, so the threshold lies in that interval but
+is not fixed by these data. One board's BPSK path delivers only $391$~mV and
+never locks, although its QPSK and 8-QAM outputs match the other boards'. The
+boards' QPSK demodulator failed to lock on the primary QPSK word on every unit,
+so no hardware QPSK baseline exists.
 
-Board-level behaviour differs in kind rather than degree. One board's BPSK path
-delivers $391$~mV where the others deliver $626$--$663$~mV and never reaches
-threshold, while its QPSK and 8-QAM outputs are nearly identical to the
-others (cross-board waveform correlation $+0.9987$ and $+0.9991$, against
-$+0.9769$ for BPSK). A second board crosses the threshold but locks
-imperfectly, at $92.1\%$.
-
-We recommend against self-consistency as a lock criterion. A demodulator that
-has lost lock also repeats. On one board at $329$~mV, self-consistency read
-$0.979$ while agreement with the transmitted sequence was at chance: the
-unlocked demodulator had entered a stable period-two state, inverting its output
-every word period (autocorrelation $-0.93$ at one word period, $+0.90$ at two).
-Four records in this study would have been misclassified as locked by that
-metric.
-
-Finally, the boards' own QPSK demodulator failed to lock on the primary QPSK
-word on all five units, at both attenuator settings, although the fingerprint
-check confirms the word was correctly loaded. No hardware baseline is therefore
-available for QPSK.
+Self-consistency is not a valid lock criterion. On one board at $329$~mV,
+self-consistency read $0.979$ while agreement with the transmitted sequence was
+at chance: the unlocked demodulator had settled into a stable period-two state,
+inverting its output every word period. Four records in this study would have
+been wrongly classed as locked by that metric. Lock should be established only
+against a known transmitted sequence.
 
 \begin{figure}[!t]
 \centering
@@ -1461,15 +1594,20 @@ withheld-word folds with comparable training data it does not, beyond the
 spread across seeds and partitions. The one fold that is worse, T1+T2, trains
 on four records from a single board (Section~\ref{sec:generalisation}).
 The corrected shuffled-label control adds a second, weaker check
-(Section~\ref{sec:controls}). Neither test is a proof. Together with the bound,
-they make sequence exploitation an unlikely explanation of the error rates
-reported here.
+(Section~\ref{sec:controls}). The positive control of
+Section~\ref{sec:positive} shows that these tests can detect what they look
+for. Lengthened past the bound, the same network memorises the words: the
+random split rewards it by two orders of magnitude, and the withheld words
+expose it. Under the bound, neither signature appears. None of this is a
+proof. Together with the bound, it makes sequence exploitation an unlikely
+explanation of the error rates reported here.
 
 We note that the bound is cheap to adopt. It requires the context complexity of
 the transmitted words, computable by enumeration from the measured labels, and
 an input window cut accordingly. Where a test sequence has high complexity the
 constraint is loose. Where the words are short, as in much laboratory practice,
-it is tight.
+it is tight. Without it, a random split can overstate a receiver by two orders
+of magnitude (Section~\ref{sec:positive}).
 
 The comparison of Section~\ref{sec:ser} should be read in this light. The
 classical reference receiver is given resources the network is not: the
@@ -1487,16 +1625,6 @@ Without B5, the leave-one-board-out mean is no worse than leave-one-pattern-out
 (Section~\ref{sec:generalisation}). One board in five transfers poorly. That
 makes device-invariant training worth pursuing, but five boards cannot show
 how common such a board is.
-
-Beyond the evaluation of the learned receiver itself, the empirical performance of the hardware baseline in  
-Section~\ref{sec:hardware} is of independent
-interest to anyone evaluating aged laboratory equipment. That a demodulator
-which has lost lock can present a perfectly self-consistent output is not, in
-our experience, widely appreciated, and any protocol treating repeatability as
-evidence of correct operation is exposed to it. The failure is also invisible on
-an oscilloscope: an unlocked digital output looks entirely normal at any time
-base. We therefore recommend that lock be established only by comparison against
-a known transmitted sequence.
 
 % =====================================================================
 \section{Limitations}
@@ -1519,7 +1647,8 @@ from the neighbouring symbols in its window. It does not exclude partial
 predictability (Table~\ref{tab:context}) or the neighbouring-symbol trace left
 by the transmitter's pulse response, measured at $-18.5$ to $-27.9$~dB
 (Section~\ref{sec:bound}). That these are not exploited is an empirical finding
-of Section~\ref{sec:generalisation}, not a consequence of the bound.
+of Sections~\ref{sec:generalisation}, \ref{sec:controls}
+and~\ref{sec:positive}, not a consequence of the bound.
 
 \emph{Offline, record-level processing.} The labels, the symbol timing and the
 AGC are each computed from the complete record. The AGC uses the record's
@@ -1531,7 +1660,9 @@ windows, not a streaming receiver.
 \emph{Run-to-run variation.} Three training seeds were run on the folds the
 comparisons rest on, and a single seed elsewhere. With so few seeds and
 partitions, differences smaller than the seed spread reported in
-Section~\ref{sec:generalisation} cannot be resolved.
+Section~\ref{sec:generalisation} cannot be resolved. The positive control of
+Section~\ref{sec:positive} used one seed; its effects are far larger than that
+spread.
 
 \emph{Synthetic noise.} The hardware supplies the carrier, the filter
 response, quantisation and device-to-device variation, while additive white
@@ -1548,16 +1679,14 @@ itself, so the context bound and timing-blindness cannot both hold. The system
 should be described as operating on symbol-synchronous windows from a
 conventional timing front-end~\cite{gardner1986ted}.
 
-\emph{Carrier sensitivity does not support a robustness claim.} We measured
-whether a classical receiver's dependence on carrier knowledge constitutes a
-practical disadvantage. Estimating the carrier blind from eight symbols
-($13.3$~ms) gives an error of $1.02$~Hz, yet demodulating those same eight
-symbols with that estimate yields zero errors, because over $13.3$~ms a $1$~Hz
-offset corresponds to $4.9^{\circ}$ of phase rotation. Estimate error and
-tolerance contract together, and the classical receiver was self-consistent at
-every observation length tested, from 8 to $3{,}596$ symbols. Reporting a
-collapse under an externally imposed carrier offset would misrepresent a
-receiver that does not make that error, and we therefore do not report one.
+\emph{Carrier sensitivity does not support a robustness claim.} A classical
+receiver's dependence on carrier knowledge is often cited as a disadvantage. We
+did not find it to be one. A blind carrier estimate from eight symbols
+($13.3$~ms) is off by $1.02$~Hz, but over those eight symbols that offset
+rotates the phase by only $4.9^{\circ}$, and they demodulate without error.
+Estimate error and tolerance shrink together, and the classical receiver was
+self-consistent at every observation length tested, from 8 to $3{,}596$
+symbols. We therefore claim no robustness advantage for the learned receiver.
 
 \emph{8-QAM labels are classes, not bits.} The tribit carried by each 8-QAM
 constellation point is not resolved (Section~\ref{sec:groundtruth}-C). The
@@ -1575,7 +1704,10 @@ whose input window always holds fewer neighbouring symbols than are needed to
 determine its label, for every transmitted word in the corpus. The bound
 excludes deterministic lookup from the window's context by construction. The
 remaining routes, partial predictability and inter-symbol interference, are
-measured and tested rather than assumed away. The receiver comes close to a
+measured and tested rather than assumed away. A positive control shows that
+the bound is needed: given a longer window, the same network labels symbols
+from the transmitted word instead of the waveform, which a random split rewards
+and held-out words expose. The receiver comes close to a
 classical reference receiver on BPSK, QPSK and star 8-QAM without being given
 the carrier frequency, the constellation or the decision boundaries. It
 operates on symbol-synchronous windows with record-level gain control, under
@@ -1607,12 +1739,6 @@ use of ChatGPT, Claude and Gemini accurately before submission.}
 the submission letter (and cite it here if it is archived), and state how this
 article extends it.}
 
-% \todonote{references --- VERIFY BEFORE SUBMISSION}{%
-% Every entry in \texttt{refs.bib} was written from working knowledge, not copied
-% from a database. Author lists, titles, venues and years are believed correct;
-% \textbf{volumes and page numbers must be checked} against IEEE Xplore, and DOIs
-% added. Delete this note once verified.}
-
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
@@ -1632,7 +1758,7 @@ is currently pursuing the B.Sc. degree in Information and Communication Engineer
 
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{ivan.jpeg}}]{Ivan Grgi\'{c}}
 received the Ph.D. degree in mechanical engineering. He is currently an Assistant Professor with the Mechanical Engineering Faculty in Slavonski Brod, University of Slavonski Brod, Slavonski Brod, Croatia.
-\end{IEEEbiography}
+\end{IEEEbiography} 
 
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mainul.jpeg}}]{Md. Maynul Islam}
 is currently an Assistant Professor with the Department of Information and Communication Technology, Bangladesh University of Professionals, Dhaka 1216, Bangladesh.

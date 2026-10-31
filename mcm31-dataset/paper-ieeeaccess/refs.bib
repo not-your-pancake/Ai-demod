@@ -1,17 +1,12 @@
 % =====================================================================
-%  ⚠️  VERIFY EVERY ENTRY BEFORE SUBMISSION.
-%
-%  These entries were written from working knowledge of the literature,
-%  not copied from a database. Author lists, titles, venues and years are
-%  believed correct; VOLUME, ISSUE and PAGE NUMBERS in particular must be
-%  checked against IEEE Xplore or the publisher before you submit, and
-%  DOIs added. Do not trust this file as-is.
-%
-%  This list is also deliberately short. It covers the neural-physical-layer
-%  background and the classical receiver theory the paper leans on. You
-%  should add: (i) recent neural demodulation / RF fingerprinting work from
-%  the last two years, (ii) anything your supervisor expects to see cited,
-%  (iii) prior work on hardware-captured RF datasets.
+%  Verified 2026-10-31 against the publisher records:
+%    * every entry with a DOI against Crossref (title, year, volume, issue,
+%      pages) - all match;
+%    * every arXiv entry against the arXiv API (title, authors);
+%    * Utrilla against DataCite, Morin against Crossref (DOI added);
+%    * the three textbooks corrected by hand (edition, authors, publisher).
+%  The checking script is not part of the repository; rerun a Crossref
+%  lookup if any entry is edited.
 % =====================================================================
 
 @article{oshea2017intro,
@@ -63,33 +58,34 @@
 }
 
 @book{golomb1982shift,
-  title={Shift register sequences},
-  author={Golomb, Solomon Wolf and Welch, Lloyd R and Goldstein, Richard M and Hales, Alfred W},
-  volume={119},
+  title={Shift Register Sequences},
+  author={Golomb, Solomon W.},
+  edition={Revised},
   year={1982},
-  publisher={Aegean Park Press Laguna Hills, CA}
+  publisher={Aegean Park Press},
+  address={Laguna Hills, CA}
 }
 
 @book{proakis2007digital,
-  title={Digital communications},
-  author={Proakis, John G and Salehi, Masoud},
-  volume={4},
-  year={2001},
-  publisher={McGraw-hill New York}
+  title={Digital Communications},
+  author={Proakis, John G. and Salehi, Masoud},
+  edition={5th},
+  year={2008},
+  publisher={McGraw-Hill},
+  address={New York}
 }
 
 @book{mengali1997sync,
-  title={Synchronization techniques for digital receivers},
-  author={Mengali, Umberto and D'andrea, Aldo N and others},
-  volume={1},
+  title={Synchronization Techniques for Digital Receivers},
+  author={Mengali, Umberto and D'Andrea, Aldo N.},
   year={1997},
-  publisher={Plenum press New York}
+  publisher={Plenum Press},
+  address={New York}
 }
 
 % =====================================================================
 %  Related Work references, from related_work_worksheet.csv.
-%  Every entry below was collected and verified by hand against the
-%  publisher record. Copied verbatim from the worksheet.
+%  Collected by hand from the publisher records; rechecked 2026-10-31.
 % =====================================================================
 
 @ARTICLE{Zhu2022WaveformLevelIntelligence,
@@ -384,7 +380,8 @@ year="2019",
 publisher="Springer International Publishing",
 address="Cham",
 pages="73--86",
-isbn="978-3-030-25748-4"
+isbn="978-3-030-25748-4",
+doi="10.1007/978-3-030-25748-4_6"
 }
 
 @ARTICLE{akroutMLPtoGPT,

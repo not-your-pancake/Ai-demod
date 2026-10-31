@@ -13,46 +13,48 @@ Database file #1: refs.bib
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--edition ordinal word "Revised" may be too high (or improper) for conversion in golomb1982shift
 
 Done.
 You've used 49 entries,
             4087 wiz_defined-function locations,
-            1121 strings with 19245 characters,
-and the built_in function-call counts, 40900 in all, are:
-= -- 3198
-> -- 1162
-< -- 324
-+ -- 647
-- -- 237
-* -- 2014
-:= -- 5943
+            1124 strings with 19166 characters,
+and the built_in function-call counts, 40793 in all, are:
+= -- 3188
+> -- 1151
+< -- 326
++ -- 639
+- -- 233
+* -- 2010
+:= -- 5910
 add.period$ -- 101
 call.type$ -- 49
-change.case$ -- 50
-chr.to.int$ -- 717
-cite$ -- 49
-duplicate$ -- 2892
-empty$ -- 3248
-format.name$ -- 267
-if$ -- 9632
+change.case$ -- 53
+chr.to.int$ -- 732
+cite$ -- 50
+duplicate$ -- 2894
+empty$ -- 3246
+format.name$ -- 262
+if$ -- 9613
 int.to.chr$ -- 0
 int.to.str$ -- 49
-missing$ -- 548
+missing$ -- 541
 newline$ -- 190
 num.names$ -- 53
-pop$ -- 1304
+pop$ -- 1300
 preamble$ -- 1
 purify$ -- 0
-quote$ -- 2
-skip$ -- 3140
+quote$ -- 4
+skip$ -- 3123
 stack$ -- 0
-substring$ -- 1790
-swap$ -- 2412
-text.length$ -- 85
+substring$ -- 1801
+swap$ -- 2397
+text.length$ -- 82
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 49
-warning$ -- 0
-while$ -- 167
+warning$ -- 1
+while$ -- 168
 width$ -- 51
-write$ -- 524
+write$ -- 521
+(There was 1 warning)

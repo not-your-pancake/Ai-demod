@@ -22,6 +22,8 @@ Every new number is reproduced by a script in `src/`:
 | `run_revision.py` | extra seeds, random partitions and the latent-head check (`results/revision_runs.csv`) |
 | `revision_tables.py` | prints Tables VII, VIII and X from the CSVs above |
 | `figures.py` | Figs. 4–6 (`fig1`–`fig3`) |
+| `window_control.py` | the positive control, Section VI and `tab:positive` (`results/window_control.csv`; `--summary` prints the table, `--audit` the leakage checks) |
+| `isi_readability.py` | the trace-readability control in Section VI-C (`results/isi_readability.csv`) |
 
 `train.py` itself was fixed, so a fresh run of `run_experiments.py` produces the
 corrected control. The three old joint-shuffle rows were removed from
@@ -156,7 +158,53 @@ been corrected.
 - Cammerer et al.: the abstract (arXiv 1911.13055) states training "on the actual wireless channel" with SDRs, so it is now **hw-train**, not hw-valid.
 - [44], [45] are now "radio map" labels with devices n/a, and the text says so.
 
-## 13. Not resolved here
+## 13. Added after the reviews: positive control (2026-10-31)
+
+Neither review asked for this, but it closes the obvious next objection: the controls show the bounded receiver does not exploit the sequence, yet nothing showed that the evaluation would catch it if it did. The new subsection "Positive control: a longer window" trains the same network three ways: the bounded window; a long window (±4 / ±6 / ±10 symbols); and that long window with the target and its two neighbours blanked. Seed 0, every leave-one-pattern-out fold, three random partitions.
+
+Leakage checks (`window_control.py --audit`):
+- No withheld word is a shift or rotation of a training word (apart from T1/T2, already grouped).
+- A label lookup from the long context stays at chance on leave-one-pattern-out.
+- The blanked span exceeds the filter support.
+- All inputs are scored on identical symbols.
+
+Results, 8-QAM at 0 dB:
+
+| Input | Seen word (random) | Withheld word | Withheld, noise-free |
+|---|---|---|---|
+| Bounded | 0.1231 | 0.1301 | 0 |
+| Long | 0.0010 | 0.6221 | 0.5756 |
+| Blanked | 0.0052 | 0.8809 | 0.8976 |
+
+QPSK and BPSK show the same pattern. The network memorises once its input allows, even though noise is added throughout training. The random split rewards that by two orders of magnitude, and leave-one-pattern-out exposes it. Under the bounded window, neither signature appears.
+
+**Trace readability (added the same day).** This tests directly whether the 8-QAM network can read a neighbour through the ISI trace.
+- **Setup:** the network is trained to name the previous or next symbol's label from its target-only window. There is one network per record, with a time split (75/25), so word, board and positions are the ones it trained on.
+- **Scoring:** only at positions where the target's class cannot reveal the neighbour (4 of 8 in T3–T6). There, a predictor that knows the target's class is right 0.501 of the time.
+- **Results:**
+  - The network scores 0.500 / 0.501 on noise-free windows, and 0.507 / 0.497 when trained noise-free.
+  - With the neighbour visible in the window, it scores 0.89–0.93 at 0 dB and ≥0.999 from 15 dB, so the probe works.
+- **Physics:** from 0 to 12 dB, where 8-QAM errors occur, the trace is 2–18 dB below the noise per symbol.
+- **−6 dB, positive-control runs:** with the bounded window, seen and withheld words agree once the thin folds are left out: 0.408/0.407 for 8-QAM and 0.142/0.143 for QPSK.
+
+Edits made:
+- New subsection and table in Section VI.
+- "Trace readability" paragraph in VI-C, and the −6 dB sentence in VI-D.
+- One sentence in the abstract, which stays at 250 words.
+- Introduction and contribution 3.
+- Forward reference in V-A.
+- Discussion, Limitations and Conclusion.
+
+## 14. Presentation comments (third AI review, 2026-10-31)
+
+| Comment | Change |
+|---|---|
+| Dense; Sections V–VI hard to follow | Roadmap paragraphs open both sections. VI-E (constellation geometry) and VI-F (the boards' own demodulators) are condensed and marked as side results. The Discussion's hardware paragraph is merged into VI-F, and the carrier paragraph in Limitations is shortened. |
+| Abstract overloaded; contributions 4–5 dilute | The abstract is rewritten at 222 words; the only numbers left are the symbol and board counts. Contributions 4 and 5 become a short "side results" paragraph after the list. |
+| 2025–2026 references must be verifiable | Every DOI entry was checked against Crossref (title, year, volume, issue, pages) and every arXiv entry against arXiv; all match. Utrilla was checked against DataCite. Morin was checked against Crossref and its DOI added. Proakis (now 5th ed., 2008), Mengali and Golomb were corrected. The Table I codings for the 2025–2026 studies (Tonix-Gleason, Liu) agree with their abstracts and full text. The Shulman preprint is now introduced as a preprint. |
+| "We are not aware of prior work…" | Now "Among the learned-receiver studies reviewed here, none…". No other first-or-novel claims were found. |
+
+## 15. Not resolved here
 
 - **Fig. 1 B1–B5 annotations.** Needs a photo edit.
 - **Reference verification** against IEEE Xplore (R1 §12.5). Still outstanding, as noted in the file header.

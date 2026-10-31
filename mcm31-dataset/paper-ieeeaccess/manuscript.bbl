@@ -296,13 +296,13 @@ F.~Jaensch, G.~Caire, and B.~Demir, ``Radio map estimation -- an open dataset
 \BIBentrySTDinterwordspacing
 
 \bibitem{proakis2007digital}
-J.~G. Proakis and M.~Salehi, \emph{Digital communications}.\hskip 1em plus
-  0.5em minus 0.4em\relax McGraw-hill New York, 2001, vol.~4.
+J.~G. Proakis and M.~Salehi, \emph{Digital Communications}, 5th~ed.\hskip 1em
+  plus 0.5em minus 0.4em\relax New York: McGraw-Hill, 2008.
 
 \bibitem{mengali1997sync}
-U.~Mengali, A.~N. D'andrea \emph{et~al.}, \emph{Synchronization techniques for
-  digital receivers}.\hskip 1em plus 0.5em minus 0.4em\relax Plenum press New
-  York, 1997, vol.~1.
+U.~Mengali and A.~N. D'Andrea, \emph{Synchronization Techniques for Digital
+  Receivers}.\hskip 1em plus 0.5em minus 0.4em\relax New York: Plenum Press,
+  1997.
 
 \bibitem{gardner1986ted}
 F.~Gardner, ``A bpsk/qpsk timing-error detector for sampled receivers,''
@@ -310,8 +310,7 @@ F.~Gardner, ``A bpsk/qpsk timing-error detector for sampled receivers,''
   1986.
 
 \bibitem{golomb1982shift}
-S.~W. Golomb, L.~R. Welch, R.~M. Goldstein, and A.~W. Hales, \emph{Shift
-  register sequences}.\hskip 1em plus 0.5em minus 0.4em\relax Aegean Park Press
-  Laguna Hills, CA, 1982, vol. 119.
+S.~W. Golomb, \emph{Shift Register Sequences}, revised~ed.\hskip 1em plus 0.5em
+  minus 0.4em\relax Laguna Hills, CA: Aegean Park Press, 1982.
 
 \end{thebibliography}
